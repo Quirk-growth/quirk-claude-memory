@@ -16,6 +16,8 @@ Repositórios (jul/2026):
 - **LPs-quirk** ← monorepo `quirk-lps/` com subpastas: iscas, tech, auto-ads, nau-marina. LPs menores entram aqui como nova subpasta.
 - **area-membros-quirk** ← já existia. Ver [[project_area_membros_quirk]].
 
+- **quirk-claude-memory** ← backup destas próprias fichas de memória (`~/.claude/projects/-Users-renanreal/memory/`). **Auto-push configurado**: hook `Stop` em `~/.claude/settings.json` commita+empurra a memória pro GitHub ao fim de cada sessão (async). Numa máquina nova, clonar esse repo pra pasta de memória local restaura a continuidade.
+
 Regra: código → GitHub; assets pesados/docs → Google Drive; NUNCA versionar `.env`/tokens/node_modules (já no .gitignore).
 
 Pendências de blindagem (Dia 0 incompleto):
