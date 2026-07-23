@@ -1,0 +1,23 @@
+- [User: Renan Real](user_role.md) — Fundador Quirk Growth (marketing imobiliário); técnico-comercial, valoriza honestidade direta e entregas consolidadas
+- [Projeto: Quirk Auto Ads](project_quirk_auto_ads.md) — Automação Make + Claude + Meta Ads pra criar campanhas imobiliárias CTWA via WhatsApp; multi-cliente em aplicação (mai/2026)
+- [Referências: docs e conectores Quirk](reference_quirk_docs.md) — Local /Users/renanreal/quirk_auto_ads/, cenário Make 4750002, BM 1612905538806887, conectores Make/Meta com limites conhecidos
+- [Asaas webhook → n8n gateway](reference_asaas_webhook_gateway.md) — Payload Asaas só traz ID do cliente (buscar telefone via API); header auth asaas-access-token; IDs dos workflows; filtro Auto Ads; pendências segurança + UAZAPI
+- [WhatsApp Cloud API (oficial)](reference_whatsapp_cloud_api.md) — Migração uazapi→oficial (jul/2026); phone id 1320571937797802, WABA 2088588845203405, credencial n8n, arquitetura inbound→principal e gotchas do n8n
+- [Estratégia de públicos Meta](reference_publicos_meta_estrategia.md) — Escada de qualificação mensurável (viajante/internacional/alto valor) + secundários imobiliários + iOS; 12 públicos no extrator, IDs reais validados
+- [Isolamento de dados entre clientes](feedback_isolamento_dados_clientes.md) — Multi-tenant: IA/backend NUNCA vazam dados de outros clientes; bug real do revisao_meta corrigido; travas de confidencialidade nos prompts
+- [Quirk Growth — Identidade visual](reference_quirk_brand.md) — Fontes Sora+Poppins, azul primário #1D80FF, fundo #001D41, verde #39b54a
+- [Projeto: LP Iscas KPI + GPA](project_lp_iscas.md) — LP standalone em /Users/renanreal/lp-iscas-quirk/, cenário Make 4755230, form nativo (não Typeform)
+- [Projeto: LP Calculadora de VGV](project_lp_vgv.md) — LP em /Users/renanreal/lp-vgv-quirk/, cenário Make 4779375 clonado da isca, mesma planilha (aba "Leads VGV")
+- [Projeto: LP Quirk Tech](project_lp_quirk_tech.md) — Rebrand dark premium da LP principal em /Users/renanreal/lp-quirk-tech/; síntese copy validada + posicionamento do site + DNA visual tech
+- [Método CRESCE™](project_metodo_cresce.md) — Novo framework da Quirk pra vender diferenciação vs "só faz tráfego"; sigla, tese e cases reais das calls
+- [Referência: calls Zoom](reference_zoom_calls.md) — Como varrer transcrições Zoom via MCP (double-encoding, busca semântica vazia, mapa de cobertura 6 meses)
+- [Playbooks comerciais (SDR + SS)](project_playbooks_comercial.md) — decks PDF da Quirk em /Users/renanreal/manual-comercial-quirk/; fontes HTML editáveis, render via Chrome headless
+- [Projeto: TDTC](project_tdtc.md) — Teste de Distribuição Temporal da Consciência; app de questionário + teoria em /Users/renanreal/Desktop/TDTC/ (repo git, worktrees pra trabalho paralelo)
+- [Projeto: Quirk Auto Creative](project_quirk_auto_creative.md) — Skill quirk-auto-creative + OpenAI gpt-image-1 pra copy+banner imobiliário (ZERO CTA, Story/Feed); chave em quirk-banner-designer/.env
+- [Projeto: Avaliador de Copys](project_avaliador_copys.md) — Agente que avalia copys da Quirk; DNA estrutural das copys imobiliárias (gancho→body→cta; eixos morador/investidor, padrão, venda/captação) extraído do Drive
+- [Projeto: Curso CPL low ticket](project_curso_cpl.md) — "Custo por Lead Descomplicado"; reframe CPL→custo por venda, 5 aulas + planilha-calculadora em /Users/renanreal/curso-cpl-imobiliario/
+- [Referência: LP Social Media + Make 4493780](reference_lp_social_media.md) — LP que substitui a Elementor antiga; webhook, contrato de campos (nome/telefone/instagram/nicho/faturamento) e mapeamento email/planilha/ClickUp/WhatsApp
+- [Projeto: Apresentação de Negócios Social Media](project_apresentacao_social_media.md) — Deck 23 slides 16:9 (HTML + PDF) em /Users/renanreal/apresentacao-social-quirk/; funde a LP de social com a APN; preços R$3k e R$8k
+- [Projeto: Área de membros Quirk](project_area_membros_quirk.md) — Área própria (Next.js+Payload+Postgres, Vimeo) pras mentorias; 4 vertentes; Fases 1+2 CONCLUÍDAS (admin + área do cliente dark premium + progresso); falta logo/email/deploy
+- [Referência: Backup no GitHub](reference_github_backup.md) — Org Quirk-growth, auth SSH, mapa dos repos (quirk-auto-ads, tdtc, Calculadora-vgv-quirk, LPs-quirk, area-membros) e pendências de blindagem (Mac sem backup!)
+- [Projeto: Painel de Relatórios](project_painel_relatorios.md) — Substituto próprio do Reportei; Meta+Google, multi-cliente dentro da área de membros; sync diário→Postgres; funil comercial + atribuição por objetivo (jul/2026)
