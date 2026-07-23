@@ -20,6 +20,18 @@ Repositórios (jul/2026):
 
 Regra: código → GitHub; assets pesados/docs → Google Drive; NUNCA versionar `.env`/tokens/node_modules (já no .gitignore).
 
+## Modelo de continuidade (o que dá pra "continuar de onde paramos")
+Continuidade NÃO vem das conversas (transcripts ficam locais em ~/.claude/projects/*.jsonl, ~324M, NÃO sobem pra nuvem e NÃO seguem pra outra máquina — e não precisam). Vem de 3 camadas portáteis: (1) código → GitHub org Quirk-growth; (2) servidores/fluxos → contas na nuvem (Make/n8n/Meta), só logar; (3) memória → repo quirk-claude-memory. O que sincroniza é a MEMÓRIA CURADA (estas fichas), não o chat cru.
+
+## Setup numa máquina nova (Mac ou Windows) — restaurar continuidade
+Passos únicos, uma vez por máquina:
+1. Instalar Claude Code + `git clone` dos repos da org Quirk-growth.
+2. Clonar `quirk-claude-memory` PRA DENTRO da pasta de memória local daquela máquina (o caminho muda por SO/projeto — no Windows é diferente; conferir o path real antes).
+3. Recriar o hook `Stop` de auto-push no `settings.json` DAQUELA máquina (o hook é config local, NÃO viaja junto). Sem isso, a memória das conversas naquela máquina NÃO sobe.
+
+## Sincronização entre máquinas (CUIDADO)
+O auto-push é por-máquina (config local). Numa máquina nova só sobe se o hook for recriado lá. Risco de conflito git se editar memória em 2 máquinas sem dar `git pull` antes — para uso solo, disciplina "pull no início / push no fim" resolve. Quando ele realmente configurar a 2ª máquina, considerar adicionar hook SessionStart que faz `git pull --rebase` na memória.
+
 Pendências de blindagem (Dia 0 incompleto):
 - 🔴 **Mac sem backup** — Time Machine com zero destinos configurados. Falta HD externo ou Backblaze.
 - Duplicação: as pastas originais (lp-iscas-quirk, lp-quirk-tech, lp-quirk-auto-ads, lp-nau-marina) ainda existem separadas das cópias dentro de quirk-lps/ — decidir fonte da verdade.
