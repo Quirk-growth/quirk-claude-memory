@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-24T12:40:01.947Z
+  modified: 2026-07-24T12:59:42.055Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -36,8 +36,10 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 **AUTOMAÇÃO n8n (24/jul) — 3 workflows em https://n8n.quirkgrowth.online (credencial Header Auth "Area Membros — Sync Secret v2" = header `x-sync-secret`):**
 - `svRh0HktJJlC7c4W` — "Área de Membros — Sync Painel de Relatórios (diário 04:00)" — **ATIVO/publicado**, POST /api/cron/sync. Testado OK (substitui o vercel.json inerte no Render).
 - `Ma6PhOVibq8mkwde` — "Painel de Relatórios — Listar contas pendentes da BM (manual)" — POST /api/sync/pendentes. Testado: 201 contas pendentes.
-- `yd7FLRn4x1O5OY3Y` — "Painel de Relatórios — Integrar cliente (onboard, manual)" — POST /api/sync/onboard, body JSON `{"nome":"...","accountIdExterno":"act_..."}` (editar antes de rodar). Salvo, **NUNCA executado** (cria cliente real em produção).
-- Gotcha n8n: colar JSON de workflow NÃO vincula credenciais (dá "Credentials not found") — tem que selecionar no dropdown do node.
+- `yd7FLRn4x1O5OY3Y` — "Painel de Relatórios — Integrar cliente (onboard, manual)" — POST /api/sync/onboard, body JSON `{"nome":"...","accountIdExterno":"act_..."}` (editar antes de rodar). **Executado com sucesso 24/jul.**
+- Gotcha n8n: colar JSON de workflow NÃO vincula credenciais (dá "Credentials not found") — tem que selecionar no dropdown do node. Pior: o node colado pode ficar EMPILHADO por cima do configurado (mesma posição no canvas) e o que executa é o de baixo — arrastar pra separar antes de concluir que está tudo certo.
+
+**PRIMEIRO CLIENTE EM PRODUÇÃO (24/jul):** VLL Construtora (`clienteId=1`, slug `vll-construtora-360452039239355`, conta `act_360452039239355`). Backfill 90d trouxe 25 linhas diárias, 2 campanhas, **25/abr→10/mai** (conta sem veiculação depois disso). Cadastro: R$552,37 / 59 cadastros; MSG: R$172,81 / 19 conversas → atribuição por objetivo funcionando com dados reais. 16 criativos. `metricas_sociais` = 0 (falta preencher `igUserId` do cliente). **Atenção UX: período padrão do relatório (últimos 30d) mostra ZERO pra VLL — precisa escolher período que cubra abr/mai.**
 
 **Os 5 planos + criativos/seguidores estão MERGED na main e DEPLOYADOS.** Falta operacional/config:
 - **Push pro GitHub** (main ahead ~42 commits; dispara deploy — requer OK do Renan).
