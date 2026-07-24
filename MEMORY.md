@@ -22,3 +22,4 @@
 - [Referência: Backup no GitHub](reference_github_backup.md) — Org Quirk-growth, auth SSH, mapa dos repos (quirk-auto-ads, tdtc, Calculadora-vgv-quirk, LPs-quirk, area-membros) e pendências de blindagem (Mac sem backup!)
 - [Projeto: Painel de Relatórios](project_painel_relatorios.md) — Substituto próprio do Reportei; Meta+Google, multi-cliente dentro da área de membros; sync diário→Postgres; funil comercial + atribuição por objetivo (jul/2026)
 - [Referência: Banco de criativos em vídeo](reference_banco_criativos_video.md) — Pasta Drive dos anúncios de captação (mar/25→jul/26), taxonomia dos 7 eixos e como (não) baixar os arquivos
+- [Reposicionamento p/ incorporadoras](project_reposicionamento_incorporadoras.md) — Giro de jul/2026: sai corretor/imobiliária, entra sócio de incorporadora; tese das três portas, reframe do carrego, risco de alcance no Meta
