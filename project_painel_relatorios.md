@@ -5,6 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
+  modified: 2026-07-24T12:40:01.947Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -31,6 +32,12 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - **Plano 5 (onboarding rápido + descoberta de contas da BM): CÓDIGO CONCLUÍDO e MERGED (não pushed).** BM principal `803799600742642` (Quirk - Growth Marketing). Cliente novo = evento (NÃO espera o batch diário): descobre contas da BM via Graph API (`descobrirContas`), diff de pendentes, `onboardCliente` cria cliente+conta + `runSync` escopado + backfill 90d. Rotas protegidas `/api/sync/pendentes` (lista) e `/api/sync/onboard` (integra). Meta-only (Google dormente até a MCC ter dados). Métricas seguem 1x/dia (cron inalterado). **PENDENTE: validação ao vivo do adapter Meta com META_ACCESS_TOKEN real (Task 5 steps 2-3).** SYNC_SECRET gerado e passado ao Renan (mesmo segredo protege todas as rotas /api/sync/*).
 
 **DEPLOYADO EM PRODUÇÃO (24/jul):** push pra github.com/Quirk-growth/area-membros-quirk → Render auto-deploy. App no ar em https://membros.quirkgrowth.com.br (rotas /portfolio, /relatorios, /api/cron/sync respondendo). Schema criado via `push:true` (adicionado em payload.config — projeto não usa migrations; OK p/ aditivo, migrar p/ migrations antes de qualquer RENAME). Coluna clientes.ig_user_id aplicada à mão (ALTER ADD IF NOT EXISTS) porque faltou no push. Verificado: 6 tabelas + users.cliente_id + enum role(admin,gestor,member) + clientes.ig_user_id ✅. **CRON: vercel.json é INERTE no Render — precisa n8n/Render Cron batendo POST /api/cron/sync 1x/dia com header x-sync-secret.** Env no Render: META_ACCESS_TOKEN + META_BUSINESS_ID (Renan seta), SYNC_SECRET já existe (mesmo do ClickUp).
+
+**AUTOMAÇÃO n8n (24/jul) — 3 workflows em https://n8n.quirkgrowth.online (credencial Header Auth "Area Membros — Sync Secret v2" = header `x-sync-secret`):**
+- `svRh0HktJJlC7c4W` — "Área de Membros — Sync Painel de Relatórios (diário 04:00)" — **ATIVO/publicado**, POST /api/cron/sync. Testado OK (substitui o vercel.json inerte no Render).
+- `Ma6PhOVibq8mkwde` — "Painel de Relatórios — Listar contas pendentes da BM (manual)" — POST /api/sync/pendentes. Testado: 201 contas pendentes.
+- `yd7FLRn4x1O5OY3Y` — "Painel de Relatórios — Integrar cliente (onboard, manual)" — POST /api/sync/onboard, body JSON `{"nome":"...","accountIdExterno":"act_..."}` (editar antes de rodar). Salvo, **NUNCA executado** (cria cliente real em produção).
+- Gotcha n8n: colar JSON de workflow NÃO vincula credenciais (dá "Credentials not found") — tem que selecionar no dropdown do node.
 
 **Os 5 planos + criativos/seguidores estão MERGED na main e DEPLOYADOS.** Falta operacional/config:
 - **Push pro GitHub** (main ahead ~42 commits; dispara deploy — requer OK do Renan).
