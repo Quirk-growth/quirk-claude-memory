@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-24T12:59:42.055Z
+  modified: 2026-07-24T13:30:45.509Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -40,6 +40,8 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - Gotcha n8n: colar JSON de workflow NÃO vincula credenciais (dá "Credentials not found") — tem que selecionar no dropdown do node. Pior: o node colado pode ficar EMPILHADO por cima do configurado (mesma posição no canvas) e o que executa é o de baixo — arrastar pra separar antes de concluir que está tudo certo.
 
 **PRIMEIRO CLIENTE EM PRODUÇÃO (24/jul):** VLL Construtora (`clienteId=1`, slug `vll-construtora-360452039239355`, conta `act_360452039239355`). Backfill 90d trouxe 25 linhas diárias, 2 campanhas, **25/abr→10/mai** (conta sem veiculação depois disso). Cadastro: R$552,37 / 59 cadastros; MSG: R$172,81 / 19 conversas → atribuição por objetivo funcionando com dados reais. 16 criativos. `metricas_sociais` = 0 (falta preencher `igUserId` do cliente). **Atenção UX: período padrão do relatório (últimos 30d) mostra ZERO pra VLL — precisa escolher período que cubra abr/mai.**
+
+**RODADA DE AJUSTES PÓS-PRIMEIRO CLIENTE (24/jul, branch `feat/menu-cliente-e-admin-organizado`, commit b5690d4 — não pushed):** (1) menu lateral na área de membros (`MenuLateral` + casca no `(app)/layout.tsx` + CSS `.app-shell`/`.menu-lateral`; cliente vê "Meus relatórios", equipe vê "Portfólio"); (2) admin Payload agrupado (Relatórios / Dados de sync / Mentorias / Pessoas / Sistema) com labels PT; (3) view `/admin/relatorios-clientes` (atalho p/ relatório + funil por cliente) e **gestor agora edita o funil da carteira** (`podeEditarFunil` + hook `validarCarteiraDoFunil`, porque no create a constraint sozinha não trava); (4) `clientes.gestores` ganhou `filterOptions` por papel + atalhos de menu "Gestores"/"Clientes (login)" — antes o seletor listava os 80+ usuários-cliente. Bônus: preset **"Máximo"** no período. **Gotcha: componente novo no admin exige `npx payload generate:importmap`, senão não renderiza.** Verificado no navegador com `node diag-dev-teste.mjs` (sobe o dev apontando pro DATABASE_URI_TEST, nunca produção; `build` como arg faz o next build).
 
 **Os 5 planos + criativos/seguidores estão MERGED na main e DEPLOYADOS.** Falta operacional/config:
 - **Push pro GitHub** (main ahead ~42 commits; dispara deploy — requer OK do Renan).
