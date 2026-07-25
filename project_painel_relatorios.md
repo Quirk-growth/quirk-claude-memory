@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-25T16:10:57.190Z
+  modified: 2026-07-25T17:25:10.236Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -30,6 +30,15 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - **Plano 4 (export PDF com logo): CONCLUÍDO e MERGED na main local.** Botão Exportar PDF (`BotaoExportarPdf`, window.print) + `CabecalhoPdf` (logo `/logo-quirk.png`) + print CSS (`@media print` + `print-color-adjust:exact`, `.no-print`/`.only-print`) em `globals-quirk.css`; embutido no `RelatorioCompleto` (vale cliente + gestor).
 
 - **Plano 5 (onboarding rápido + descoberta de contas da BM): CÓDIGO CONCLUÍDO e MERGED (não pushed).** BM principal `803799600742642` (Quirk - Growth Marketing). Cliente novo = evento (NÃO espera o batch diário): descobre contas da BM via Graph API (`descobrirContas`), diff de pendentes, `onboardCliente` cria cliente+conta + `runSync` escopado + backfill 90d. Rotas protegidas `/api/sync/pendentes` (lista) e `/api/sync/onboard` (integra). Meta-only (Google dormente até a MCC ter dados). Métricas seguem 1x/dia (cron inalterado). **PENDENTE: validação ao vivo do adapter Meta com META_ACCESS_TOKEN real (Task 5 steps 2-3).** SYNC_SECRET gerado e passado ao Renan (mesmo segredo protege todas as rotas /api/sync/*).
+
+**RODADA DE AJUSTES (25/jul, spec `2026-07-25-sync-automatico-overview-e-ajustes-design.md`, 3 planos, EM IMPLEMENTAÇÃO LOCAL):**
+- **Bug do sync diário (item mais grave):** o sync PAROU — metricas_diarias só tem ~50 linhas (os 2 backfills), última data 08/jul. Token Meta OK, endpoint OK, Meta tem os dados (NOVA tem 15 leads/7d). O que falhou foi o AGENDADOR (workflow n8n parou de disparar). Fix: trocar n8n por **Render Cron Job** (comando = `curl -X POST $APP_URL/api/cron/sync -H "x-sync-secret:$SYNC_SECRET"`); tapar o buraco de 17d uma vez por script; banner vermelho de "sync parado há X dias" na Visão geral (função `statusDoSync`, velho = >2 dias).
+- **Bug do funil:** `metricas-resultado.periodo` é texto livre; Renan gravou `202607`, relatório busca `2026-07` (mesDoPeriodo com hífen) → não bate. Fix: campo estruturado (seletor mês/ano) + normalização no beforeChange + migração do dado existente.
+- **Overview em Relatórios dos clientes:** ver [[reference-overview-relatorios-clientes]] (tabela densa aprovada). Presets novos 1d/14d/365d.
+- **Relatório do cliente:** principais criativos viram LISTA top 5 SEM thumbnails (hoje top 3 com foto).
+- **Gestores:** ações Editar/Excluir por linha; `users.delete` libera supervisor mas hook beforeDelete impede supervisor apagar admin/supervisor.
+- **Visão geral (direção A):** cockpit + faixa de departamentos (Tráfego ativo, resto "em breve"); REMOVE "Saúde do sistema" daqui. **Configurações vira ENGRENAGEM no rodapé do NavQuirk**, e abriga a Saúde do sistema.
+- Regra do Renan: fazer local (banco de teste ep-rough-thunder + conferência no navegador) tudo que for simples/rápido; só deploy no fim.
 
 **GOTCHA DE DEPLOY — enum + push:true (25/jul):** o `push:true` do Payload/Drizzle aplica mudanças ADITIVAS de coluna/tabela no deploy, MAS **não aplica `ALTER TYPE ADD VALUE` (adicionar valor a enum) em modo não-interativo — ele PULA em silêncio.** No deploy do papel `supervisor` (Plano A, merge c9b0a18), o Render buildou e subiu com sucesso, mas o enum `enum_users_role` em produção continuou `admin,gestor,member` — o código esperava `supervisor` e criar/marcar supervisor daria erro de enum inválido. Produção seguiu funcionando pros papéis existentes (o boot não exige o valor). **Correção manual (mesmo padrão do `ig_user_id`):** `ALTER TYPE enum_users_role ADD VALUE IF NOT EXISTS 'supervisor' AFTER 'admin'` via `pg` direto no DATABASE_URI de produção. Ficou `admin,supervisor,gestor,member`. **REGRA: todo deploy que adiciona valor a um enum (novo papel, novo status, novo objetivo) precisa desse ALTER manual em produção após o push — o push não faz sozinho.** Como detectar: consultar `pg_enum` de produção após o deploy e conferir se o valor novo entrou.
 
