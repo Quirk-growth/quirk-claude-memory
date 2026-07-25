@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-24T21:20:36.787Z
+  modified: 2026-07-25T15:10:02.299Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -30,6 +30,8 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - **Plano 4 (export PDF com logo): CONCLUÍDO e MERGED na main local.** Botão Exportar PDF (`BotaoExportarPdf`, window.print) + `CabecalhoPdf` (logo `/logo-quirk.png`) + print CSS (`@media print` + `print-color-adjust:exact`, `.no-print`/`.only-print`) em `globals-quirk.css`; embutido no `RelatorioCompleto` (vale cliente + gestor).
 
 - **Plano 5 (onboarding rápido + descoberta de contas da BM): CÓDIGO CONCLUÍDO e MERGED (não pushed).** BM principal `803799600742642` (Quirk - Growth Marketing). Cliente novo = evento (NÃO espera o batch diário): descobre contas da BM via Graph API (`descobrirContas`), diff de pendentes, `onboardCliente` cria cliente+conta + `runSync` escopado + backfill 90d. Rotas protegidas `/api/sync/pendentes` (lista) e `/api/sync/onboard` (integra). Meta-only (Google dormente até a MCC ter dados). Métricas seguem 1x/dia (cron inalterado). **PENDENTE: validação ao vivo do adapter Meta com META_ACCESS_TOKEN real (Task 5 steps 2-3).** SYNC_SECRET gerado e passado ao Renan (mesmo segredo protege todas as rotas /api/sync/*).
+
+**GOTCHA DE DEPLOY — enum + push:true (25/jul):** o `push:true` do Payload/Drizzle aplica mudanças ADITIVAS de coluna/tabela no deploy, MAS **não aplica `ALTER TYPE ADD VALUE` (adicionar valor a enum) em modo não-interativo — ele PULA em silêncio.** No deploy do papel `supervisor` (Plano A, merge c9b0a18), o Render buildou e subiu com sucesso, mas o enum `enum_users_role` em produção continuou `admin,gestor,member` — o código esperava `supervisor` e criar/marcar supervisor daria erro de enum inválido. Produção seguiu funcionando pros papéis existentes (o boot não exige o valor). **Correção manual (mesmo padrão do `ig_user_id`):** `ALTER TYPE enum_users_role ADD VALUE IF NOT EXISTS 'supervisor' AFTER 'admin'` via `pg` direto no DATABASE_URI de produção. Ficou `admin,supervisor,gestor,member`. **REGRA: todo deploy que adiciona valor a um enum (novo papel, novo status, novo objetivo) precisa desse ALTER manual em produção após o push — o push não faz sozinho.** Como detectar: consultar `pg_enum` de produção após o deploy e conferir se o valor novo entrou.
 
 **DEPLOYADO EM PRODUÇÃO (24/jul):** push pra github.com/Quirk-growth/area-membros-quirk → Render auto-deploy. App no ar em https://membros.quirkgrowth.com.br (rotas /portfolio, /relatorios, /api/cron/sync respondendo). Schema criado via `push:true` (adicionado em payload.config — projeto não usa migrations; OK p/ aditivo, migrar p/ migrations antes de qualquer RENAME). Coluna clientes.ig_user_id aplicada à mão (ALTER ADD IF NOT EXISTS) porque faltou no push. Verificado: 6 tabelas + users.cliente_id + enum role(admin,gestor,member) + clientes.ig_user_id ✅. **CRON: vercel.json é INERTE no Render — precisa n8n/Render Cron batendo POST /api/cron/sync 1x/dia com header x-sync-secret.** Env no Render: META_ACCESS_TOKEN + META_BUSINESS_ID (Renan seta), SYNC_SECRET já existe (mesmo do ClickUp).
 
