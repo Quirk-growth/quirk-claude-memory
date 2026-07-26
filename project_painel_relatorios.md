@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-26T00:51:01.204Z
+  modified: 2026-07-26T03:59:42.939Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -44,6 +44,15 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - **PERF resumosEmLote (merge 1773320, DEPLOYADO):** o overview/portfólio tinham N+1 (2 queries POR cliente; ~400 queries com 98 clientes → tela >10s). `resumosEmLote` em `consulta.ts` (2 queries pro conjunto + agregação em memória, `pagination:false` pra nunca truncar — review pegou o `limit` fixo como Crítico) + `montarResumo` compartilhado; overview.ts e portfolio.ts usam o lote. Benchmark 200 clientes: 65ms vs 4678ms (72x). Equivalência provada por int test; 210 verdes. **Padrão a manter: NUNCA laço de resumoDoCliente por cliente em telas de lista.**
 - **RECEITA SEGURA p/ scripts contra produção:** SQL cru via `pg` pra leitura/ajuste pontual; se precisar do `getPayload` (runSync/onboard), setar `push:false` no payload.config temporariamente e reverter no fim (git checkout). Nunca `next dev`/`build` direto na prod.
 - Backlog pós-lote: funil comercial dos 94 novos ainda vazio (gestores preenchem por mês); atribuir gestores às carteiras; decidir botão de integração no admin.
+
+**MADRUGADA 25→26/jul — BUG DA PAGINAÇÃO DO META + VÍNCULOS (merge 77cc82f, DEPLOYADO):**
+- **BUG GRAVE descoberto pelo Renan ("só ~17 contas com dados"):** a API de insights do Meta pagina em 25 linhas por padrão e o metaAdapter NÃO seguia `paging.next` → todo backfill longo gravava só os ~25 primeiros dias-campanha (86 contas com exatamente 25 linhas, todas começando 26/abr; Luham Decor com R$23k/30d não aparecia). O sync diário nunca sofreu (janela 1 dia). **Fix:** `getPaginado` no metaAdapter (segue paging.next + limit=500 nas 2 consultas), TDD reproduzindo o bug. **Suspeita retroativa:** o "VLL sem veiculação após 10/mai" do 1º backfill pode ter sido esse truncamento.
+- **Sync diário agora cobre 3 dias** (`intervaloPadrao` = hoje-3→ontem) pra capturar reatribuição retroativa do Meta (upsert idempotente corrige dias já gravados).
+- **Vincular acesso do cliente:** menu ⋯ de Relatórios → "Vincular acesso do cliente" → view `/admin/vincular-acesso?cliente=ID` (guarda admin/supervisor) lista logins member vinculados + busca de logins existentes; grava via `PATCH /api/users/{id}` campo `cliente` (autoridade = access de campo `isSupervisorOuAdminField`, já mutação-testada). É o que faz o relatório aparecer em "Meus relatórios" do login. IMPORTANTE: clientes JÁ têm login (membros das mentorias) — a tela vincula existentes, não cria.
+- **Esclarecido p/ Renan:** gestor clicando "Ver relatório" abre o relatório do cliente NA CASCA da área de membros logado como ele mesmo (não entra na conta do cliente); etiqueta "visão da equipe" adicionada. Supervisor NÃO acessa /relatorios/[slug] (pré-existente, backlog).
+- **Visão geral do admin:** removida a lista "Precisam de atenção" (98 clientes = ruído) — só KPIs gerais + departamentos. **Favicon Quirk** (`public/icone-quirk.svg` + metadata.icons no layout do frontend) — some o hexágono do Payload da aba da área de membros/login. Logo Quirk no login do admin (commit da outra sessão do Renan, 8a2eae8 — que também commitou por engano um push:false temporário, revertido em d1ec54a, e o gastoRecente que estava pendente — agora está na main).
+- **GOTCHA de rede:** processos longos locais contra Neon caem com EHOSTUNREACH (rede de madrugada); backfills grandes → rodar em LOOP de passadas curtas re-mirando o que falta (script targeting contas com exatamente 25 linhas), não um processo único. Meta também deu 500 transitório em várias contas.
+- Re-backfill 90d em andamento na madrugada: 12.440+ linhas, 71/94 contas com dado 30d, 22 ainda travadas (loop de passadas rodando).
 
 **RODADA ORIGINAL (25/jul, spec `2026-07-25-sync-automatico-overview-e-ajustes-design.md`, 3 planos — agora CONCLUÍDA, ver acima):**
 - **Bug do sync diário (item mais grave):** o sync PAROU — metricas_diarias só tem ~50 linhas (os 2 backfills), última data 08/jul. Token Meta OK, endpoint OK, Meta tem os dados (NOVA tem 15 leads/7d). O que falhou foi o AGENDADOR (workflow n8n parou de disparar). Fix: trocar n8n por **Render Cron Job** (comando = `curl -X POST $APP_URL/api/cron/sync -H "x-sync-secret:$SYNC_SECRET"`); tapar o buraco de 17d uma vez por script; banner vermelho de "sync parado há X dias" na Visão geral (função `statusDoSync`, velho = >2 dias).
