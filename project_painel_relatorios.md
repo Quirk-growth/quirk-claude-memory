@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-26T17:22:27.816Z
+  modified: 2026-07-26T21:36:50.020Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -73,6 +73,15 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - 243 testes verdes; zero DDL (nada manual pós-deploy). 1 mockup-driven design (visual companion: layout A sub-menu, lista A operacional, antes/depois da lateral).
 - Menores pós-deploy: comissaoPct esvaziado grava null (display ??4); cabeçalho não recarrega após renomear na aba Cadastro; HubAbaEmConstrucao é código morto.
 - **PROCESSO (pedido do Renan 26/jul):** ele quer formato mais ágil pra série grande de melhorias vindouras — SEM re-revisar tudo a cada subida. Proposta aceita em conceito: 3 níveis (pontual=direto; média=1 review; módulo=rito completo) + CI no GitHub (suíte a cada push) + módulos como abas do hub. PENDENTE: escrever playbook docs/operacao/processo-de-mudancas.md + montar o CI.
+
+**RODADA FUNIL PROPORCIONAL + HIERARQUIA (26/jul tarde, merge feaa5b7, DEPLOYADO):** barras do funil com % REAL (trilho+fill, texto sobreposto — o piso de 30% distorcia); sync coleta ADSET (conjuntoId/conjuntoNome em criativos — DDL manual aplicado em prod: conjunto_id/conjunto_nome/índice); topCampanhas (metricas_diarias) + topConjuntos (criativos, ignora legado vazio); relatório com hierarquia 5 Campanhas → 5 Conjuntos → 5 Anúncios via ListaRanking genérico (PrincipaisCriativos aposentado); datas dd/mm/aaaa auditadas. Backfill 30d p/ popular conjuntos sofreu RATE LIMIT do app no Meta (uso intenso do fim de semana) — conjuntos preenchem gradualmente pelo cron diário; seção mostra aviso de legado até lá.
+
+**RODADA SELF-SERVICE + FUNIL MENSAL (26/jul noite, spec `2026-07-26-self-service-e-funil-mensal-design.md`, merge 19457a1, DEPLOYADO, zero DDL):**
+- **Member (cliente final) preenche os PRÓPRIOS dados:** access `podeEditarResultadoComercial` (member restrito a user.cliente, fail-closed) em metricas-resultado e vendas (create/update; delete inalterado — vendas equipe-só, funil isAdmin). Hook barra troca do campo cliente. Mutação provada 2x (reviewer reproduziu independente; um teste vazio por colisão de índice foi pego e consertado — asserção agora exige o 403 específico).
+- **Página `/meus-resultados`** (área de membros, item no menu p/ member+cliente): funil do mês (navegação ?mes=) + vendas (sem excluir via flag podeExcluir). Cliente SEMPRE da sessão; CSS dark .hub-* no globals-quirk (escopo separado do admin claro).
+- **Funil mensal explícito:** `funilAgregado` (fonte única `vendasVgvDoMes` extraída de funilDoCliente) soma os meses do período no RELATÓRIO + `FunilHistoricoMensal` (temas claro/escuro) mês a mês no relatório E na aba Funil do hub. Crítico pego em review: descoberta de meses-com-venda usava a janela exata e perdia mês de borda sem doc — corrigido pro intervalo completo dos meses de borda, com regressão dedicada.
+- 273 verdes. Menores follow-up: mesDoPeriodo export morto; mesAdjacente/labelMes duplicados; mesValido sem range-check.
+- **PROCESSO 3 NÍVEIS em uso na prática** (pontual direto / média 1-review / módulo rito completo). PENDENTE ainda: playbook escrito + CI GitHub.
 
 **RODADA ORIGINAL (25/jul, spec `2026-07-25-sync-automatico-overview-e-ajustes-design.md`, 3 planos — agora CONCLUÍDA, ver acima):**
 - **Bug do sync diário (item mais grave):** o sync PAROU — metricas_diarias só tem ~50 linhas (os 2 backfills), última data 08/jul. Token Meta OK, endpoint OK, Meta tem os dados (NOVA tem 15 leads/7d). O que falhou foi o AGENDADOR (workflow n8n parou de disparar). Fix: trocar n8n por **Render Cron Job** (comando = `curl -X POST $APP_URL/api/cron/sync -H "x-sync-secret:$SYNC_SECRET"`); tapar o buraco de 17d uma vez por script; banner vermelho de "sync parado há X dias" na Visão geral (função `statusDoSync`, velho = >2 dias).
