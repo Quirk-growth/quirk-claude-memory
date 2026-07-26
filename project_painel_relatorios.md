@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-26T11:23:19.502Z
+  modified: 2026-07-26T12:57:52.312Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -56,6 +56,13 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - **Fixes da manhã 26/jul (merge c52cb33, DEPLOYADO):** (a) relatório aberto pela equipe movido pro route group `(equipe)` com layout SEM o MenuLateral de membros — Renan reclamou que gestor "caía na área de membros do cliente" (era casca compartilhada, não a conta; agora é página standalone com 'voltar ao painel'); (b) VincularAcessoForm sem o corte de 8 sugestões (lista completa com rolagem — Renan viu "só uns 10"); (c) logo do login do admin em variante texto-escuro `public/logo-quirk-escuro.svg` (gerada do quirk-wordmark.svg trocando fill white→#001D41; a branca sumia no fundo claro).
 - **GOTCHA push:false recorrente:** DUAS vezes o `push:false` temporário de scripts locais foi commitado por engano (outra sessão no 8a2eae8; eu no 9e02aba, corrigido via reset --soft + restore --staged antes do push). Ao commitar com script rodando, SEMPRE excluir payload.config.ts do stage.
 - **GOTCHA Mac dormindo:** processos longos em background congelam quando o Renan fecha o laptop e retomam quando abre — task que "não notificou" pode estar só dormindo.
+
+**RESULTADO GERAL — PLANILHA DE KPI NO PAINEL (26/jul manhã, spec `2026-07-26-resultado-geral-kpis-design.md`, merge e0ee295, PUSHED):**
+- A planilha de KPI (aba Resultado Geral, Sheets 169sHW0RK…) virou feature: coleção `vendas` (cliente/Data da venda/Produto/Ticket — GENÉRICO, sem viés imobiliário, pedido do Renan), campo `clientes.comissaoPct` (default 4; **100 = produto próprio → rótulo vira "Receita"**), lib `resultadoGeral.ts` (calcularResultado puro + vendasDoPeriodo escopada), seção "Resultado geral" no relatório do cliente (6 cartões VGV/Comissão-Receita/CPL/Conversão/CAC/ROAS + tabela de vendas, segue o filtro de período), funil deriva a etapa Vendas do registro (campos vendas/ticketMedio de metricas-resultado viraram fallback LEGADO), atalhos Vendas no menuAdmin (equipe+gestor) e no menu ⋯.
+- **Fórmulas (fixtures reais da planilha nos testes):** CPL=inv÷leads (25,79), Taxa=vendas÷leads (1,37%), CAC=inv÷vendas (1.882,73), VGV=Σtickets (1.599.500), Comissão=VGV×pct (63.980 a 4%), ROAS=comissão÷inv (8,50×). Divisor 0 → null.
+- Trava de carteira de vendas com mutação provada INCLUSIVE isolando o hook beforeDelete via overrideAccess:true (achado do reviewer: o access-where mascara o hook no fluxo normal — defesa em profundidade).
+- **2 Menores INTENCIONAIS (awareness):** (1) VGV do funil = mês; VGV do Resultado geral = janela do filtro → divergem em preset não-mensal; (2) Resultado geral SEM fallback legado — cliente pré-migração vê a seção zerada até registrarem vendas (sem importação retroativa, YAGNI).
+- 226 testes verdes. Deploy: schema aditivo via push:true (tabela vendas + coluna comissao_pct) — CONFERIR pg_regclass no boot pós-deploy.
 
 **RODADA ORIGINAL (25/jul, spec `2026-07-25-sync-automatico-overview-e-ajustes-design.md`, 3 planos — agora CONCLUÍDA, ver acima):**
 - **Bug do sync diário (item mais grave):** o sync PAROU — metricas_diarias só tem ~50 linhas (os 2 backfills), última data 08/jul. Token Meta OK, endpoint OK, Meta tem os dados (NOVA tem 15 leads/7d). O que falhou foi o AGENDADOR (workflow n8n parou de disparar). Fix: trocar n8n por **Render Cron Job** (comando = `curl -X POST $APP_URL/api/cron/sync -H "x-sync-secret:$SYNC_SECRET"`); tapar o buraco de 17d uma vez por script; banner vermelho de "sync parado há X dias" na Visão geral (função `statusDoSync`, velho = >2 dias).
