@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-26T13:03:31.211Z
+  modified: 2026-07-26T17:22:27.816Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -64,6 +64,15 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - **2 Menores INTENCIONAIS (awareness):** (1) VGV do funil = mês; VGV do Resultado geral = janela do filtro → divergem em preset não-mensal; (2) Resultado geral SEM fallback legado — cliente pré-migração vê a seção zerada até registrarem vendas (sem importação retroativa, YAGNI).
 - 226 testes verdes. **DEPLOYADO (e0ee295, Live 9h52) + schema aplicado À MÃO em produção** (CREATE TABLE vendas + índices + FK, ALTER clientes ADD comissao_pct DEFAULT 4, coluna vendas_id em payload_locked_documents_rels — DDL espelhado do banco de teste). Smoke: GET /api/vendas → 403 correto.
 - **GOTCHA push PROVADO DE VEZ (26/jul):** o `push:true` NÃO aplica schema NENHUM em produção (nem tabela nova, nem coluna) — só roda em dev. As criações passadas vieram de processos dev locais apontando pra prod. **REGRA: todo deploy com mudança de schema exige DDL manual via pg** (extrair o DDL do banco de teste onde o dev criou, aplicar aditivo idempotente; lembrar do payload_locked_documents_rels.<col>_id pra coleção nova). O comentário no payload.config afirmando que push cria coleções no deploy está ERRADO — corrigir no próximo deploy.
+
+**HUB DO CLIENTE (26/jul tarde, spec `2026-07-26-hub-do-cliente-design.md`, planos A+B, merge 0e9c29f, DEPLOYADO):**
+- **Reorganização pedida pelo Renan** ("dispersão de menus é um dos maiores problemas"): cliente = ponto de encontro único. Lateral: INÍCIO/ADMINISTRATIVO(Clientes→hub — seção própria pois o cliente atravessa departamentos)/TRÁFEGO(só Relatórios)/MENTORIAS/PESSOAS(só Gestores)/engrenagem. Saíram da lateral: Contas de anúncios, Funil, Vendas, Integrar, Clientes(login) — coleções seguem existindo.
+- **Lista `/admin/clientes-hub`:** busca + ＋Integrar (admin/sup) + selos de pendência por linha (funil do mês vazio 🟡, sem login 🔴, sem veiculação ⚪, em dia ✓) — derivação pura `pendenciasDoCliente` + consultas em lote `dadosDaListaHub` (anti-N+1).
+- **Hub `/admin/cliente?id=N`:** guarda papel+carteira ANTES de carregar (teste assere ausência de nome; Suspense no conteúdo da aba); 6 abas: Resumo (KPIs 30d), Funil (server-side, derivação canônica via funilDoCliente com fallback legado — mês por ?mes=), Vendas (lançar/excluir), Conta de anúncios (vincular pendente da BM via /api/sync/pendentes), Acesso (reusa VincularAcessoForm), Cadastro (gestor read-only provado logado). ⋯ de Relatórios = "Abrir hub"+"Ver relatório".
+- **Padrão das abas (LEI da branch):** server component busca via payload local escopado e passa pronto; form client SÓ salva via REST credentials com travas EXISTENTES; nenhum GET client de carga. Review da B2 REPROVOU a 1ª versão por violar isso (derivado sem fallback legado divergia do relatório + leitura client) — refeita.
+- 243 testes verdes; zero DDL (nada manual pós-deploy). 1 mockup-driven design (visual companion: layout A sub-menu, lista A operacional, antes/depois da lateral).
+- Menores pós-deploy: comissaoPct esvaziado grava null (display ??4); cabeçalho não recarrega após renomear na aba Cadastro; HubAbaEmConstrucao é código morto.
+- **PROCESSO (pedido do Renan 26/jul):** ele quer formato mais ágil pra série grande de melhorias vindouras — SEM re-revisar tudo a cada subida. Proposta aceita em conceito: 3 níveis (pontual=direto; média=1 review; módulo=rito completo) + CI no GitHub (suíte a cada push) + módulos como abas do hub. PENDENTE: escrever playbook docs/operacao/processo-de-mudancas.md + montar o CI.
 
 **RODADA ORIGINAL (25/jul, spec `2026-07-25-sync-automatico-overview-e-ajustes-design.md`, 3 planos — agora CONCLUÍDA, ver acima):**
 - **Bug do sync diário (item mais grave):** o sync PAROU — metricas_diarias só tem ~50 linhas (os 2 backfills), última data 08/jul. Token Meta OK, endpoint OK, Meta tem os dados (NOVA tem 15 leads/7d). O que falhou foi o AGENDADOR (workflow n8n parou de disparar). Fix: trocar n8n por **Render Cron Job** (comando = `curl -X POST $APP_URL/api/cron/sync -H "x-sync-secret:$SYNC_SECRET"`); tapar o buraco de 17d uma vez por script; banner vermelho de "sync parado há X dias" na Visão geral (função `statusDoSync`, velho = >2 dias).
