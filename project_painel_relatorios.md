@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-26T03:59:42.939Z
+  modified: 2026-07-26T11:23:19.502Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -52,7 +52,10 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - **Esclarecido p/ Renan:** gestor clicando "Ver relatório" abre o relatório do cliente NA CASCA da área de membros logado como ele mesmo (não entra na conta do cliente); etiqueta "visão da equipe" adicionada. Supervisor NÃO acessa /relatorios/[slug] (pré-existente, backlog).
 - **Visão geral do admin:** removida a lista "Precisam de atenção" (98 clientes = ruído) — só KPIs gerais + departamentos. **Favicon Quirk** (`public/icone-quirk.svg` + metadata.icons no layout do frontend) — some o hexágono do Payload da aba da área de membros/login. Logo Quirk no login do admin (commit da outra sessão do Renan, 8a2eae8 — que também commitou por engano um push:false temporário, revertido em d1ec54a, e o gastoRecente que estava pendente — agora está na main).
 - **GOTCHA de rede:** processos longos locais contra Neon caem com EHOSTUNREACH (rede de madrugada); backfills grandes → rodar em LOOP de passadas curtas re-mirando o que falta (script targeting contas com exatamente 25 linhas), não um processo único. Meta também deu 500 transitório em várias contas.
-- Re-backfill 90d em andamento na madrugada: 12.440+ linhas, 71/94 contas com dado 30d, 22 ainda travadas (loop de passadas rodando).
+- **Re-backfill CONCLUÍDO (26/jul manhã):** 0 contas travadas, **94/94 contas com dado nos últimos 30d**, 18.169 linhas. Levou 3 rodadas + loop (rede caindo EHOSTUNREACH + Meta 500 transitório).
+- **Fixes da manhã 26/jul (merge c52cb33, DEPLOYADO):** (a) relatório aberto pela equipe movido pro route group `(equipe)` com layout SEM o MenuLateral de membros — Renan reclamou que gestor "caía na área de membros do cliente" (era casca compartilhada, não a conta; agora é página standalone com 'voltar ao painel'); (b) VincularAcessoForm sem o corte de 8 sugestões (lista completa com rolagem — Renan viu "só uns 10"); (c) logo do login do admin em variante texto-escuro `public/logo-quirk-escuro.svg` (gerada do quirk-wordmark.svg trocando fill white→#001D41; a branca sumia no fundo claro).
+- **GOTCHA push:false recorrente:** DUAS vezes o `push:false` temporário de scripts locais foi commitado por engano (outra sessão no 8a2eae8; eu no 9e02aba, corrigido via reset --soft + restore --staged antes do push). Ao commitar com script rodando, SEMPRE excluir payload.config.ts do stage.
+- **GOTCHA Mac dormindo:** processos longos em background congelam quando o Renan fecha o laptop e retomam quando abre — task que "não notificou" pode estar só dormindo.
 
 **RODADA ORIGINAL (25/jul, spec `2026-07-25-sync-automatico-overview-e-ajustes-design.md`, 3 planos — agora CONCLUÍDA, ver acima):**
 - **Bug do sync diário (item mais grave):** o sync PAROU — metricas_diarias só tem ~50 linhas (os 2 backfills), última data 08/jul. Token Meta OK, endpoint OK, Meta tem os dados (NOVA tem 15 leads/7d). O que falhou foi o AGENDADOR (workflow n8n parou de disparar). Fix: trocar n8n por **Render Cron Job** (comando = `curl -X POST $APP_URL/api/cron/sync -H "x-sync-secret:$SYNC_SECRET"`); tapar o buraco de 17d uma vez por script; banner vermelho de "sync parado há X dias" na Visão geral (função `statusDoSync`, velho = >2 dias).
