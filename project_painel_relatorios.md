@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-27T00:48:54.334Z
+  modified: 2026-07-27T00:58:36.570Z
 ---
 
 Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatórios de tráfego próprio** pra **substituir o Reportei** (gasto alto; ~79 clientes no plano). Vira ativo da agência aproveitando o acesso de API que a Quirk já tem.
@@ -81,7 +81,7 @@ Projeto iniciado 23/jul/2026 (importante e estratégico): **painel de relatório
 - **Página `/meus-resultados`** (área de membros, item no menu p/ member+cliente): funil do mês (navegação ?mes=) + vendas (sem excluir via flag podeExcluir). Cliente SEMPRE da sessão; CSS dark .hub-* no globals-quirk (escopo separado do admin claro).
 - **Funil mensal explícito:** `funilAgregado` (fonte única `vendasVgvDoMes` extraída de funilDoCliente) soma os meses do período no RELATÓRIO + `FunilHistoricoMensal` (temas claro/escuro) mês a mês no relatório E na aba Funil do hub. Crítico pego em review: descoberta de meses-com-venda usava a janela exata e perdia mês de borda sem doc — corrigido pro intervalo completo dos meses de borda, com regressão dedicada.
 - 273 verdes. Menores follow-up: mesDoPeriodo export morto; mesAdjacente/labelMes duplicados; mesValido sem range-check.
-- **PROCESSO 3 NÍVEIS formalizado (26/jul noite):** playbook em `docs/operacao/processo-de-mudancas.md` (níveis + guard-rails fixos: mutação p/ trava nova, DDL manual, push:false com cuidado, fórmulas com fixture real, multi-tenant assere ausência, anti-N+1). **CI escrito** (`.github/workflows/ci.yml`: tipos+unit sempre — 104 unit passam com banco dummy; integração quando var CI_INTEGRACAO=sim + secrets DATABASE_URI_TEST/PAYLOAD_SECRET) mas **commit LOCAL (2314464) preso: o PAT do GitHub não tem escopo `workflow`** — Renan precisa atualizar o token (Settings→Developer settings→Tokens→escopo workflow) e aí é só push. Backfill de conjuntos parcial: 31k/79k criativos com conjunto; cron completa.
+- **PROCESSO 3 NÍVEIS formalizado (26/jul noite):** playbook em `docs/operacao/processo-de-mudancas.md` (níveis + guard-rails fixos: mutação p/ trava nova, DDL manual, push:false com cuidado, fórmulas com fixture real, multi-tenant assere ausência, anti-N+1). **CI ATIVO no GitHub** (`.github/workflows/ci.yml`, push 2314464; run #1 VERDE em 53s): tipos+unit em todo push (104 unit com banco dummy); estágio integração opcional quando Renan criar a variável de repo `CI_INTEGRACAO=sim` + secrets `DATABASE_URI_TEST`/`PAYLOAD_SECRET`. O PAT "Membros Quirk" ganhou o escopo `workflow` (26/jul: Renan fez o sudo por e-mail; eu marquei o checkbox e salvei — valor do token inalterado). Backfill de conjuntos parcial: 31k/79k criativos com conjunto; cron completa.
 
 **RODADA ORIGINAL (25/jul, spec `2026-07-25-sync-automatico-overview-e-ajustes-design.md`, 3 planos — agora CONCLUÍDA, ver acima):**
 - **Bug do sync diário (item mais grave):** o sync PAROU — metricas_diarias só tem ~50 linhas (os 2 backfills), última data 08/jul. Token Meta OK, endpoint OK, Meta tem os dados (NOVA tem 15 leads/7d). O que falhou foi o AGENDADOR (workflow n8n parou de disparar). Fix: trocar n8n por **Render Cron Job** (comando = `curl -X POST $APP_URL/api/cron/sync -H "x-sync-secret:$SYNC_SECRET"`); tapar o buraco de 17d uma vez por script; banner vermelho de "sync parado há X dias" na Visão geral (função `statusDoSync`, velho = >2 dias).
