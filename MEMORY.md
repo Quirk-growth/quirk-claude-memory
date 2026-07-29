@@ -26,3 +26,4 @@
 - [Neon: bancos prod vs teste](reference_neon_bancos.md) — 2 projetos Neon SEPARADOS (cota é por projeto); teste no mesmo projeto da prod derrubou o painel (24/jul); regra: nunca compartilhar. + Blindagem escala (28/jul): runtime prod no endpoint -pooler, push OFF em prod (coleção nova = DDL manual), relatórios cache 5min
 - [Overview de Relatórios dos clientes](reference_overview_relatorios_clientes.md) — formato aprovado: totais no topo + tabela densa com sparkline de tendência, CPM/Freq, ações no menu ⋯, filtro 1/7/14/30/90/365
 - [Referência: baixar YouTube em 4K (yt-dlp)](reference_ytdlp_4k.md) — Receita que funciona: binário nightly + --cookies-from-browser chrome + --js-runtimes node (o JS challenge é o que libera >1080p)
+- [Satisfação + aproveitamento dos gestores](reference_satisfacao_gestores.md) — status do cliente (9 níveis, pontos) + % do gestor = soma pontos ÷ (ativos×10); planilha-fonte do Squad de Tráfego
