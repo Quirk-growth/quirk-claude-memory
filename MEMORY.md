@@ -28,3 +28,4 @@
 - [Referência: baixar YouTube em 4K (yt-dlp)](reference_ytdlp_4k.md) — Receita que funciona: binário nightly + --cookies-from-browser chrome + --js-runtimes node (o JS challenge é o que libera >1080p)
 - [Satisfação + aproveitamento dos gestores](reference_satisfacao_gestores.md) — status do cliente (9 níveis, pontos) + % do gestor = soma pontos ÷ (ativos×10); planilha-fonte do Squad de Tráfego
 - [Agendamento de reunião (Make 3704159)](reference_agendamento_reuniao_make.md) — Bug: conexão Google "Quirk Growth" (3645550) na conta errada → 404 → reuniões do Renan não entram na agenda desde ~mai/2026; Ignore esconde; fix = reautorizar na conta contato@ certa
+- [Conta de teste/demo (renandmreal)](reference_conta_teste_demo.md) — Conta member protegida na área de membros: fora do sync, não desativa nem exclui
