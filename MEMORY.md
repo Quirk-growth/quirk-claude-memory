@@ -5,6 +5,7 @@
 - [WhatsApp Cloud API (oficial)](reference_whatsapp_cloud_api.md) — Migração uazapi→oficial (jul/2026); phone id 1320571937797802, WABA 2088588845203405, credencial n8n, arquitetura inbound→principal e gotchas do n8n
 - [Estratégia de públicos Meta](reference_publicos_meta_estrategia.md) — Escada de qualificação mensurável (viajante/internacional/alto valor) + secundários imobiliários + iOS; 12 públicos no extrator, IDs reais validados
 - [Isolamento de dados entre clientes](feedback_isolamento_dados_clientes.md) — Multi-tenant: IA/backend NUNCA vazam dados de outros clientes; bug real do revisao_meta corrigido; travas de confidencialidade nos prompts
+- [Fluxo de confirmação do onboarding](reference_onboarding_confirmacao_flow.md) — State machine em_revisao/aguardando_confirmacao; 2 bugs corrigidos (e_10); Supabase stale → banco só via n8n; reroute barrado pelo classifier
 - [Quirk Growth — Identidade visual](reference_quirk_brand.md) — Fontes Sora+Poppins, azul primário #1D80FF, fundo #001D41, verde #39b54a
 - [Projeto: LP Iscas KPI + GPA](project_lp_iscas.md) — LP standalone em /Users/renanreal/lp-iscas-quirk/, cenário Make 4755230, form nativo (não Typeform)
 - [Projeto: LP Calculadora de VGV](project_lp_vgv.md) — LP em /Users/renanreal/lp-vgv-quirk/, cenário Make 4779375 clonado da isca, mesma planilha (aba "Leads VGV")
