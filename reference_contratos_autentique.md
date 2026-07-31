@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-31T02:55:30.394Z
+  modified: 2026-07-31T03:01:07.416Z
 ---
 
 Gestão de contratos via **Autentique** na área de membros ([[project_area_membros_quirk]]), escolhida a **Opção C** (completa: sync + webhook + painel), jul/2026.
@@ -14,6 +14,6 @@ Gestão de contratos via **Autentique** na área de membros ([[project_area_memb
 
 **Token:** `AUTENTIQUE_TOKEN` — Renan cola no Render (Environment). O token foi compartilhado no chat uma vez → **recomendei rotacionar** e usar um novo só no Render. Local (.env gitignored) só pra validação.
 
-**Feito (deploy 7d621d9):** cliente GraphQL `src/lib/autentique/api.ts` (buscarDocumento/listarDocumentos + `statusDe` → assinado/parcial/pendente/rejeitado/vazio); coleção `contratos` (autentiqueId, status enum, signatarios jsonb, linkPdf/original) com endpoints `/vincular` `/buscar` `/atualizar` `/desvincular` (gate ehSupervisorOuAcima); seção "Contratos (Autentique)" na aba Cadastro (busca por nome/ID, status ao vivo, signatários, PDF). DDL `scripts/ddl/2026-07-30-contratos.sql` (com coluna de lock) aplicado.
+**Feito — Opção C completa:** (1/2, 7d621d9) cliente GraphQL `src/lib/autentique/api.ts` (buscarDocumento/listarDocumentos + `statusDe`); coleção `contratos` com endpoints `/vincular` `/buscar` `/atualizar` `/desvincular` (gate ehSupervisorOuAcima); seção "Contratos (Autentique)" na aba Cadastro. DDL `scripts/ddl/2026-07-30-contratos.sql` (com lock) aplicado. (3/4, 204060d) `syncContratos` em lote plugado no cron diário; webhook `src/app/api/autentique/webhook/route.ts` valida HMAC-SHA256. (5, ea61cb8) painel `/admin/contratos` (ListaContratosView, item no menu Administrativo).
 
-**Pendente:** (3) sync diário dos contratos vinculados; (4) webhook `/api/autentique/webhook` com HMAC; (5) painel de contratos pendentes de toda a carteira.
+**Env que Renan precisa pôr no Render:** `AUTENTIQUE_TOKEN` (API) e `AUTENTIQUE_WEBHOOK_SECRET` (validação do webhook) + configurar a callback URL `https://membros.quirkgrowth.com.br/api/autentique/webhook` no painel Autentique. Sem esses, vincular/sync/webhook ficam inertes (erro amigável), o resto funciona.
