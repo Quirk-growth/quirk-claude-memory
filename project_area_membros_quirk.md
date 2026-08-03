@@ -5,10 +5,12 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-07-24T15:53:30.116Z
+  modified: 2026-08-03T14:15:57.655Z
 ---
 
 Área de membros própria da Quirk pra clientes acessarem as mentorias que hoje ficam soltas no Google Drive. Em `/Users/renanreal/area-membros-quirk/` (repo git novo).
+
+**Tiers de acesso da equipe (03/ago/2026, 6589d58):** `ehSupervisorOuAcima` (admin/supervisor/administrativo) ≠ `ehGestaoFinanceira` (SÓ admin+administrativo; access de coleção `isAdminOuAdministrativo`). Regra do Renan: **supervisor é papel de TRÁFEGO** — não vê Financeiro, BI, Contratos nem o Comercial da Quirk (menu, views, aba Financeiro do hub, seção Contratos do Cadastro, coleções pagamentos/contratos/snapshot, rota snapshot e autorizarCrm do funil interno). Usar `ehGestaoFinanceira` pra qualquer feature de faturamento/contratos/comercial nova. Outras UI: bolinha da conta = AvatarConta (foto/iniciais via admin.avatar); Relatórios dos clientes com filtros gestor/status (FiltrosRelatorios + linhas com gestores no overview); dashboard+funil comercial 100% escuros.
 
 **Decisões fechadas no brainstorming (jul/2026):**
 - Build customizado (não plataforma pronta), com identidade Quirk no cliente E no admin.
