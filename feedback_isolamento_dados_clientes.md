@@ -5,6 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
+  modified: 2026-08-03T13:43:43.774Z
 ---
 
 No [[project_quirk_auto_ads]] (multi-tenant: uma BM Quirk `1612905538806887` gerencia contas/páginas de VÁRIOS clientes), o Renan tratou como **erro extremamente grave** qualquer vazamento de dados entre clientes. Regra dura: o cliente só pode saber da **própria conta** — nunca sobre outros clientes, outras contas de anúncio/Páginas, nem o funcionamento interno/infra/IDs/tokens da Quirk.
@@ -16,3 +17,5 @@ No [[project_quirk_auto_ads]] (multi-tenant: uma BM Quirk `1612905538806887` ger
 - Todo prompt de IA client-facing (`build_onboarding_body`, `build_agente_body`) tem bloco "CONFIDENCIALIDADE E ISOLAMENTO DE DADOS" (regra inviolável): recusar pedidos de listar contas/páginas/outros clientes/como funciona por dentro.
 - Toda query que serve dados ao cliente DEVE filtrar por `telefone` (e `ad_account_id` do próprio cliente) — padrão já usado em `list_campanhas`/`select_cliente`. Nunca rodar SELECT sem escopo do cliente.
 - Mensagem de falha vazada entra no `historico_onboarding` e a IA relê → corrigir na raiz (não emitir o dado), não só no prompt.
+
+**Extensão pra área de membros (03/ago/2026, [[project_crm_quirk]]):** o mesmo requisito vale entre o SISTEMA INTERNO da Quirk (funil comercial, cliente `quirk-comercial`) e o CRM dos clientes — "tudo precisa estar 100% BLINDADO e não podemos confundir as coisas" (verbatim do Renan). Bug real: "Converter em cliente" (cria cliente no hub da Quirk) apareceu no CRM dos clientes e o endpoint `/api/crm-leads/converter` aceitava qualquer cliente → dono/gerente de cliente conseguiria criar clientes no hub via API. Fix: gate na UI (prop `converter` só no ComercialFunilView) **e no servidor** (endpoint exige slug `quirk-comercial`). **How to apply:** toda feature nova do CRM/comercial deve perguntar "isso é do lado interno ou do lado do cliente?" e blindar no ENDPOINT, não só esconder na UI.

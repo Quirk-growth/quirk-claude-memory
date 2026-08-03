@@ -4,7 +4,7 @@
 - [Asaas webhook → n8n gateway](reference_asaas_webhook_gateway.md) — Payload Asaas só traz ID do cliente (buscar telefone via API); header auth asaas-access-token; IDs dos workflows; filtro Auto Ads; pendências segurança + UAZAPI
 - [WhatsApp Cloud API (oficial)](reference_whatsapp_cloud_api.md) — Migração uazapi→oficial (jul/2026); phone id 1320571937797802, WABA 2088588845203405, credencial n8n, arquitetura inbound→principal e gotchas do n8n
 - [Estratégia de públicos Meta](reference_publicos_meta_estrategia.md) — Escada de qualificação mensurável (viajante/internacional/alto valor) + secundários imobiliários + iOS; 12 públicos no extrator, IDs reais validados
-- [Isolamento de dados entre clientes](feedback_isolamento_dados_clientes.md) — Multi-tenant: IA/backend NUNCA vazam dados de outros clientes; bug real do revisao_meta corrigido; travas de confidencialidade nos prompts
+- [Isolamento de dados entre clientes](feedback_isolamento_dados_clientes.md) — Multi-tenant: IA/backend NUNCA vazam dados de outros clientes; vale tbm interno Quirk × CRM do cliente (blindar no endpoint, não só na UI)
 - [Fluxo de confirmação do onboarding](reference_onboarding_confirmacao_flow.md) — State machine em_revisao/aguardando_confirmacao; 2 bugs corrigidos (e_10); Supabase stale → banco só via n8n; reroute barrado pelo classifier
 - [Gestão: lista de campanhas + reconciliação Meta](reference_gestao_lista_reconciliacao.md) — Lista vem do banco (LIMIT 50) + reconcilia com Meta ao vivo no init_gestao (filtra deletadas no Gerenciador); pendências: sync de status, duplicatas, sync periódico
 - [Quirk Growth — Identidade visual](reference_quirk_brand.md) — Fontes Sora+Poppins, azul primário #1D80FF, fundo #001D41, verde #39b54a
