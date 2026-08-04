@@ -31,5 +31,5 @@
 - [Satisfação + aproveitamento dos gestores](reference_satisfacao_gestores.md) — status do cliente (9 níveis, pontos) + % do gestor = soma pontos ÷ (ativos×10); planilha-fonte do Squad de Tráfego
 - [Agendamento de reunião (Make 3704159)](reference_agendamento_reuniao_make.md) — Bug: conexão Google "Quirk Growth" (3645550) na conta errada → 404 → reuniões do Renan não entram na agenda desde ~mai/2026; Ignore esconde; fix = reautorizar na conta contato@ certa
 - [Conta de teste/demo (renandmreal)](reference_conta_teste_demo.md) — Conta member protegida na área de membros: fora do sync, não desativa nem exclui
-- [Contratos Autentique (área de membros)](reference_contratos_autentique.md) — Opção C (sync+webhook+painel); token no Render, coleção contratos + vínculo na aba Cadastro feitos; sync/webhook/painel pendentes
+- [Contratos (área de membros)](reference_contratos_autentique.md) — Geração via Google Docs (OAuth renan.reeal@gmail, NÃO service account) + assinatura Autentique; Gerar/Revisar/Enviar no hub; envs OAuth no Render, pasta Drive e placeholders Make
 - [Projeto: CRM Quirk](project_crm_quirk.md) — CRM multi-tenant na área de membros (Bolten+Imobilead); v1 no ar ago/2026; dono/gerente/vendedor; pendências: envs UAZAPI + validar payload real
