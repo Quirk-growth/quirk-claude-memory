@@ -5,6 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
+  modified: 2026-08-05T22:58:02.813Z
 ---
 
 Estratégia de públicos da Quirk (validada com Renan em 2026-07-03) usada no extrator do [[project_quirk_auto_ads]]. Princípio: **base em qualificação MENSURÁVEL pela Meta** (comportamentos), empilhada (cada "E" = flexible_spec separado = estreita), com interesses imobiliários/luxo só como **secundário**, e **iPhone (`user_os:["iOS"]`)** por cima. Pub 0 = aberto (só geo+idade); quanto mais alto o nível, mais estreito/premium.
@@ -26,3 +27,10 @@ Estratégia de públicos da Quirk (validada com Renan em 2026-07-03) usada no ex
 **Motor de piso de público (nó `audience_floor`, entre meta_d1 e meta_d2):** antes de subir o conjunto, estima o tamanho via `GET /act_{id}/delivery_estimate?optimization_goal=REACH&targeting_spec=...` (retorna `estimate_mau_lower_bound`). Se < **50k**, afrouxa sozinho (decisão interna, cliente não vê) na ordem: camadas extras → iOS → base viajante (última), re-estimando a cada passo, até ≥50k ou abrir de vez (região pequena aceita como está). `meta_d2_adset` usa `$('audience_floor').targeting_meta`. Motivo: público pequeno = leilão apertado = CPM alto.
 
 Arquivos de origem em `/Users/renanreal/quirk_auto_ads/`: PUBLICOS_*.md, interests_ids.json, resolve_interests.py.
+
+**VIRADA PRA VOLUME (05/ago/2026, commit 9df2e67)** — Chrystian gastou e não gerou lead (públicos restritos demais) + campanhas falhando. Mudanças:
+- ⚠️ **Interesses DEPRECIADOS pelo Meta** (subcode 1870247 quebrava o `meta_d2_adset`): `6014552641654` (zap imóveis) e `6018886000820` (imovelweb) → `6788101567252` (Portais de imóveis); `6002965402168` (OLX) → `6003053088645` (Online marketplace). Sanitizador (`_sanitizeTgt`) em `audience_floor` E `build_targeting_atualizado` remapeia + dedup. Meta depreciar interesse é recorrente → o sanitizador é o ponto de extensão.
+- **BLOCOS RICOS** no `audience_floor` (criação): colapsa o empilhamento estreito em **1 grupo amplo OR** = viagem + imobiliário + alto valor. Comportamentos: `6002714895372,6022788483583,6071631541183,6046096201583,6110813675983`. Interesses (todos validados no Meta): viagem `6003430696269,6003225930699,6003572379887,6003383552337,6003252231836,6014700397387,6003232334885` · imob `6003446239080,6003077334693,6004140335706,6002920953955,6003311653599,6788101567252,6003693537583,6002979192120` · alto valor `6007828099136,6003266225248,6003092209817`. Público BR ≈ **93,6M**. **iOS-only removido** (cortava ~metade).
+- Raio: **default 8km** (extrator) + **mínimo 8km** (`resolve_geo_criacao`). Piso de público **50k→300k**.
+- ⚠️ `delivery_estimate` NÃO estima geo `custom_locations` (lat/lng, raio<17) → retorna -1 → o piso NÃO afrouxa (bloco sobrevive, que é o certo). Só estima com `cities`/país.
+- **PENDENTE:** a `PUBS` do `build_targeting_atualizado` (ALTERAR_PUBLICO) ainda tem as defs estreitas antigas — só a CRIAÇÃO recebe blocos ricos. Enriquecer a PUBS é follow-up.
