@@ -32,4 +32,6 @@
 - [Agendamento de reunião (Make 3704159)](reference_agendamento_reuniao_make.md) — Bug: conexão Google "Quirk Growth" (3645550) na conta errada → 404 → reuniões do Renan não entram na agenda desde ~mai/2026; Ignore esconde; fix = reautorizar na conta contato@ certa
 - [Conta de teste/demo (renandmreal)](reference_conta_teste_demo.md) — Conta member protegida na área de membros: fora do sync, não desativa nem exclui
 - [Contratos (área de membros)](reference_contratos_autentique.md) — Geração via Google Docs (OAuth renan.reeal@gmail, NÃO service account) + assinatura Autentique; Gerar/Revisar/Enviar no hub; envs OAuth no Render, pasta Drive e placeholders Make
+- [Onboarding pós-assinatura](project_onboarding_pos_assinatura.md) — Contrato assinado → grupo WhatsApp (UAZAPI Comercial) + pasta Drive (Clientes Quirk); squad selecionável, mensagens+logo editáveis; envs UAZAPI_COMERCIAL_TOKEN + GOOGLE_CLIENTES_FOLDER_ID
+- [Reconcile de acesso](reference_reconcile_acesso.md) — Sync diário espelha a fonte por email e desativa quem não está nela (causa do "acesso inativo" de cliente convidado); agora protege login de cliente vivo (status ≠ churn)
 - [Projeto: CRM Quirk](project_crm_quirk.md) — CRM multi-tenant na área de membros (Bolten+Imobilead); v1 no ar ago/2026; dono/gerente/vendedor; pendências: envs UAZAPI + validar payload real
