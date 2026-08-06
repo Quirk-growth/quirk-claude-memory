@@ -35,3 +35,4 @@
 - [Onboarding pós-assinatura](project_onboarding_pos_assinatura.md) — Contrato assinado → grupo WhatsApp (UAZAPI Comercial) + pasta Drive (Clientes Quirk); squad selecionável, mensagens+logo editáveis; envs UAZAPI_COMERCIAL_TOKEN + GOOGLE_CLIENTES_FOLDER_ID
 - [Reconcile de acesso](reference_reconcile_acesso.md) — Sync diário espelha a fonte por email e desativa quem não está nela (causa do "acesso inativo" de cliente convidado); agora protege login de cliente vivo (status ≠ churn)
 - [Projeto: CRM Quirk](project_crm_quirk.md) — CRM multi-tenant na área de membros (Bolten+Imobilead); v1 no ar ago/2026; dono/gerente/vendedor; pendências: envs UAZAPI + validar payload real
+- [Projeto: Tarefas (time interno)](project_tarefas.md) — Gerenciador de tarefas do cockpit (estilo ClickUp, status por lista, cliente estruturado); Parte 1 no ar ago/2026; aba no Hub + menu Tráfego; Parte 2 = menções+inbox pendente
