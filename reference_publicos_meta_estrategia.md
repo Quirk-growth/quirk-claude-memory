@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
-  modified: 2026-08-05T22:58:02.813Z
+  modified: 2026-08-06T00:30:00.625Z
 ---
 
 Estratégia de públicos da Quirk (validada com Renan em 2026-07-03) usada no extrator do [[project_quirk_auto_ads]]. Princípio: **base em qualificação MENSURÁVEL pela Meta** (comportamentos), empilhada (cada "E" = flexible_spec separado = estreita), com interesses imobiliários/luxo só como **secundário**, e **iPhone (`user_os:["iOS"]`)** por cima. Pub 0 = aberto (só geo+idade); quanto mais alto o nível, mais estreito/premium.
@@ -33,4 +33,5 @@ Arquivos de origem em `/Users/renanreal/quirk_auto_ads/`: PUBLICOS_*.md, interes
 - **BLOCOS RICOS** no `audience_floor` (criação): colapsa o empilhamento estreito em **1 grupo amplo OR** = viagem + imobiliário + alto valor. Comportamentos: `6002714895372,6022788483583,6071631541183,6046096201583,6110813675983`. Interesses (todos validados no Meta): viagem `6003430696269,6003225930699,6003572379887,6003383552337,6003252231836,6014700397387,6003232334885` · imob `6003446239080,6003077334693,6004140335706,6002920953955,6003311653599,6788101567252,6003693537583,6002979192120` · alto valor `6007828099136,6003266225248,6003092209817`. Público BR ≈ **93,6M**. **iOS-only removido** (cortava ~metade).
 - Raio: **default 8km** (extrator) + **mínimo 8km** (`resolve_geo_criacao`). Piso de público **50k→300k**.
 - ⚠️ `delivery_estimate` NÃO estima geo `custom_locations` (lat/lng, raio<17) → retorna -1 → o piso NÃO afrouxa (bloco sobrevive, que é o certo). Só estima com `cities`/país.
-- **PENDENTE:** a `PUBS` do `build_targeting_atualizado` (ALTERAR_PUBLICO) ainda tem as defs estreitas antigas — só a CRIAÇÃO recebe blocos ricos. Enriquecer a PUBS é follow-up.
+- **Troca de público enriquecida (commit 4acee3c):** `build_targeting_atualizado` (ALTERAR_PUBLICO) agora também injeta os blocos ricos no público escolhido (paridade com a criação), exceto `Pub Auto 0` (aberto). Validado no Meta: troca renomeia o conjunto e aplica 5 comportamentos + 18 interesses.
+- **RENAME `Pub Quirk` → `Pub Auto` (commit 4acee3c):** todos os rótulos de público viraram "Pub Auto" (ex: Pub Auto 1, Pub Auto 2.3, Pub Auto Invest, Pub Auto Corretores). Renomeado consistente em 5 nós (build_extrator_body, build_targeting_atualizado [PUBS keys + PUBS_LIST], build_gestao_response, build_extrator_partial_publico_body, build_agente_body) — 0 "Pub Quirk" restante. O rótulo vira o **nome do conjunto no Meta** (o cliente vê). Campanhas antigas mantêm o rótulo "Pub Quirk X" gravado (histórico); novas usam "Pub Auto X".
