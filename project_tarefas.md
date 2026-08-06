@@ -5,10 +5,12 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-06T20:37:26.273Z
+  modified: 2026-08-06T22:12:55.356Z
 ---
 
 Gerenciador de tarefas do **time interno da Quirk** dentro da [[project_area_membros_quirk]] (cockpit/Portal da Equipe — nunca aparece pro cliente `member`). Inspirado na lista "Tarefas Tráfego" do ClickUp deles (list 901702083148, space Gestão de Projetos), mas com **cliente estruturado** em vez de `[CLIENTE]` no título. Spec/plano `docs/superpowers/specs|plans/2026-08-06-tarefas-parte1-*`.
+
+> **STATUS (re-verificado 06/ago, à noite):** v2 **mergeada e NO AR** — `git ls-remote origin main` = `9821de3` (ponta da feat/tarefas-v2) e `/api/listas-tarefas/gerir` responde 403 em prod (endpoint só existe na v2). Um chat paralelo tinha registrado "nunca mergeada" olhando a branch `main` **LOCAL** desatualizada — deploys são via `git push origin HEAD:main`, que NÃO move a ref local; sempre conferir com `git ls-remote origin main` ou `git fetch` antes de concluir estado da main.
 
 **Parte 1 (NO AR, 06/ago, branch feat/tarefas → main edea30b):** feito via subagent-driven (8 tasks TDD + review por task + review final MERGE).
 - **Collections:** `listas-tarefas` (status configuráveis POR LISTA, estilo ClickUp: `{slug,nome,cor,ordem,tipo:aberto|andamento|concluido}`, `minRows:1`) + `tarefas` (titulo/descricao/lista/status/responsaveis[users hasMany]/autor/prazo/prioridade[maxima|media|normal]/cliente[opcional]/concluidaEm). Status é validado contra a lista no hook `beforeChange` (`normalizarStatusTarefa`); `concluidaEm` derivado do `tipo=concluido`; `autor` sempre o criador. Acesso = `ehEquipe` em tudo (helper novo `isEquipe`); delete tbm = equipe.
