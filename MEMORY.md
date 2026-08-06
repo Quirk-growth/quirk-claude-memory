@@ -37,3 +37,4 @@
 - [Projeto: CRM Quirk](project_crm_quirk.md) — CRM multi-tenant na área de membros (Bolten+Imobilead); v1 no ar ago/2026; dono/gerente/vendedor; pendências: envs UAZAPI + validar payload real
 - [Projeto: Tarefas (time interno)](project_tarefas.md) — Gerenciador de tarefas do cockpit (estilo ClickUp, status por lista, cliente estruturado); Parte 1 no ar ago/2026; aba no Hub + menu Tráfego; Parte 2 = menções+inbox pendente
 - [Verificação de anunciante (Meta 3858634)](reference_verificacao_anunciante_meta.md) — Cliente não sobe campanha: conta precisa completar verificação de anunciante no Meta (não é nosso targeting); Ignite roda pq é BM verificado da Quirk
+- [Memória entre chats paralelos](feedback_memoria_multichat.md) — É UMA memória só (git+backup auto); protocolo: re-ler antes de escrever, edições cirúrgicas, fatos voláteis apontam COMO verificar (origin/main+prod, nunca main local)
