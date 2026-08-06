@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-06T09:37:22.749Z
+  modified: 2026-08-06T23:35:49.627Z
 ---
 
 Área de membros própria da Quirk pra clientes acessarem as mentorias que hoje ficam soltas no Google Drive. Em `/Users/renanreal/area-membros-quirk/` (repo git novo).
@@ -60,5 +60,7 @@ metadata:
 **Direção visual APROVADA (jul/2026) — DNA da LP Quirk Tech** (`/Users/renanreal/lp-quirk-tech/index.html`): fundo quase preto-azulado `#05080f` (bg-2 `#070c1a`, card `#0a1530`), brilhos radiais azuis rgba(29,128,255,.16) nos cantos, textura de grade sutil rgba(140,190,255,.04), cards de vidro `linear-gradient(160deg,rgba(18,32,62,.7),rgba(8,14,28,.7))` borda rgba(140,190,255,.12), títulos com degradê `linear-gradient(96deg,#fff,#9fcaff,#1D80FF,#6fdcff)` (background-clip text), botão primário `linear-gradient(100deg,#3a93ff,#0a5fd4)`, verde `#39b54a`, ciano `#6fdcff`, texto `#eaf1ff`/soft `#9fb2d4`/muted-azul `#8CBEFF`. Fontes Sora (títulos) + Poppins (corpo). 3 telas mockadas e aprovadas: login, home (resume "continue de onde parou" + cards das vertentes c/ barra), página da aula (player 16:9 + materiais + lista de aulas c/ ✓).
 
 **Como resetar o banco em dev:** node + pg → `DROP SCHEMA public CASCADE; CREATE SCHEMA public;` depois `npm run seed`. Payload em dev faz *push* do schema; ALTER em tabela existente abre prompt interativo que trava testes — por isso resetar quando necessário.
+
+**Trabalho paralelo em worktrees (06/ago/2026):** o projeto é tocado por vários chats simultâneos, cada um num **worktree do mesmo repo** (`area-membros-quirk`, `-acesso`, `-crm`, `-4`) — mesmo `.git`, então cada chat enxerga as branches dos outros sem precisar de push. O `-4` (`wip/chat-4`, saído de `main`) é o workspace curinga pra tarefa nova, com `BRIEFING.md` na raiz (não versionado) mapeando quem mexe em quê. Estado é volátil: conferir com `git worktree list` + `git branch -vv`, nunca assumir. ⚠️ Worktree novo nasce SEM `.env`, `test.env` e `node_modules` (nenhum é versionado) — copiar os envs e rodar `npm install`, senão nada roda. ⚠️ Branch que mexe em `src/components/admin/hub/*` colide feio com quem estiver no tema do portal (toca ~42 arquivos); tarefa de backend/coleção conflita no máximo em `payload.config.ts`/`payload-types.ts`. Ver [[feedback-memoria-multichat]] pro protocolo entre os chats.
 
 Spec e planos em `docs/superpowers/`. Reforça o [[feedback-isolamento-dados-clientes]] (ProgressoAula isolado por cliente). Marca em [[reference-quirk-brand]].
