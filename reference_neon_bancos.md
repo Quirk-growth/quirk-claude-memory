@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-07-30T13:14:59.945Z
+  modified: 2026-08-07T12:38:18.894Z
 ---
 
 Postgres da [[project-area-membros-quirk]] / [[project-painel-relatorios]] é **Neon**, org "Quirk Growth" (plano **Launch/pago** desde 24/jul/2026).
@@ -22,6 +22,10 @@ Postgres da [[project-area-membros-quirk]] / [[project-painel-relatorios]] é **
 **LIÇÃO (incidente 24/jul):** antes, o banco de teste (`neondb_test`) ficava no MESMO projeto Neon da produção. A **cota de transferência do Neon é POR PROJETO** — então rodar a suíte (dezenas de `npx vitest run`, cada um puxa schema + ~142 testes de integração pela rede) consumiu a cota compartilhada e **derrubou a produção** (todas as rotas que tocam o banco → 500 "exceeded the data transfer quota"; só `/login`, que é client component, respondia). Resolvido: Renan subiu pro plano Launch (volta na hora) + separamos o teste num projeto Neon próprio. `vitest.setup.ts` já recusa rodar se `DATABASE_URI_TEST === DATABASE_URI`.
 
 **Regra prática:** teste nunca deve compartilhar projeto Neon com produção. Ideal futuro: Postgres local (Renan recusou instalar Postgres.app em jul/26). Sem Postgres/Docker/brew na máquina do Renan.
+
+**BANCO DE TESTE POR BRANCH (07/ago/2026) — quando há chats paralelos.** O banco de teste é compartilhado entre os worktrees, e em dev o Payload faz *push* de schema. Resultado: a branch A empurra uma coluna nova, a branch B (que não a tem) tenta **DROPAR** essa coluna ao rodar, o drizzle pede confirmação interativa, não há TTY, e **toda a suíte de integração trava por timeout** — em qualquer branch, não só na que causou. Aconteceu com `users.preferencias` (criada por `feat/tema-portal`) travando `feat/home-remodelada`. Sintoma que engana: parece bug do teste novo, mas specs pré-existentes e sem relação travam igual — é o teste de 10 segundos que confirma a causa. **Solução adotada:** um banco por branch **dentro do MESMO projeto Neon de teste** (a cota é por projeto; criar projeto novo é que seria problema). Receita: `CREATE DATABASE neondb_<tema>` conectando no endpoint **DIRETO** (sem `-pooler`; CREATE DATABASE não roda no pooler nem em transação), depois trocar só o path do `DATABASE_URI_TEST` no `.env` **daquele worktree** (`.env` não é versionado, é por-worktree). Criado assim: `neondb_home`. ⚠️ Nunca deixar backup tipo `.env.bak` na pasta: `.env` é gitignored mas `.env.*` **não** — viraria credencial versionada.
+
+⚠️ **A trava do `vitest.setup.ts` compara a STRING inteira** de `DATABASE_URI_TEST` vs `DATABASE_URI`. Se as duas apontassem pro mesmo host e banco diferindo só por credencial/parâmetro, ela passaria e os testes escreveriam em produção. Conferir **host + nome do banco**, não confiar na trava: hoje prod é `ep-patient-hill-acxg3aix` e teste é `ep-rough-thunder-acyzl9k2`, e o banco se chama `neondb` nos DOIS — só o host separa.
 
 **Pendência de higiene:** a senha do projeto de teste (`npg_...`) passou pelo chat — rotacionar no Neon (Reset password do projeto area-membros-testes). Não urgente (banco descartável, sem dado real).
 
