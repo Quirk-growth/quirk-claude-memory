@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-06T22:12:55.356Z
+  modified: 2026-08-07T01:40:35.076Z
 ---
 
 Gerenciador de tarefas do **time interno da Quirk** dentro da [[project_area_membros_quirk]] (cockpit/Portal da Equipe — nunca aparece pro cliente `member`). Inspirado na lista "Tarefas Tráfego" do ClickUp deles (list 901702083148, space Gestão de Projetos), mas com **cliente estruturado** em vez de `[CLIENTE]` no título. Spec/plano `docs/superpowers/specs|plans/2026-08-06-tarefas-parte1-*`.
@@ -28,4 +28,6 @@ Gerenciador de tarefas do **time interno da Quirk** dentro da [[project_area_mem
 
 **Minors deferidos (v2):** `concluidaEm` não re-deriva quando supervisor muda o `tipo` de um status em uso; teste int de etiquetas não exercita o dedupe via endpoint; input color exige hex 6 dígitos.
 
-**PENDENTE:** verificação user-facing (login de equipe do Renan em /admin/tarefas + aba do Hub). **Parte 2 = MENÇÕES (@) nos comentários (Comercial/Anotações/Rotina) + CAIXA DE ENTRADA por pessoa + sino/contador** — próximo módulo, pluga em cima desta base (spec/plano próprios).
+**PENDENTE (v1/v2):** verificação user-facing (login de equipe do Renan em /admin/tarefas + aba do Hub).
+
+**Parte 2 = CAIXA DE ENTRADA da equipe — NO AR (06/ago; verificar: `curl -s -o /dev/null -w '%{http_code}' https://membros.quirkgrowth.com.br/api/notificacoes/painel` → 403=vivo).** Branch feat/caixa-entrada-equipe (15 commits) rebaseada em origin/main → `bf2d901`, deploy via `git push HEAD:main`. Spec/plano `docs/superpowers/{specs,plans}/2026-08-06-caixa-entrada-equipe*`. Feito via SDD (8 tasks + review por task + review final opus "Ready with fixes" — **isolamento AIRTIGHT**). **Coleção `notificacoes`** (equipe-only, `read` só do próprio destinatário; **DDL APLICADA em prod**: enums nomeados + coluna de lock `payload_locked_documents_rels.notificacoes_id`). **Gatilhos:** atribuição (novo responsável em tarefa, diff, sem auto-notificar) + **@-menção** nos comentários de Tarefas/Anotações-cliente/CRM-lead (gated `ehEquipe` SERVER-SIDE — member NUNCA dispara/recebe/vê; no CRM usa o `role` real, não o gate de negócio). **Endpoints** `/api/notificacoes/{painel,acao,equipe}` fail-closed 403. **Sino+painel** no `AvatarConta` (topo direita, 2 seções: Novidades não-lidas + Atribuídas a mim; item→marca lida+deep-link; "ver todas"→/admin/tarefas?eu=1). **Typeahead `@`** só-equipe (`MencaoTextarea`, degrada pra textarea puro no 403). PENDENTE: verificação user-facing do Renan logado. FOLLOW-UPS (não bloqueiam; ledger `.superpowers/sdd/progress.md`): parseMencoes Ana/Ana-Paula casa 2; usuariosEquipe sem filtro `ativo`; deep-link anotacao sem `&aba`; worklist não filtra concluído; novidades não ordena não-lida-primeiro. INFRA: `DATABASE_URI_TEST` compartilhado entre worktrees trava `tests/int` no drizzle push — isolar por worktree.
