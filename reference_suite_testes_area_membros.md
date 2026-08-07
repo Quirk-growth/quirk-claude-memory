@@ -1,11 +1,11 @@
 ---
 name: reference-suite-testes-area-membros
-description: "Suíte de testes da área de membros — banco de teste compartilhado que incha e trava o reconcile, cegueira de tipos em tests/, e os stubs de vitest (next/cache, CSS do Payload)"
+description: "Suíte de testes da área de membros — schema do banco de teste dessincroniza e derruba tudo (causa nº1), globalSetup que zera o banco, checagem de tipos dos testes, e os stubs de vitest"
 metadata: 
   node_type: memory
   type: reference
   originSessionId: 01cb3caa-2faf-418f-851d-4b7662439309
-  modified: 2026-08-07T13:35:02.611Z
+  modified: 2026-08-07T13:35:08.324Z
 ---
 
 Como a suíte da [[project_area_membros_quirk]] se comporta (07/ago/2026: **164 arquivos / 591 testes verdes, ~4min30s**; conferir rodando `NODE_ENV=production npx vitest run` — o `NODE_ENV=production` desliga o `push` do Drizzle e evita o prompt interativo que trava a suíte quando o schema do banco de teste diverge).
