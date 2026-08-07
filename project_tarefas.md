@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-07T01:40:35.076Z
+  modified: 2026-08-07T20:44:22.620Z
 ---
 
 Gerenciador de tarefas do **time interno da Quirk** dentro da [[project_area_membros_quirk]] (cockpit/Portal da Equipe — nunca aparece pro cliente `member`). Inspirado na lista "Tarefas Tráfego" do ClickUp deles (list 901702083148, space Gestão de Projetos), mas com **cliente estruturado** em vez de `[CLIENTE]` no título. Spec/plano `docs/superpowers/specs|plans/2026-08-06-tarefas-parte1-*`.
@@ -31,6 +31,8 @@ Gerenciador de tarefas do **time interno da Quirk** dentro da [[project_area_mem
 **Ajustes v2.1 (07/ago, → main 5c01f37, NO AR):** board na LARGURA TOTAL (caiu o maxWidth 1100 da TarefasView) + **recolher/expandir por status** (chevron no cabeçalho; Lista esconde a seção, Kanban vira barra vertical estreita de 46px com contador que ainda aceita drop; estado por sessão, chaveado por slug em Set). Gerenciar status confirmado como está (admin+supervisor+administrativo). No merge veio o fix do chat paralelo 7ce2b71: preferências gravam SEM payload.update (deslogava — ver [[reference_payload_update_sessions]]).
 
 **v2.2 (07/ago, → main a7e4a2b, NO AR):** etiquetas — qualquer equipe ADICIONA, excluir só supervisor+ (trava no servidor: ações `etiquetas` e `editar` comparam com as atuais via `etiquetasRemovidas` de src/lib/tarefas/etiquetasRegra.ts, 403 na remoção sem permissão; UI esconde o X via prop `podeExcluirEtiqueta` nas views). + fix: campo Anotações do Hub/Resumo sem background caía no cinza default do navegador em dark (só esse call-site do MencaoTextarea faltava).
+
+**Parte 3 = PERFIL DA PESSOA + @menção CLICÁVEL — NO AR (07/ago; verificar: `curl -s -o /dev/null -w '%{http_code}' 'https://membros.quirkgrowth.com.br/api/pessoas/perfil?id=1'` → 403=vivo).** Onda 1 de 2. Branch feat/perfil-pessoa (SDD, 6 tasks + review opus "Ready to merge") rebaseada 2× e mergeada → main `679d3c3` (sem DDL — tudo derivado). Spec/plano `docs/superpowers/{specs,plans}/2026-08-07-perfil-pessoa-mencao-clicavel*`. **`@Nome` vira chip clicável** nos 3 comentários (`TextoComMencoes` via `segmentarMencoes` + `useEquipe`; degrada pra texto puro se equipe vazia) → **popover** (`PerfilPopover`+provider: avatar/role/email/telefone + Ver perfil + Chat[em breve]) → **página `/admin/pessoa?id=`** (`PessoaView`) com tarefas (aberto/concluídas) + atividade recente. Endpoint `GET /api/pessoas/perfil` + `carregarPerfil` (lib) — **gate DUPLO `ehEquipe`** (chamador + alvo), equipe-only, isolamento hermético. **Onda 2 = chat de DM** (mensageria, coleção nova → `payload-migracao-prod`) — spec própria. **PENDENTE:** verificação user-facing (Renan: clique→popover→página). **Decisões/follow-ups:** feed de atividade é só-notificação (spec previa incluir eventos de tarefa; `montarAtividade(notifs,pessoaId)`; union 'tarefa-criada' é dead code); perfil é EQUIPE-WIDE não por-carteira (gestor vê tarefas/clientes de outro membro — não fere regra de ouro, é visibilidade intra-equipe); minors (id ausente→403; ROTULO_ROLE duplicado). **@menção clicável só nos comentários** (fora deles, estender depois reusando o popover).
 
 **PENDENTE (v1/v2):** verificação user-facing (login de equipe do Renan em /admin/tarefas + aba do Hub).
 
