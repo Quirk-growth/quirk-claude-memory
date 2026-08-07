@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-07T03:18:42.421Z
+  modified: 2026-08-07T12:39:37.266Z
 ---
 
 Área de membros própria da Quirk pra clientes acessarem as mentorias que hoje ficam soltas no Google Drive. Em `/Users/renanreal/area-membros-quirk/` (repo git novo).
@@ -64,5 +64,20 @@ metadata:
 **Como resetar o banco em dev:** node + pg → `DROP SCHEMA public CASCADE; CREATE SCHEMA public;` depois `npm run seed`. Payload em dev faz *push* do schema; ALTER em tabela existente abre prompt interativo que trava testes — por isso resetar quando necessário.
 
 **Trabalho paralelo em worktrees (06/ago/2026):** o projeto é tocado por vários chats simultâneos, cada um num **worktree do mesmo repo** (`area-membros-quirk`, `-acesso`, `-crm`, `-4`) — mesmo `.git`, então cada chat enxerga as branches dos outros sem precisar de push. O `-4` (`wip/chat-4`, saído de `main`) é o workspace curinga pra tarefa nova, com `BRIEFING.md` na raiz (não versionado) mapeando quem mexe em quê. Estado é volátil: conferir com `git worktree list` + `git branch -vv`, nunca assumir. ⚠️ Worktree novo nasce SEM `.env`, `test.env` e `node_modules` (nenhum é versionado) — copiar os envs e rodar `npm install`, senão nada roda. ⚠️ Branch que mexe em `src/components/admin/hub/*` colide feio com quem estiver no tema do portal (toca ~42 arquivos); tarefa de backend/coleção conflita no máximo em `payload.config.ts`/`payload-types.ts`. Ver [[feedback-memoria-multichat]] pro protocolo entre os chats.
+
+**HOME REMODELADA — NO AR (07/ago/2026, mergeada na main).** A tela inicial saiu de "KPIs de anúncios + três cartões *em breve*" para **duas camadas**: (1) **fila de ação** pessoal "Precisa de você" — tarefas atrasadas/vencendo, lead parado, SLA estourado, reunião de hoje, pré-fechamento, cliente que entrou em Risco/Renovação, contrato sem assinatura; (2) **cartões de pulso** Tráfego/Comercial/Carteira, que resumem e encaminham pras telas dedicadas em vez de competir com elas. Fila com 3 estados (minimizada — some mas o contador fica; padrão 5; expandida 10). Agenda ficou como espaço reservado: os eventos vivem no Google e ler a agenda de cada pessoa é projeto próprio (o `agendaWebhook.ts` só ESCREVE lá, e a conexão do Make 3704159 está quebrada desde mai/26).
+
+Arquitetura: seletores puros em `src/lib/home/*` (`acaoTarefas`/`acaoComercial`/`acaoClientes`/`acaoContratual`/`pulso`/`fila`/`regras`), componentes burros em `src/components/admin/home/`, e **`src/lib/home/painel.ts` (`widgetsDoPainel(role)`) como fonte única de quem vê o quê** — no mesmo idioma do `menuAdmin.ts`. Bloco não autorizado **nem é consultado** (segurança, não só filtragem no fim). `PainelInicialView` virou orquestrador de 69 linhas.
+
+**Decisões de produto do Renan (não reverter sem falar com ele):**
+- **NENHUM dado financeiro na home** — sem MRR, a receber, inadimplência ou valor de contrato/pipeline. **Exceção deliberada:** o cartão de Tráfego mostra "Investido R$", que é verba de campanha do CLIENTE, não faturamento da Quirk, e já era exibido antes.
+- **Papel `comercial` passou a ter home** (antes era redirecionado direto pro /admin/comercial).
+- **Contrato sem assinatura só é cobrado se criado nos últimos 30 dias** (`DIAS_CONTRATO_RECENTE`). Motivo concreto: produção tinha 12 contratos em aberto, **11 com +60 dias e o mais antigo de ago/2024** — sem janela, ele ficaria cravado em vermelho na posição #1 da home de todo admin para sempre, comendo 20% de uma fila de 5.
+- **Etapa `ganhou` fica FORA da regra de "lead parado"** — pro Renan o contrato só fecha de verdade quando vai pro Hub, então `ganhou` é ganho, não lead parado. Segue contado no pulso como "Contratos do mês".
+- Card "Social media" foi removido em vez de virar mais um "em breve".
+
+**Campo novo `clientes.statusDesde`** (+ hook `carimbarStatusDesde` em beforeChange): carimba QUANDO o status mudou — `updatedAt` não serve, muda a cada edição de qualquer campo. DDL aplicada à mão em prod ANTES do deploy (push OFF em prod), `scripts/ddl/2026-08-06-status-desde.sql`. **Sem backfill de propósito** → o bloco "cliente mudou de estado" nasce vazio e enche sozinho. ⚠️ O hook roda em TODA escrita de cliente: se o código subisse sem a coluna, quebraria hub, sync, reconcile e onboarding, não só a home.
+
+Construído por SDD (11 tasks TDD + revisão com mutation testing por tarefa + revisão final da branch inteira). Spec e plano em `docs/superpowers/`. 499 testes unitários + 4 de integração verdes.
 
 Spec e planos em `docs/superpowers/`. Reforça o [[feedback-isolamento-dados-clientes]] (ProgressoAula isolado por cliente). Marca em [[reference-quirk-brand]].
