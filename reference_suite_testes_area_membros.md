@@ -5,10 +5,10 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 01cb3caa-2faf-418f-851d-4b7662439309
-  modified: 2026-08-07T13:35:08.324Z
+  modified: 2026-08-07T13:35:18.115Z
 ---
 
-Como a suíte da [[project_area_membros_quirk]] se comporta (07/ago/2026: **164 arquivos / 591 testes verdes, ~4min30s**; conferir rodando `NODE_ENV=production npx vitest run` — o `NODE_ENV=production` desliga o `push` do Drizzle e evita o prompt interativo que trava a suíte quando o schema do banco de teste diverge).
+Como a suíte da [[project_area_membros_quirk]] se comporta. Conferir com `NODE_ENV=production npx vitest run` (o `NODE_ENV=production` desliga o `push` do Drizzle e evita o prompt interativo que trava a suíte — mas veja o aviso de SCHEMA logo abaixo). Em 07/ago/2026 fechou **730/732** na main: as 2 que restam são `tests/unit/fila-de-acao.spec.tsx` (`act is not a function` — no React 19 o `act` mudou de lugar), que vieram com a home nova e falham igual na main limpa. Antes de culpar sua mudança por qualquer falha, **rode o mesmo arquivo em `git switch --detach origin/main`** — foi assim que separei o que era meu do que já estava quebrado, duas vezes.
 
 ⚠️ **SCHEMA DO BANCO DE TESTE DESSINCRONIZA — causa nº1 de "a suíte quebrou inteira".** Rodar com `NODE_ENV=production` desliga o `push` do Drizzle, e é o `push` que sincroniza o schema do banco de teste com o código. Quando OUTRO chat sobe campo/coleção nova, o banco de teste fica pra trás e **dezenas de arquivos falham de uma vez**. Sintoma inconfundível: N erros IDÊNTICOS de `column "<algo>" of relation "<tabela>" does not exist` (07/ago: 56 arquivos / 60 erros por causa de `clientes.status_desde` da home nova). **NÃO é regressão — é schema velho.** Cura: rodar UMA vez um teste de integração SEM `NODE_ENV=production` (`npx vitest run tests/int/clientes.int.spec.ts`) e deixar o push sincronizar; adicionar coluna é aditivo e não abre prompt. Depois voltar ao `NODE_ENV=production`.
 
