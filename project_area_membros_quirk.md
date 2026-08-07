@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-07T12:39:37.266Z
+  modified: 2026-08-07T18:37:42.075Z
 ---
 
 Área de membros própria da Quirk pra clientes acessarem as mentorias que hoje ficam soltas no Google Drive. Em `/Users/renanreal/area-membros-quirk/` (repo git novo).
@@ -81,5 +81,11 @@ Arquitetura: seletores puros em `src/lib/home/*` (`acaoTarefas`/`acaoComercial`/
 **Campo novo `clientes.statusDesde`** (+ hook `carimbarStatusDesde` em beforeChange): carimba QUANDO o status mudou — `updatedAt` não serve, muda a cada edição de qualquer campo. DDL aplicada à mão em prod ANTES do deploy (push OFF em prod), `scripts/ddl/2026-08-06-status-desde.sql`. **Sem backfill de propósito** → o bloco "cliente mudou de estado" nasce vazio e enche sozinho. ⚠️ O hook roda em TODA escrita de cliente: se o código subisse sem a coluna, quebraria hub, sync, reconcile e onboarding, não só a home.
 
 Construído por SDD (11 tasks TDD + revisão com mutation testing por tarefa + revisão final da branch inteira). Spec e plano em `docs/superpowers/`. 499 testes unitários + 4 de integração verdes.
+
+**AGENDA DO TIME — NO AR (07/ago/2026, `feat/agenda-time` mergeada, deploy 93e2467).** Cada pessoa da equipe conecta a **URL secreta iCal** da própria agenda (Google: Configurações→Integrar agenda→Endereço secreto iCal; funciona igual no Outlook — 1 pessoa do time usa) em `/admin/minha-agenda` (item na engrenagem). **Por que iCal e não OAuth:** time é 14×gmail.com sem Workspace → app OAuth seria Externo com escopo sensível = verificação do Google (semanas) ou tokens expirando em 7 dias; iCal não expira e cobre o Outlook. Troca futura por OAuth = substituir a camada de eventos, telas ficam.
+- **Privacidade (decisão do Renan):** cada um vê a própria; `ehSupervisorOuAcima` vê TODAS (tela `/admin/agenda-time`, linhas por pessoa, navegação ?dia= na janela de 7d, menu via TRAFEGO_GESTAO). Aviso na cara da pessoa ANTES de colar a URL: quem vê, o que é lido, desconectar apaga tudo (eventos ANTES do registro, pra falha parcial não deixar dado sensível órfão).
+- **Arquitetura:** URL cifrada AES-256-GCM (chave própria `AGENDA_SECRET_KEY`, fail-closed, NUNCA PAYLOAD_SECRET — rotacionar não desloga) em coleção `agendas` (1/pessoa, NÃO em Users — payload.update em Users desloga); `urlNuncaLegivel` nega leitura até pra admin. Sync 30/30min (n8n `zgXtFDgwPQQZcAbt` → POST `/api/agenda/sync`, header x-sync-secret cred `1cWXZL2pvhbCOyA8`, timeout 290s) baixa/expande/materializa em `agenda-eventos` na janela hoje→+7d; falha isolada por pessoa (`ultimoErro` SANITIZADO — nunca ecoa a URL). Parser: `ical-expander@3.2.0` + `.d.ts` próprio, fixture com 6 casos (RRULE, RECURRENCE-ID, EXDATE, dia inteiro, fuso NY, meia-noite) como contrato. Self-service `POST /api/agenda/minha` (id SEMPRE da sessão; anti-SSRF incl. redirect validado salto a salto, teto 5MB no download; "Atualizar agora" com trava 60s persistida).
+- **Bug que a revisão final pegou (lição):** delete do sync com limite inferior deixava eventos passados órfãos pra sempre → como as leituras eram sort ascendente sem filtro de data, em ~3 semanas home e tela do time mostrariam "dia livre" PARA SEMPRE, em silêncio. Consertado: delete `< ate`, leituras filtram por SOBREPOSIÇÃO com o dia (`inicio < fimDoDia AND fim > inicioDoDia` — senão evento que atravessa a meia-noite some), teste int com dois "agora" diferentes.
+- **PENDENTE pra funcionar:** Renan colar `AGENDA_SECRET_KEY` no Render (gerada e entregue em arquivo 07/ago; sem ela conectar/sync respondem 503 — fail-closed, nada quebra). Follow-ups registrados no ledger do worktree -4: paralelizar sync (sequencial, pior caso ~4min/16 feeds), trava de sync concorrente, verificação visual das telas.
 
 Spec e planos em `docs/superpowers/`. Reforça o [[feedback-isolamento-dados-clientes]] (ProgressoAula isolado por cliente). Marca em [[reference-quirk-brand]].
