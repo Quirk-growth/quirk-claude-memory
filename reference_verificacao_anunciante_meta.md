@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
-  modified: 2026-08-06T18:58:41.839Z
+  modified: 2026-08-10T14:52:42.960Z
 ---
 
 No [[project_quirk_auto_ads]], clientes podem não conseguir subir campanha com o erro Meta **subcode 3858634** (`compliance_section`, "O anunciante está ausente / Forneça um anunciante verificado para veicular nas localizações selecionadas"). Falha no `meta_d2_adset` (criação do conjunto).
@@ -14,4 +14,6 @@ No [[project_quirk_auto_ads]], clientes podem não conseguir subir campanha com 
 
 **Fix de mensagem (commit e427703):** `check_meta_results` detecta 3858634 → `classe='verificacao'` + motivo claro; `build_agente_body` força mensagem determinística (proíbe "falha técnica", proíbe citar região/Perdizes, proíbe pedir reenvio/SUBIR DENOVO — só a verificação da conta resolve). O `rollback` (também no check_meta_results) apaga a campanha órfã da tentativa.
 
-**Ação REAL (fora do sistema):** o dono da conta precisa concluir a verificação no **Gerenciador de Negócios → Central de Segurança → verificação de identidade do anunciante**. A Quirk pode fazer se tiver acesso admin ao BM do cliente. **Follow-up sugerido:** precheck no ONBOARDING (rodar um `validate_only` de adset) pra avisar o cliente que precisa verificar ANTES de montar campanha, evitando frustração.
+**Ação REAL (fora do sistema):** o dono da conta precisa concluir a verificação no **Gerenciador de Negócios → Central de Segurança**. A Quirk pode fazer se tiver acesso admin ao BM do cliente. **Follow-up sugerido:** precheck no ONBOARDING (rodar um `validate_only` de adset) pra avisar o cliente que precisa verificar ANTES de montar campanha.
+
+**⚠️ Atualização 10/ago (caso Chrystian de novo):** o cliente enviou documento de IDENTIDADE dentro da campanha (Ads Manager) e o Meta aprovou — MAS a criação via nossa API **continua dando 3858634**. Testado ao vivo com `validate_only`: país BR, custom_locations, com/sem DSA, e até com o beneficiário EXATO que o Meta recomenda (`GET /act_{id}/dsa_recommendations` → "Depaula.corretor") — TODOS falham. Conclusões: (1) a **verificação de IDENTIDADE do anunciante ≠ verificação de BENEFICIÁRIO E PAGADOR (compliance_section/DSA)** — são coisas diferentes; a de identidade não desbloqueia CTWA via API. (2) usar o beneficiário do `dsa_recommendations` NÃO resolve enquanto o beneficiário do negócio não estiver verificado. (3) a IA NÃO está presa/stale — a execução real (25911) rodou o `meta_d2` e falhou de verdade; ela reporta a falha correta. (4) pode haver propagação (~48h) após verificar. Nada disso é fixável pela nossa API — é estado da conta no Business Manager do cliente.
