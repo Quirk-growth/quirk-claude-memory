@@ -46,3 +46,4 @@
 - [Relatório de perfil IG — bloco de Conteúdo (Fase 2a)](project_relatorio_perfil_ig.md) — coleção publicacoes-sociais + sync media/stories + top por alcance no relatório; deploy ago/2026, popula do cron pra frente
 - [Render: memória/OOM da área de membros](reference_render_memoria_oom.md) — instância Standard 2GB (era 512MB e dava OOM/502 no deploy); start precisa de --max-old-space-size=1536; render.yaml plan:standard; rollback com --no-verify --force-with-lease
 - [Acompanhar deploy até verde](feedback_acompanhar_deploy_ate_verde.md) — em deploy de prod, esperar o Render ficar live/verde + site 200 estável antes de dizer "no ar"; declarei cedo e a prod caiu (OOM) sem eu ver
+- [Papel Social Media](reference_papel_social_media.md) — role 'social' com carteira socialMedias, Hub restrito (6 abas), Mensagens; fail-closed nas coleções sensíveis; LIÇÃO: liberar tela pra papel restrito pode vazar cross-tenant por listas internas que assumem 'todos'
