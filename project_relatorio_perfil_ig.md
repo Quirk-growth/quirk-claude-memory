@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-08-11T00:55:15.179Z
+  modified: 2026-08-11T12:22:21.094Z
 ---
 
 Relatório de social media da Quirk (substitui o que se perdeu do Reportei), dentro da área de membros ([[project_painel_relatorios]]). Reusa o pipeline social (coleção `metricas-sociais`, sync `instagram.ts` com token System User em `META_ACCESS_TOKEN`, componentes do relatório de mídia — sem estilo novo, restrição do Renan).
@@ -17,4 +17,4 @@ O deploy da Fase 2a (10/ago) **derrubou a prod com OOM/502** — não era bug de
 
 **Pendências do Renan (lado Meta, o bloco fica ZERADO até isso):** (1) ligar "mostrar perfil do Instagram" nos clientes de social; (2) reconciliar ~21 `igUserId` quebrados (perfis fora da BM que o token enxerga) — de-para já levantado. Stories não têm retroativo (só acumulam do deploy pra frente); posts/reels o cron popula até o teto de 50 mídias.
 
-**Fase 2b (futuro, spec própria):** 4 métricas de perfil — comparação com período anterior, alcance seguidores×não-seguidores, taxa de engajamento, melhores horários (`online_followers`).
+**Fase 2b (no ar, ago/2026, commit cfcf5b8):** 3 métricas na seção de perfil — comparação com período anterior (setas de delta nos KPIs; N/A até o histórico acumular), taxa de engajamento (Interações÷Alcance) e alcance seguidores×não-seguidores (barra de proporção, `reach&breakdown=follow_type&metric_type=total_value`, +2 colunas `alcance_seguidores`/`alcance_nao_seguidores`). **Melhores horários (`online_followers`) CORTADO** pelo Renan. Deploy nos 2 GB sem OOM. GOTCHA que o review final pegou: `pct()` (Intl percent) já multiplica por 100 — não pré-multiplicar taxa/deltas (são fração); e o token do azul da marca é `--accent` (`#1d80ff`), NÃO `--primary` (inexistente). Fora da 2b: heatmap dia×hora, follows_and_unfollows.
