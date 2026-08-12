@@ -47,3 +47,5 @@
 - [Render: memória/OOM da área de membros](reference_render_memoria_oom.md) — instância Standard 2GB (era 512MB e dava OOM/502 no deploy); start precisa de --max-old-space-size=1536; render.yaml plan:standard; rollback com --no-verify --force-with-lease
 - [Acompanhar deploy até verde](feedback_acompanhar_deploy_ate_verde.md) — em deploy de prod, esperar o Render ficar live/verde + site 200 estável antes de dizer "no ar"; declarei cedo e a prod caiu (OOM) sem eu ver
 - [Papel Social Media](reference_papel_social_media.md) — role 'social' com carteira socialMedias, Hub restrito (6 abas), Mensagens; fail-closed nas coleções sensíveis; LIÇÃO: liberar tela pra papel restrito pode vazar cross-tenant por listas internas que assumem 'todos'
+- [GOTCHA: coluna órfã corpo trava dev local](reference_modeloscontrato_corpo_orfa.md) — ModelosContrato.corpo removido do código (4846dbf) mas ainda no banco; npm run dev trava em prompt de DATA LOSS (y/N) — nunca confirmar, matar processo
+- [Git auth: origin trocado pra SSH](reference_git_auth_ssh.md) — credencial HTTPS do osxkeychain expirou (11/ago); origin do area-membros-quirk agora usa git@github.com:Quirk-growth/...
