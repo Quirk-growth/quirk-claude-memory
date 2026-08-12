@@ -49,3 +49,4 @@
 - [Papel Social Media](reference_papel_social_media.md) — role 'social' com carteira socialMedias, Hub restrito (6 abas), Mensagens; fail-closed nas coleções sensíveis; LIÇÃO: liberar tela pra papel restrito pode vazar cross-tenant por listas internas que assumem 'todos'
 - [GOTCHA: coluna órfã corpo trava dev local](reference_modeloscontrato_corpo_orfa.md) — ModelosContrato.corpo removido do código (4846dbf) mas ainda no banco; npm run dev trava em prompt de DATA LOSS (y/N) — nunca confirmar, matar processo
 - [Git auth: origin trocado pra SSH](reference_git_auth_ssh.md) — credencial HTTPS do osxkeychain expirou (11/ago); origin do area-membros-quirk agora usa git@github.com:Quirk-growth/...
+- [Agenda: grid do time + vínculo no perfil](reference_agenda_time_grid.md) — agenda do time virou grid de horário em colunas (livres em comum, agora, filtro); vínculo só pelo perfil via link iCal PÚBLICO (não secreto); lógica testada em agenda/grid.ts
