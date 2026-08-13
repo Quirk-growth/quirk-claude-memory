@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-08-05T15:00:58.388Z
+  modified: 2026-08-13T15:55:25.233Z
 ---
 
 Automação **pós-assinatura** trazida do Make (cenário 3570588) pra dentro da [[project_area_membros_quirk]] (ago/2026). Gatilho: **webhook do Autentique** — quando o contrato vira `assinado`, dispara `executarOnboarding(payload, clienteId)` (não-bloqueante) que, idempotente:
@@ -25,4 +25,6 @@ Automação **pós-assinatura** trazida do Make (cenário 3570588) pra dentro da
 + o passo do Drive agora espelha o link em `clientes.pastaArquivos` (aba "Links e assets" do hub), sem sobrescrever link posto à mão.
 
 ⚠️ **Recuperação de grupo já criado sem JID gravado:** pegar o JID em `GET /group/list`, gravar em `clientes.grupo_whatsapp_jid`, e rodar o onboarding de novo — ele pula a criação e completa o resto. A mensagem de boas-vindas NÃO reenvia nesse reprocesso (só sai quando o grupo nasce na mesma execução); mandar à mão se precisar.
+**GAP DO GATILHO corrigido em 13/ago (commit `a3109a3`) — Perina (cliente 123, contrato 71): assinado, grupo não abriu, `onboarding_status` = NULL (nem tentou; se tivesse rodado e falhado seria 'erro').** Causa: o onboarding só disparava no **webhook do Autentique** na transição pra assinado. O **`syncContratos.ts`** (backstop diário) marcava o contrato como assinado + propagava `dataFechamento` MAS não chamava `executarOnboarding` → webhook perdido/atrasado = grupo nunca abre, silencioso (sem erro gravado). Fix: o `syncContratos` agora dispara `executarOnboarding` na transição (`doc.status==='assinado' && statusAntes!=='assinado'`), idempotente. Perina já estava assinado (sem transição) → NÃO reprocessa; grupo dele foi feito na mão. Diagnóstico: `onboarding_status` NULL no cliente = gatilho não rodou; 'erro' = rodou e falhou. **PENDENTE (Renan pediu, não feito):** sinalização no Cadastro (grupo aberto ✓/não + explicação) + "registrar grupo manual" (senão o botão Reprocessar com `grupoWhatsappJid` vazio CRIA grupo duplicado — o footgun do Perina).
+
 ⚠️ **Antes de afirmar que uma mensagem do global está vazia, LEMBRAR da coluna `mensagem_cliente_d_m`** (gotcha 4 acima). Em 11/ago consultei `mensagem_cliente_dm`, veio vazio e eu concluí que o texto não existia — estava configurado o tempo todo, e o diagnóstico falso quase escondeu o bug 3.
