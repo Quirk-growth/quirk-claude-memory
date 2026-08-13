@@ -1,0 +1,20 @@
+---
+name: feedback-git-repo-compartilhado-sessoes
+description: Sessões paralelas no mesmo diretório de projeto compartilham o MESMO .git local — push de uma sessão carrega os commits locais de todas
+metadata: 
+  node_type: memory
+  type: feedback
+  originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
+  modified: 2026-08-13T01:37:15.926Z
+---
+
+Quando várias sessões/chats do Claude Code rodam apontando pro mesmo diretório de projeto no disco (ex.: `/Users/renanreal/area-membros-quirk-crm`), elas compartilham literalmente o mesmo `.git` local — não é só "várias sessões editando o mesmo repo remoto", é o mesmo checkout físico. Isso significa: se a Sessão A faz commits locais (mesmo sem dar `git push`) e a Sessão B, trabalhando numa feature diferente, roda `git fetch`/`git merge origin/main` seguido de `git push`, o push da Sessão B leva junto TODOS os commits da Sessão A que estavam alcançáveis pelo HEAD compartilhado — mesmo que a Sessão A nunca tenha pedido push nem tenha terminado sua checklist de deploy.
+
+**Como isso apareceu**: em 12/ago/2026, terminei toda a revisão (per-task + whole-branch, 2 rodadas) da feature "dono/gerente vira vendedor de si mesmo" e estava prestes a dar `git push` depois da checagem final de testes. Ao reconferir `origin/main` antes do push, descobri que meus commits (`77aa9d5` etc.) já estavam lá — outra sessão paralela, trabalhando na feature "painel de atividade do lead" (construída em cima do meu código), já tinha dado push e levado minha feature junto. Confirmei via Render (`Deploy live for 54fcc11`) que já estava em produção. Não havia nada pra eu empurrar.
+
+**Sintoma relacionado**: durante essa mesma investigação, `origin/main` avançou 3 vezes em menos de 2h (3 sessões diferentes empurrando features distintas em paralelo: perfil/agenda, emails do comercial, e a de painel de atividade). Cada vez que eu rodava a suíte completa de testes, ela travava em massa (95-104 arquivos falhando) num prompt interativo do Drizzle ("Accept warnings and push schema to database? y/N") que nunca é respondido em processo não-interativo — muito provavelmente contenção no banco de teste compartilhado sob push concorrente de múltiplas sessões rodando suíte ao mesmo tempo, não um bug real de código (ver [[reference_suite_testes_area_membros]]).
+
+**Como aplicar**:
+- Antes de dar push "porque já terminei minha checklist", sempre confira primeiro se `origin/main` já não CONTÉM seus commits (`git merge-base --is-ancestor <seu-ultimo-commit> origin/main`) — outra sessão pode já ter levado seu trabalho.
+- Se `origin/main` avançou bastante desde o último fetch, é sinal de que várias sessões estão ativas em paralelo agora — nesse cenário, falhas em massa e não-correlacionadas na suíte de testes completa são mais prováveis de ser infra compartilhada (banco de teste, contenção) do que uma regressão real; separar isso exige checar se o padrão de falha é idêntico antes/depois das mudanças de cada sessão, e se os arquivos de teste que tocam SEU código especificamente continuam passando isolados.
+- Verificar deploy "no ar" sempre pelo Render (evento "Deploy live for `<hash>`") + smoke test num endpoint específico da mudança — nunca assumir que "eu não dei push" significa "não está em produção".
