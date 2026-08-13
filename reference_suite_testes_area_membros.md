@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 01cb3caa-2faf-418f-851d-4b7662439309
-  modified: 2026-08-07T13:55:30.658Z
+  modified: 2026-08-13T15:40:45.310Z
 ---
 
 Como a suíte da [[project_area_membros_quirk]] se comporta. **Rodar com `npx vitest run` PURO (= `npm test`). NÃO usar `NODE_ENV=production`** — em 07/ago/2026 a suíte fecha **732/732** do jeito certo, e as duas falhas que eu achava serem "da home nova" eram artefato desse env. Antes de culpar sua mudança por qualquer falha, **rode o mesmo arquivo em `git switch --detach origin/main`** — foi assim que separei o que era meu do que já estava quebrado.
@@ -28,5 +28,7 @@ Com `push` ligado (o padrão) o schema sincroniza sozinho a cada rodada e os doi
 **Views do admin em teste:** renderizar `HubClienteView` & cia exige `initPageResult` COMPLETO (importMap/permissions/i18n). Quando o alvo do teste é a guarda (multi-tenant), **stubar o `TelaAdmin`** com `vi.mock` em vez de montar o chrome — senão quebra em `Cannot read properties of undefined (reading '/components/admin/NavQuirk#default')`.
 
 **Rodar em worktree novo:** copiar o `.env` e apontar `node_modules` por symlink pro worktree principal. `npx tsc` pega o tsc errado — usar `./node_modules/.bin/tsc --noEmit`.
+
+⚠️ **Ao dispatichar subagent pra editar arquivo de teste, pedir `npm run typecheck:tests` explicitamente — `npx tsc --noEmit` sozinho não pega nada em `tests/`.** Aconteceu de verdade (13/ago): pedi só `tsc --noEmit` em 3 rodadas de fix subagent que editaram `tests/unit/dispararPrimeiraMensagem.spec.ts` (cast `as never` no retorno de um helper de mock impedia acesso a `.create`/`.update` recém-adicionados) — todas reportaram "0 erros" porque a checagem nunca cobriu o arquivo. Só apareceu no checklist final de deploy. Fix: mover o `as never` do retorno da função helper pro call-site que passa o objeto pro código de produção, preservando o tipo do objeto local pra asserções.
 
 ⚠️ **Rede:** processos longos contra o Neon caem com `getaddrinfo ENOTFOUND`/`EHOSTUNREACH` (já derrubou 43 arquivos de uma vez, mascarando o resultado real). Se a suíte falhar em massa com erro de conexão, é rede — re-rodar antes de investigar código.
