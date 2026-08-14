@@ -1,27 +1,17 @@
 ---
 name: reference-modeloscontrato-corpo-orfa
-description: "GOTCHA — coluna órfã `corpo` em modelos_contrato trava npm run dev local com prompt de DATA LOSS"
+description: "RESOLVIDO (14/08) — coluna órfã `corpo` em modelos_contrato dropada; DATABASE_URI local É produção, não dev separado"
 metadata: 
   node_type: memory
   type: reference
   originSessionId: 7b5edbe3-a2f1-4c16-bf89-5ff55a540ed7
-  modified: 2026-08-12T01:16:11.635Z
+  modified: 2026-08-14T12:44:26.226Z
 ---
 
-`src/collections/ModelosContrato.ts` não tem mais campo `corpo` desde o commit `4846dbf` (troca do fluxo de contrato de Puppeteer pra Google Docs), mas a coluna `corpo` ficou órfã no banco com 1 registro.
+**Resolvido em 14/08/2026.** `src/collections/ModelosContrato.ts` não tem mais campo `corpo` desde o commit `4846dbf` (troca do fluxo de contrato de Puppeteer pra Google Docs — hoje usa `googleDocId`, ver [[reference_contratos_autentique]]), mas a coluna `corpo` tinha ficado órfã no banco com 1 registro.
 
-Como o dev local (`npm run dev`, `area-membros-quirk-4`) roda com `push: true` no Payload/Drizzle, TODO boot do `next dev` tenta reconciliar o schema e trava num prompt interativo:
-```
-Warnings detected during schema push:
-· You're about to delete corpo column in modelos_contrato table with 1 items
-DATA LOSS WARNING: Possible data loss detected if schema is pushed.
-Accept warnings and push schema to database? (y/N)
-```
+**Achado importante nesse dia**: `DATABASE_URI` do `.env` local (em QUALQUER worktree, ex: `area-membros-quirk-crm`) aponta direto pro banco de **produção** (host `ep-patient-hill-acxg3aix`) — não existe um 3º projeto Neon de "dev" separado, só prod e teste (`ep-rough-thunder-acyzl9k2`, usado só pelo Vitest via `DATABASE_URI_TEST`). Confirmado cruzando com `tests/unit/globalSetupGuardas.spec.ts`, que usa esse mesmo host como o exemplo hardcoded de produção. Ou seja: **rodar `npm run dev` localmente conecta direto em prod** — qualquer prompt de schema push (`push: true` no Payload/Drizzle) que apareça no boot é uma mudança real de produção, nunca "só dev".
 
-O processo fica parado esperando stdin — qualquer `navigate`/`preview_start` no navegador trava (timeout), porque o Next nunca termina de subir.
+O que foi feito: antes de dropar, o conteúdo da coluna foi conferido (não era lixo — tinha o texto completo do "Contrato Principal — Tráfego", o modelo antigo pré-migração pro Google Docs) e salvo em backup local (`~/Desktop/backup_modelos_contrato_corpo_20260814.json`) via leitura direta com `pg` antes do `ALTER TABLE modelos_contrato DROP COLUMN corpo`. Coluna confirmada sem uso em nenhum código atual (substituída por `googleDocId`, required). `npm run dev` volta a subir normal depois disso.
 
-**Nunca mandar `y`** — é apagar dado sem saber se ainda importa, decisão do Renan, não minha (nem com confirmação — apagar dado é ação proibida). Se acontecer de novo: matar o processo (`lsof -ti:3000 | xargs kill -9`), não confirmar nada, e avisar antes de tentar rodar o dev de novo.
-
-**Como resolver de vez** (fica pro Renan decidir, ou eu faço se ele pedir explicitamente): ou apagar a coluna `corpo` de `modelos_contrato` no banco (dado antigo do fluxo Puppeteer, já não é lido em lugar nenhum do código), ou aceitar o prompt uma vez — mas isso é decisão de apagar dado, sempre com confirmação explícita antes.
-
-Enquanto isso não for resolvido, verificação visual de mudanças de UI no dev local fica bloqueada — testes automatizados (Vitest, unit+int) continuam funcionando normalmente (não passam pelo push interativo).
+**Se aparecer de novo outro prompt de DATA LOSS no boot do dev**: mesma regra de sempre — nunca mandar `y` sem entender o que a coluna contém e sem confirmação explícita do Renan, porque é sempre produção real, não um banco de brinquedo. Matar o processo (`lsof -ti:3000 | xargs kill -9`), checar o conteúdo da coluna antes de propor apagar, e SE for aprovado, fazer backup do conteúdo num arquivo antes do DROP.
