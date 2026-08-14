@@ -5,13 +5,16 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 01cb3caa-2faf-418f-851d-4b7662439309
-  modified: 2026-08-13T15:40:45.310Z
+  modified: 2026-08-14T21:30:41.935Z
 ---
 
 Como a suíte da [[project_area_membros_quirk]] se comporta. **Rodar com `npx vitest run` PURO (= `npm test`). NÃO usar `NODE_ENV=production`** — em 07/ago/2026 a suíte fecha **732/732** do jeito certo, e as duas falhas que eu achava serem "da home nova" eram artefato desse env. Antes de culpar sua mudança por qualquer falha, **rode o mesmo arquivo em `git switch --detach origin/main`** — foi assim que separei o que era meu do que já estava quebrado.
 
 ⚠️ **Worktree com `node_modules` por symlink: dependência nova de outro chat some.** Quando alguém adiciona pacote (ex.: `ical-expander` da agenda), o seu worktree simbolicamente ligado ao `node_modules` do principal falha com `Cannot find package '<x>' imported from ...` em VÁRIOS arquivos de uma vez. Não é código: rodar `npm install` no worktree PRINCIPAL resolve para todos.
 ⚠️ **Um banco de teste para N chats com schemas divergentes gera atrito.** O push do Drizzle alinha o banco ao branch que está rodando, então branch com coleção que os outros não têm faz o próximo rodar tentar DROPar constraint que já sumiu (`constraint "..." of relation "payload_locked_documents_rels" does not exist`). Costuma passar na 2ª tentativa (o push já acertou o estado). Se virar rotina, o caminho é um banco por worktree.
+
+🔴 **O pior sintoma desse banco compartilhado: PROMPT INTERATIVO do Drizzle → `Hook timed out in 30000ms` com ZERO testes rodando** (14/ago/2026). Quando a MESMA tabela tem 1 coluna a criar (a do seu branch) **e** 1 coluna órfã (de outro worktree), o `pushSchema` do drizzle-kit não adivinha e PERGUNTA: `Is <col> column in <tabela> table created or renamed from another column?`. Dentro do processo filho do vitest não há ninguém pra responder → o boot do Payload trava → `beforeAll` estoura o `hookTimeout` → o arquivo falha **sem nenhum teste falho**, e o `afterAll` ainda gera um `Cannot read properties of undefined (reading 'db')` em cascata. Caso real: `-adm` adicionou `clientes.crm_limite_usuarios` enquanto `-crm` já tinha empurrado `clientes.follow_up_tom_reengajamento`. **Diagnóstico:** rodar 1 arquivo e ler a saída CRUA (`| cat -v`) — o prompt fica escondido atrás do spinner "Pulling schema from database". **Cura imediata:** dropar a coluna órfã no banco de TESTE (é o que o push faria de qualquer jeito — ele espelha o código; e pós-`TRUNCATE` a tabela tem 0 linhas). **Isso faz PING-PONG** entre os worktrees: quando o outro rodar, ele vê a SUA coluna como órfã e trava igual. Cura de verdade = `DATABASE_URI_TEST` próprio por worktree.
+⚠️ Corrige o que eu escrevia antes ("adicionar coluna passa em silêncio"): passa em silêncio **só** quando não há coluna órfã na mesma tabela pra virar candidata a rename.
 
 ⚠️ **`NODE_ENV=production` na suíte QUEBRA DUAS COISAS — não use** (eu recomendei isso por um tempo e custou caro). Ele desliga o `push` do Drizzle e faz o Vite carregar o build de PRODUÇÃO do React:
 1. **Schema dessincroniza** → quando outro chat sobe campo/coleção nova, o banco de teste fica pra trás e **dezenas de arquivos falham de uma vez**, com N erros IDÊNTICOS de `column "<algo>" of relation "<tabela>" does not exist` (07/ago: 56 arquivos por causa de `clientes.status_desde`). Parece catástrofe, é schema velho.
