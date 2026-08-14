@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 01cb3caa-2faf-418f-851d-4b7662439309
-  modified: 2026-08-14T21:30:41.935Z
+  modified: 2026-08-14T21:30:47.033Z
 ---
 
 Como a suíte da [[project_area_membros_quirk]] se comporta. **Rodar com `npx vitest run` PURO (= `npm test`). NÃO usar `NODE_ENV=production`** — em 07/ago/2026 a suíte fecha **732/732** do jeito certo, e as duas falhas que eu achava serem "da home nova" eram artefato desse env. Antes de culpar sua mudança por qualquer falha, **rode o mesmo arquivo em `git switch --detach origin/main`** — foi assim que separei o que era meu do que já estava quebrado.
@@ -19,7 +19,7 @@ Como a suíte da [[project_area_membros_quirk]] se comporta. **Rodar com `npx vi
 ⚠️ **`NODE_ENV=production` na suíte QUEBRA DUAS COISAS — não use** (eu recomendei isso por um tempo e custou caro). Ele desliga o `push` do Drizzle e faz o Vite carregar o build de PRODUÇÃO do React:
 1. **Schema dessincroniza** → quando outro chat sobe campo/coleção nova, o banco de teste fica pra trás e **dezenas de arquivos falham de uma vez**, com N erros IDÊNTICOS de `column "<algo>" of relation "<tabela>" does not exist` (07/ago: 56 arquivos por causa de `clientes.status_desde`). Parece catástrofe, é schema velho.
 2. **`act` some** → no React 19 o `act` só existe no build de DEV; testes de componente com DOM morrem em `act is not a function` (`tests/unit/fila-de-acao.spec.tsx`).
-Com `push` ligado (o padrão) o schema sincroniza sozinho a cada rodada e os dois sintomas desaparecem. O motivo original de desligar era o prompt interativo do Drizzle — mas ele só aparece em diff DESTRUTIVO (rename/drop); adicionar coluna passa em silêncio.
+Com `push` ligado (o padrão) o schema sincroniza sozinho a cada rodada e os dois sintomas desaparecem. O motivo original de desligar era o prompt interativo do Drizzle — que aparece em diff ambíguo (rename/drop), inclusive em "adicionar coluna" quando há órfã na mesma tabela: ver o bloco 🔴 acima.
 
 **Banco de teste: zera sozinho desde 07/ago (`tests/helpers/globalSetup.ts`).** `DATABASE_URI_TEST` = projeto Neon `ep-rough-thunder` (produção é `ep-patient-hill`; o `vitest.setup.ts` recusa rodar se forem iguais). Antes disso os testes não limpavam nada e o banco acumulava (chegou a **10.347 users + 6.171 clientes**); como `reconcile()` carrega TODOS os members (`pagination:false`, por design) e atualiza um a um, cada teste dele levava **940s** e morria. Agora o `globalSetup` faz `TRUNCATE` de todas as tabelas de `public` exceto `payload_migrations` (`RESTART IDENTITY CASCADE`) **no INÍCIO** da rodada — schema intacto, sem DDL nem re-seed, e a suíte fica determinística. Guardas com teste próprio (`tests/unit/globalSetupGuardas.spec.ts`) + prova por mutação: exige `DATABASE_URI_TEST`, recusa se == `DATABASE_URI`, recusa se estiver no MESMO host de produção; dummy `localhost` do CI é pulado.
 ⚠️ **Advisory lock SÓ funciona no endpoint DIRETO (sem `-pooler`).** É lock de sessão: pelo PgBouncer a sessão não é fixa, então a trava não segurava E o lock ficou ÓRFÃO numa conexão ociosa do pool, travando toda rodada seguinte pra sempre. Diagnóstico: `select l.pid,a.state from pg_locks l join pg_stat_activity a using(pid) where l.locktype='advisory' and l.objid=918273645`; cura: `pg_terminate_backend(pid)`. Por isso o globalSetup conecta com `-pooler` removido e a espera tem teto de 10 min (segue sem limpar + avisa, nunca trava).
