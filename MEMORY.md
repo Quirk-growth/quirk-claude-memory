@@ -58,3 +58,4 @@
 - [GOTCHA: sessões paralelas compartilham o mesmo .git local](feedback_git_repo_compartilhado_sessoes.md) — push de UMA sessão leva os commits locais de TODAS; sempre conferir se origin/main já não contém seu trabalho antes de "dar push"
 - [Asaas: telefone precisa ser DDD+número, sem DDI 55](reference_asaas_telefone_formato.md) — mobilePhone rejeitado com 55 na frente; fix em cobranca.ts + 19 clientes corrigidos retroativamente via PUT /customers (13/08/2026)
 - [Google Ads: versão da API hardcoded quebra sem aviso](reference_google_ads_versao_api.md) — v21 bloqueada pela Google; contas somem da lista de vínculo e sync para, silenciosamente; fix pra v25 (13/08/2026)
+- [Projeto: Programador de posts (Social Media)](project_programador_posts.md) — Frente 1 do plano de Social Media; task=post, publica via Meta; NO AR 18/08, faltam aprovação Meta + Render Cron pra funcionar de verdade
