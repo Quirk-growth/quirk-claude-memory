@@ -14,6 +14,7 @@
 - [Projeto: LP Quirk Tech](project_lp_quirk_tech.md) — Rebrand dark premium da LP principal em /Users/renanreal/lp-quirk-tech/; síntese copy validada + posicionamento do site + DNA visual tech
 - [Método CRESCE™](project_metodo_cresce.md) — Novo framework da Quirk pra vender diferenciação vs "só faz tráfego"; sigla, tese e cases reais das calls
 - [Referência: calls Zoom](reference_zoom_calls.md) — Como varrer transcrições Zoom via MCP (double-encoding, busca semântica vazia, mapa de cobertura 6 meses)
+- [Guia de perfil persuasivo (Jornada do Lead)](project_guia_perfil_persuasivo.md) — deck 21 slides pra corretores em ~/guia-perfil-quirk/; 7·11·4, gatilhos, proporções editoriais
 - [Playbooks comerciais (SDR + SS)](project_playbooks_comercial.md) — decks PDF da Quirk em /Users/renanreal/manual-comercial-quirk/; fontes HTML editáveis, render via Chrome headless
 - [Projeto: TDTC](project_tdtc.md) — Teste de Distribuição Temporal da Consciência; app de questionário + teoria em /Users/renanreal/Desktop/TDTC/ (repo git, worktrees pra trabalho paralelo)
 - [Projeto: Quirk Auto Creative](project_quirk_auto_creative.md) — Skill quirk-auto-creative + OpenAI gpt-image-1 pra copy+banner imobiliário (ZERO CTA, Story/Feed); chave em quirk-banner-designer/.env
