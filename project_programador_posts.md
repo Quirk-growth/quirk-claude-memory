@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-08-19T02:12:23.103Z
+  modified: 2026-08-19T02:24:16.866Z
 ---
 
 Frente 1 do plano de 4 frentes de Social Media (ver [[reference_papel_social_media]]): agendar e publicar posts (Instagram Feed/Story + Facebook Feed, V1 só imagem) direto da [[project_tarefas]] — a task da lista "Social Media" **é** o post. Spec `docs/superpowers/specs/2026-08-16-programador-posts-social-media-design.md`, plano `docs/superpowers/plans/2026-08-16-programador-posts-social-media.md` (12 tasks), execução via subagent-driven-development.
@@ -30,8 +30,9 @@ Duas revisões passaram (task-a-task) sem pegar; só a revisão de branch INTEIR
 
 ## Pendências (fora do código, ação do Renan)
 
-1. **Aprovação Meta** dos escopos `pages_manage_posts`/`instagram_basic`/`instagram_content_publish` no app "BM - Clientes Quirk" — sem isso todo publish falha com erro de permissão (esperado, documentado).
-2. **`PUBLICAR_POSTS_SECRET` no Render** — CONFIGURADO 18/ago via Claude in Chrome (env var salva + "Save and deploy", deploy `fb58cf7` foi a live). Testado ponta-a-ponta: `curl -X POST .../api/cron/publicar-posts -H "x-publicar-posts-secret: ..."` → `200 {"ok":true,"publicadas":0,"falhas":0}`. Falta só criar o **Render Cron Job** de verdade (`*/5 * * * *` batendo nesse endpoint) — sem ele o secret existe mas nada dispara automaticamente. Doc pronta em `docs/operacao/render-cron-publicar-posts.md`.
+1. **Aprovação Meta** dos escopos `pages_manage_posts`/`instagram_basic`/`instagram_content_publish` no app "BM - Clientes Quirk" — sem isso todo publish falha com erro de permissão (esperado, documentado). Única pendência restante da Frente 1.
+
+**Infra de publicação 100% pronta (18/ago):** `PUBLICAR_POSTS_SECRET` configurado no serviço web (deploy `fb58cf7` live) + **Render Cron Job `publicar-posts`** criado (`crn-da2h737qj5pc73fqkicg`, mesmo padrão do `sync-diario-painel`: Node, branch main, build `echo sem-build`, `*/5 * * * *`, env `APP_URL`+`PUBLICAR_POSTS_SECRET`). Disparo manual de teste ("Trigger Run") rodou e terminou "successfully". Assim que o Meta aprovar os escopos, publicação começa a funcionar sozinha sem nenhuma ação extra.
 
 ## Minors abertos (não bloqueiam, ficam pra depois)
 
