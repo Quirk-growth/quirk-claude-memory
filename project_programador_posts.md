@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-08-19T02:24:16.866Z
+  modified: 2026-08-19T17:25:29.094Z
 ---
 
 Frente 1 do plano de 4 frentes de Social Media (ver [[reference_papel_social_media]]): agendar e publicar posts (Instagram Feed/Story + Facebook Feed, V1 só imagem) direto da [[project_tarefas]] — a task da lista "Social Media" **é** o post. Spec `docs/superpowers/specs/2026-08-16-programador-posts-social-media-design.md`, plano `docs/superpowers/plans/2026-08-16-programador-posts-social-media.md` (12 tasks), execução via subagent-driven-development.
@@ -30,10 +30,18 @@ Duas revisões passaram (task-a-task) sem pegar; só a revisão de branch INTEIR
 
 ## Pendências (fora do código, ação do Renan)
 
-1. **Aprovação Meta** dos escopos `pages_manage_posts`/`instagram_basic`/`instagram_content_publish` no app "BM - Clientes Quirk" — sem isso todo publish falha com erro de permissão (esperado, documentado). Única pendência restante da Frente 1.
+1. **Aprovação Meta** dos escopos `pages_manage_posts`/`instagram_basic`/`instagram_content_publish` no app "BM - Clientes Quirk" — sem isso todo publish falha com erro de permissão (esperado, documentado). **Única pendência restante de toda a Frente 1** — o resto da infra (publicação + limpeza) está 100% pronto e testado.
 
 **Infra de publicação 100% pronta (18/ago):** `PUBLICAR_POSTS_SECRET` configurado no serviço web (deploy `fb58cf7` live) + **Render Cron Job `publicar-posts`** criado (`crn-da2h737qj5pc73fqkicg`, mesmo padrão do `sync-diario-painel`: Node, branch main, build `echo sem-build`, `*/5 * * * *`, env `APP_URL`+`PUBLICAR_POSTS_SECRET`). Disparo manual de teste ("Trigger Run") rodou e terminou "successfully". Assim que o Meta aprovar os escopos, publicação começa a funcionar sozinha sem nenhuma ação extra.
 
 ## Minors abertos (não bloqueiam, ficam pra depois)
 
 Tasks 10/11 (UI) sem teste `.spec.tsx`; thumbnail do criativo não aparece no card do Calendário (spec pedia, ficou pra depois — trivial agora que a URL é pública); tela "publicado com links" no modal fica em branco logo após "Publicar agora" (key remount + a task já virou concluída, listagem padrão esconde); DDL de `permite_publicacao` não checa linhas afetadas (mitigado nesta rodada — rodei com `RETURNING` e conferi 1 linha).
+
+## Limpeza automática de mídia de posts (19/ago, NO AR — sub-feature de retenção)
+
+Design `docs/superpowers/specs/2026-08-19-limpeza-midia-posts-design.md`, plano `docs/superpowers/plans/2026-08-19-limpeza-midia-posts.md` (3 tasks, SDD). Apaga a imagem de um post (mídia + objeto no R2) 7 dias após publicar OU 7 dias travado em erro sem ninguém mexer — nunca toca em rascunho/programado/publicando. Núcleo: `src/lib/limpeza/limparMidiaPosts.ts` (`limparMidiaPostsVencidos`), cron diário `POST /api/cron/limpeza-midia-posts` (`LIMPEZA_MIDIA_SECRET` próprio, Render Cron Job `crn-da2ucvrl550s7387lt0g`, schedule `0 11 * * *`).
+
+**Contexto que motivou:** hoje o R2 usa 35 MB de 10 GB grátis (não é emergência) — é prevenção pro volume crescer com o tempo (mais posts, e a Frente 4 de vídeo automático que ainda vai vir).
+
+**LIÇÃO nova (2 rodadas de revisão de branch inteira, não só 1):** mesmo depois da revisão de branch achar 5 Important reais (bytesLiberados concatenando string em vez de somar; `payload.delete({where})` não lança em falha por documento; midiaId não-numérico derrubando a query inteira; escopo "só mídia de post" não garantido pelo código — podia apagar logo/contrato de cliente, mitigado com filtro por `media.alt`; corrida com o retry manual de post em erro) E dos fixes serem aplicados, uma **RE-revisão** ainda achou que 2 dos 5 fixes não resolviam de verdade: o "claim atômico" da corrida tinha sido posto DEPOIS do delete (protegia nada) e a guarda de midiaId corrompido deixava passar número fora do range de `int4` (ex: `1e20`). Moral: depois de aplicar fix pra achado de revisão de branch, vale RE-revisar antes de considerar fechado — "corrigi" não é o mesmo que "verificado que corrigiu".
