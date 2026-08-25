@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-19T20:42:45.490Z
+  modified: 2026-08-25T16:47:37.806Z
 ---
 
 Área de membros própria da Quirk pra clientes acessarem as mentorias que hoje ficam soltas no Google Drive. Em `/Users/renanreal/area-membros-quirk/` (repo git novo).
@@ -16,7 +16,7 @@ metadata:
 - Build customizado (não plataforma pronta), com identidade Quirk no cliente E no admin.
 - Stack: **Next.js + Payload CMS 3 + Postgres** (Neon/Supabase), deploy Vercel.
 - Vídeos no **Vimeo** (privado, travado no domínio).
-- **4 vertentes** fixas: Marketing, Vendas, Assessoria Comercial, Posicionamento & Social. Todo cliente vê as 4 (acesso único).
+- Começou com **4 vertentes** fixas (Marketing, Vendas, Assessoria Comercial, Posicionamento & Social), mas na migração (jul/2026) o conteúdo comercial foi todo pra Vendas e o de posicionamento pra Marketing — as outras 2 ficaram vazias e o Renan pediu pra remover. **Hoje são só 2: Marketing (vertente id 1, módulo "Mentorias gravadas" id 10) e Vendas (id 2, módulo id 11).** Todo cliente vê as 2 (acesso único, sem filtro por cliente). Confirmado 25/ago: aula nova entra com `ordem` = última existente do módulo + 1 (Marketing tinha 9 aulas publicadas, id 17-29; nova aula "Persuasão digital: como fazer o lead te conhecer, confiar e clicar" entrou como aula id 162, ordem 10, com o PDF de apoio "Jornada do Lead & Persuasão Digital" anexado em `materiais`).
 - Modelo: Vertente → Módulo → Aula (vídeo Vimeo + descrição + materiais) → Progresso.
 - Login email+senha; **admin provisiona** cada cliente (campo `ativo`). Múltiplos admins ok.
 - **Progresso no v1**: assistida + continue de onde parou + barra.
