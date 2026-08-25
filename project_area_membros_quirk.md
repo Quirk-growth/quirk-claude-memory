@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-25T16:47:37.806Z
+  modified: 2026-08-25T17:44:59.851Z
 ---
 
 Área de membros própria da Quirk pra clientes acessarem as mentorias que hoje ficam soltas no Google Drive. Em `/Users/renanreal/area-membros-quirk/` (repo git novo).
@@ -17,6 +17,7 @@ metadata:
 - Stack: **Next.js + Payload CMS 3 + Postgres** (Neon/Supabase), deploy Vercel.
 - Vídeos no **Vimeo** (privado, travado no domínio).
 - Começou com **4 vertentes** fixas (Marketing, Vendas, Assessoria Comercial, Posicionamento & Social), mas na migração (jul/2026) o conteúdo comercial foi todo pra Vendas e o de posicionamento pra Marketing — as outras 2 ficaram vazias e o Renan pediu pra remover. **Hoje são só 2: Marketing (vertente id 1, módulo "Mentorias gravadas" id 10) e Vendas (id 2, módulo id 11).** Todo cliente vê as 2 (acesso único, sem filtro por cliente). Confirmado 25/ago: aula nova entra com `ordem` = última existente do módulo + 1 (Marketing tinha 9 aulas publicadas, id 17-29; nova aula "Persuasão digital: como fazer o lead te conhecer, confiar e clicar" entrou como aula id 162, ordem 10, com o PDF de apoio "Jornada do Lead & Persuasão Digital" anexado em `materiais`).
+- **Ordem de exibição + selo de data (25/ago, deploy `fc03c46`):** a pedido do Renan, aulas passaram a listar da mais recente pra mais antiga (`sort: '-ordem'` em `vertenteComModulos`/`aulaConteudo` — `src/lib/cacheConteudo.ts`; `ordem` já era cronológico desde a migração, não precisou renumerar nada). Campo novo `aulas.data` (date, opcional, DDL `timestamp(3) with time zone` nullable aplicada em prod ANTES do deploy) mostra selo dd/mm/aaaa na lista da vertente e na página da aula (`src/lib/formatarData.ts`) — **regra: nunca adivinhar a data, deixar em branco se não tiver origem confirmada** (mesma lógica de "não inventar descrição"). Backfill feito recuperando a data real de gravação nos NOMES das pastas originais do Drive (não do `createdAt`, que é só a data da migração em massa): 17 das 20 aulas ganharam data; **3 ficaram sem data** (nunca achei a pasta de origem) — "Branding e jornada do lead" (id 25), "Acervo digital" (id 26), "Copy que vende" (id 29), todas em Marketing. Biblioteca de Vendas/Comercial fica num folder Drive SEPARADO do de Marketing (`1-J35579RS5ulILUF15LCYDBYqRCRdS-c`, não o `1kMRHSFfRGCUrMTBLLkdZIkKfvagRyoWb` da nota abaixo).
 - Modelo: Vertente → Módulo → Aula (vídeo Vimeo + descrição + materiais) → Progresso.
 - Login email+senha; **admin provisiona** cada cliente (campo `ativo`). Múltiplos admins ok.
 - **Progresso no v1**: assistida + continue de onde parou + barra.
