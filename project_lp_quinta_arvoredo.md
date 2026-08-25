@@ -19,3 +19,5 @@ Lançamento do **Residencial Quinta do Arvoredo** (Zanardi + gestora Neximob, co
 - Material-fonte: pasta Drive `1Qw4OfXj-RuE96dnRXRH5WvcioOr-r-F3` (dona: pscuderi@scuderi.com.br). Book 67MB não baixável via MCP (limite 10MB); LP antiga e anúncio são PDFs sem camada de texto (CDR) — extrair renderizando via PyMuPDF (pip, sem brew nesse Mac).
 - GOTCHA das LPs Zanardi no ar: conteúdo mora num iframe "bundled page" (HTML estático em /wp-content/uploads/...) — WebFetch/get_page_text da página-mãe voltam vazios; navegar direto pra URL do iframe e esperar o unpack.
 - Site oficial quintadoarvoredo.com.br ainda fora do ar (cert de parking) em 14/08/2026.
+
+**Proposta SDR (ago/2026):** deck em `/Users/renanreal/proposta-zanardi-quirk/` propondo expansão do escopo com SDR por performance: meses 1-2 R$ 500/reunião realizada (call ou visita); mês 3+ R$ 500/reunião + 1% do VGV vendido de leads Quirk. Escopo: Meta Ads + pré-qualificação SDR + agendamento na agenda da Zanardi + relatórios. PDF: Desktop/Proposta_SDR_Zanardi_Quirk.pdf.
