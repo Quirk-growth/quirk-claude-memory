@@ -8,9 +8,9 @@ metadata:
   modified: 2026-08-25T17:38:00.876Z
 ---
 
-Mídia kit de 10 págs (ago/2026) pra conseguir participações mensais em podcasts. Fonte editável: `/Users/renanreal/midia-kit-quirk/midiakit.html` (padrão deck-quirk). PDF no Desktop: `MidiaKit_Renan_Chaiene_Quirk.pdf` (~1,7 MB, otimizado pra envio).
+Mídia kit de 11 págs (inclui slide "Juntos, a cada 30 dias" com dados somados: 13,3 mi views, 46 mil seguidores, +11,7 mil novos, 20 mil visitas) (ago/2026) pra conseguir participações mensais em podcasts. Fonte editável: `/Users/renanreal/midia-kit-quirk/midiakit.html` (padrão deck-quirk). PDF no Desktop: `MidiaKit_Renan_Chaiene_Quirk.pdf` (~1,7 MB, otimizado pra envio).
 
-**Papéis (corrigido pelo Renan):** Renan Real = Fundador e CEO (único fundador). Chaiene Vitória = **Sócia** e líder de treinamento comercial (NÃO é fundadora). Pautas dela: vendas consultivas, treinamento/desenvolvimento de pessoas, mentalidade de alta performance (ele mandou REMOVER "jornada do lead" das pautas dela).
+**Papéis (corrigido pelo Renan):** Renan Real = Fundador e CEO (único fundador). Chaiene Vitória = **Sócia, treinadora e coach** (NÃO é fundadora; título corrigido por ele, era "líder de treinamento comercial"). Pautas dela: vendas consultivas, treinamento/desenvolvimento de pessoas, mentalidade de alta performance (ele mandou REMOVER "jornada do lead" das pautas dela).
 
 **Regras de copy que o Renan pediu (valem pra outros materiais dele):** posicionar como marketing amplo, não nicho imobiliário; time = "26 especialistas em marketing" (não "em tráfego"); temas incluem desenvolvimento pessoal, liderança, negócios e mentalidade; **frases só afirmativas — proibido construção "negativa→positiva"** (ex.: "Não falamos teoria" foi vetado).
 
