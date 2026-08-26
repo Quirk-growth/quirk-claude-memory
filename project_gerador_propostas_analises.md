@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: abd490d3-d546-47fd-9269-c2122b669bb6
-  modified: 2026-08-26T01:19:54.787Z
+  modified: 2026-08-26T21:10:07.032Z
 ---
 
 Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[proposta-quirk]] (~/.claude/skills/proposta-quirk/ — processo, regras de copy do Renan, 3 exemplos reais, spec do agente de análise em references/agente-analise-presenca.md).
@@ -21,7 +21,7 @@ Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[pro
 
 **Gotchas técnicos descobertos:** args do @sparticuz/chromium travam launch do Chrome desktop no Mac (teste local = CHROME_EXECUTABLE_PATH + args mínimos) · puppeteer-core 25.9 sem networkidle0 no setContent (usar 'load' + document.fonts.ready) · worktree novo não tem .env (fica no checkout principal) · ANTHROPIC_API_KEY só existe no Render, sem teste de API local.
 
-**Progresso do deploy (26/08):** gerador da 79 MERGEADO na main (ec92b18+cb7bf23+141b51c). Minha branch rebaseada limpa; renderizador agora DELEGA pro renderizarPdf compartilhado (fila única). Item "Análise de Presença" no menuAdmin do comercial. **DDL aplicada e verificada por introspecção em TESTE e PRODUÇÃO** (21 colunas snake_case + payload_locked_documents_rels.analises_id + enum gerando/pronta/erro). Runner novo: scripts/aplicar-ddl.mts (bloqueia -pooler).
+**NO AR (26/08):** Análise de Presença deployado — main em `55fe6b9`, smoke test verde (POST /api/analises/gerar = 403; página /analises redireciona pro login). DDL de prod aplicada antes do push. Renderizador DELEGA pro renderizarPdf compartilhado da 79 (fila única de Chromium). Página fica no grupo `(equipe)` — o grupo `(app)` tem gate da área do cliente que barra o papel comercial (fix espelhado do 0d2d4e7 do gerador). Chamada ao Claude em **streaming** (stream()+finalMessage()) — SDK recusa create() não-streaming com max_tokens alto (fix espelhado do f5ed9e4). Runner de DDL: scripts/aplicar-ddl.mts (bloqueia -pooler). Falta validar geração real com usuário logado (ANTHROPIC_API_KEY só no Render).
 
 **GOTCHA novo do banco de teste:** virou terra disputada — sessões paralelas rodando suíte/push com código da main DROPAM tabelas que não estão no schema delas (minha analises sumiu 2x). Validação atômica = aplicar DDL + introspectar NA MESMA CONEXÃO. E o drizzle push interativo trava em prompt "create or rename" por causa da tabela órfã permissoes_padrao no teste (não existe em nenhuma collection do código).
 
