@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: abd490d3-d546-47fd-9269-c2122b669bb6
-  modified: 2026-08-26T21:10:07.032Z
+  modified: 2026-08-26T21:10:13.372Z
 ---
 
 Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[proposta-quirk]] (~/.claude/skills/proposta-quirk/ — processo, regras de copy do Renan, 3 exemplos reais, spec do agente de análise em references/agente-analise-presenca.md).
@@ -25,4 +25,4 @@ Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[pro
 
 **GOTCHA novo do banco de teste:** virou terra disputada — sessões paralelas rodando suíte/push com código da main DROPAM tabelas que não estão no schema delas (minha analises sumiu 2x). Validação atômica = aplicar DDL + introspectar NA MESMA CONEXÃO. E o drizzle push interativo trava em prompt "create or rename" por causa da tabela órfã permissoes_padrao no teste (não existe em nenhuma collection do código).
 
-**Pré-existente na main (não meu):** typecheck:tests com 3 erros em tests/unit/trilha/*.spec.tsx.
+**Pré-existente na main (não meu, verificado no checkout principal em 0d2d4e7):** typecheck:tests com 98 erros (tipos gerados dessincronizados por outra sessão) e 4 testes vermelhos (tarefa-templates-aplicar, tarefas-recorrencia, agenda-conectar-form, menuAdmin "Pessoas…role" — esse último é da feature de permissões que está no checkout -crm sem push).
