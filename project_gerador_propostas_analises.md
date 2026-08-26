@@ -21,4 +21,8 @@ Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[pro
 
 **Gotchas técnicos descobertos:** args do @sparticuz/chromium travam launch do Chrome desktop no Mac (teste local = CHROME_EXECUTABLE_PATH + args mínimos) · puppeteer-core 25.9 sem networkidle0 no setContent (usar 'load' + document.fonts.ready) · worktree novo não tem .env (fica no checkout principal) · ANTHROPIC_API_KEY só existe no Render, sem teste de API local.
 
-**Antes do deploy da minha branch:** DDL manual (payload_locked_documents_rels + enum_analises_status) via skill payload-migracao-prod; conflito esperado e aceito em payload.config.ts no rebase.
+**Progresso do deploy (26/08):** gerador da 79 MERGEADO na main (ec92b18+cb7bf23+141b51c). Minha branch rebaseada limpa; renderizador agora DELEGA pro renderizarPdf compartilhado (fila única). Item "Análise de Presença" no menuAdmin do comercial. **DDL aplicada e verificada por introspecção em TESTE e PRODUÇÃO** (21 colunas snake_case + payload_locked_documents_rels.analises_id + enum gerando/pronta/erro). Runner novo: scripts/aplicar-ddl.mts (bloqueia -pooler).
+
+**GOTCHA novo do banco de teste:** virou terra disputada — sessões paralelas rodando suíte/push com código da main DROPAM tabelas que não estão no schema delas (minha analises sumiu 2x). Validação atômica = aplicar DDL + introspectar NA MESMA CONEXÃO. E o drizzle push interativo trava em prompt "create or rename" por causa da tabela órfã permissoes_padrao no teste (não existe em nenhuma collection do código).
+
+**Pré-existente na main (não meu):** typecheck:tests com 3 erros em tests/unit/trilha/*.spec.tsx.
