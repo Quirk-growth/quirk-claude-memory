@@ -5,6 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 654fb5d8-c7f7-464b-a130-7876c5612a0c
+  modified: 2026-08-26T01:04:23.889Z
 ---
 
 Material do departamento comercial da Quirk, em deck 16:9 (PDF), criado jun/2026. Mesma identidade visual (ver [[reference_quirk_brand]]): Sora+Poppins, azul #1D80FF, fundo #001D41, verde só em acentos sutis, logo oficial via `assets/quirk-icon.png`.
@@ -21,6 +22,8 @@ Material do departamento comercial da Quirk, em deck 16:9 (PDF), criado jun/2026
 
 **Gerar PDF** (Chrome headless, fidelidade total):
 `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu --no-pdf-header-footer --virtual-time-budget=10000 --print-to-pdf="OUT.pdf" "file://.../ARQUIVO.html"`
+
+GOTCHA (25/08, achado pela sessão do Gerador de Propostas): `box-shadow` pode renderizar como BLOCOS CINZAS feios no PDF do Chrome headless — em deck novo, evitar box-shadow ou conferir no PDF final (a proposta-incorporadora teve as sombras removidas por isso).
 
 **Premissas-chave:** SDR = 200 contatos/dia, ligação primeiro, 4 pontos de contato no Dia 1, cadência Dia 1→7. SS = Instagram, 300–400 contatos/dia, sondagem com perguntas abertas, paciência (nunca agressivo), máx. 100 ações/perfil (senão bloqueia), handoff de lead qualificado. Closer = SPIN (situação/problema/implicação), 5 portas, "custo de continuar igual".
 
