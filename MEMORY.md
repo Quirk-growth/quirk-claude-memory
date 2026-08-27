@@ -10,6 +10,7 @@
 - [Saldo via WhatsApp (Auto Ads)](reference_saldo_whatsapp.md) — Cliente pede "consultar/incluir saldo" → branch determinística mostra saldo ao vivo (funding_source_details.display_string, não `balance`) + link de adicionar fundos; testado na Ignite
 - [Onboarding: precheck + desfecho determinístico (Auto Ads)](reference_onboarding_precheck_desfecho.md) — #2: falha de criação manda diagnóstico (não IA dizendo "validando e subindo"); #1: precheck trava onboarding até verde (conta/saldo/whatsapp/fanpage/verificação via 1 validate_only). GOTCHA: nó Postgres substitui o item
 - [Aquecimento de conta nova (Auto Ads)](reference_aquecimento_conta.md) — Conta novata roda campanha de tráfego (cidade+fanpage, R$10/dia, 4 dias) antes das mensagens p/ não tomar bloqueio; máquina de estados aquecimento jsonb; libera via workflow HboO7SGWY1iCJVXj; verificado na Ignite
+- [Instagram Auto Ads (marketing)](project_ig_auto_ads.md) — Pacote de 30 posts+artes pro IG do Auto Ads (~/ig-auto-ads/); REGRA: Auto Ads é "a forma mais fácil de COMEÇAR a anunciar", NUNCA anti-agência; visual híbrido tech+demo, HTML→PNG
 - [Quirk Growth — Identidade visual](reference_quirk_brand.md) — Fontes Sora+Poppins, azul primário #1D80FF, fundo #001D41, verde #39b54a
 - [Projeto: LP Iscas KPI + GPA](project_lp_iscas.md) — LP standalone em /Users/renanreal/lp-iscas-quirk/, cenário Make 4755230, form nativo (não Typeform)
 - [Projeto: LP Calculadora de VGV](project_lp_vgv.md) — LP em /Users/renanreal/lp-vgv-quirk/, cenário Make 4779375 clonado da isca, mesma planilha (aba "Leads VGV")
