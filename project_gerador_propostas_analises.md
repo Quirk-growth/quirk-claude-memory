@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: abd490d3-d546-47fd-9269-c2122b669bb6
-  modified: 2026-08-26T21:10:13.372Z
+  modified: 2026-08-27T05:28:18.651Z
 ---
 
 Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[proposta-quirk]] (~/.claude/skills/proposta-quirk/ — processo, regras de copy do Renan, 3 exemplos reais, spec do agente de análise em references/agente-analise-presenca.md).
@@ -25,4 +25,6 @@ Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[pro
 
 **GOTCHA novo do banco de teste:** virou terra disputada — sessões paralelas rodando suíte/push com código da main DROPAM tabelas que não estão no schema delas (minha analises sumiu 2x). Validação atômica = aplicar DDL + introspectar NA MESMA CONEXÃO. E o drizzle push interativo trava em prompt "create or rename" por causa da tabela órfã permissoes_padrao no teste (não existe em nenhuma collection do código).
 
-**Pré-existente na main (não meu, verificado no checkout principal em 0d2d4e7):** typecheck:tests com 98 erros (tipos gerados dessincronizados por outra sessão) e 4 testes vermelhos (tarefa-templates-aplicar, tarefas-recorrencia, agenda-conectar-form, menuAdmin "Pessoas…role" — esse último é da feature de permissões que está no checkout -crm sem push).
+**Pré-existente na main (não meu, verificado no checkout principal em 0d2d4e7):** typecheck:tests com 98 erros (tipos gerados dessincronizados por outra sessão) e 4 testes vermelhos (tarefa-templates-aplicar, tarefas-recorrencia, agenda-conectar-form, menuAdmin "Pessoas…role" — esse último era da feature de permissões, que na época ainda não tinha dado push).
+
+**ATUALIZAÇÃO (27/08): a feature de permissões (`-crm`) deu push (`451cc56`) e absorveu tanto o Gerador de Propostas quanto o Agente de Análise no processo.** `menuAdmin.ts` virou ponto de conflito real entre as duas frentes — `secoesDoAdmin`/`itensDoColaborador` da feature de permissões (assíncronas, matriz configurável) trocaram de lugar com a versão síncrona que Propostas/Análises tinham estendido (`podeVerGuia`). Quem resolveu o merge (a sessão -crm) teve que: extrair `podeVerPropostas`/`podeVerAnalises` como helpers puros (pra não duplicar `role==='comercial'||'admin'` em 4 lugares cada), e adicionar `/propostas`/`/analises` como force-add em `secoesDoAdmin` (fora da matriz de permissões — `ITENS_FORA_DA_MATRIZ`), já que essas 2 ferramentas moram fora do namespace `/admin/*` e têm gate próprio na página. Ver [[project_permissoes_configuraveis]] pro detalhe da arquitetura resultante — QUALQUER ferramenta nova fora de `/admin/*` com gate de página própria deve seguir esse mesmo padrão (helper puro + force-add), não reimplementar a checagem de papel em cada lugar.
