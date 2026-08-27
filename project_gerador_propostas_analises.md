@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: abd490d3-d546-47fd-9269-c2122b669bb6
-  modified: 2026-08-27T05:28:18.651Z
+  modified: 2026-08-27T06:26:50.388Z
 ---
 
 Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[proposta-quirk]] (~/.claude/skills/proposta-quirk/ — processo, regras de copy do Renan, 3 exemplos reais, spec do agente de análise em references/agente-analise-presenca.md).
@@ -20,6 +20,8 @@ Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[pro
 **O Agente de Análise entrega:** avaliação sem preços de 3 pilares (Site auto-fetch · Instagram e Anúncios colados pelo vendedor na v1) com nota 0-10 → PDF identidade Quirk + e-mail personalizado (≤120 palavras) pronto pra copiar. Limite 10 análises/dia por usuário. Exporta `gerarObservacoes({site,instagramDados})` pro campo observacoes do gerador.
 
 **Gotchas técnicos descobertos:** args do @sparticuz/chromium travam launch do Chrome desktop no Mac (teste local = CHROME_EXECUTABLE_PATH + args mínimos) · puppeteer-core 25.9 sem networkidle0 no setContent (usar 'load' + document.fonts.ready) · worktree novo não tem .env (fica no checkout principal) · ANTHROPIC_API_KEY só existe no Render, sem teste de API local.
+
+**v2 (27/08, commit `fec081f` na main):** prints de evidência reais no PDF — site, perfil público do Instagram (campo novo `instagramUrl`, DDL `instagram_url` aplicada em teste+prod ANTES do push) e Biblioteca de Anúncios por frase exata (`search_type=keyword_exact_phrase`; unordered traz lixo). Captura via `comBrowser` novo exportado do renderizarPdf (mesma fila). Claude recebe placeholders `__LOGO__`/`__PRINT_*__`; substituição no pós-processamento (base64 nunca passa pelo modelo). Logo = ícone oficial 128px base64 (SVG recriado distorcia). Instagram deslogado: derrubar `div[role=dialog]` (modal de cadastro) e detectar "não está disponível". GOTCHA runner de DDL: lê `DATABASE_URI` (não DDL_URI) e a falha por env faltando imprime só "Node.js v24..." — conferir SEMPRE por introspecção. Deploy sem rota nova não tem marcador público (fingerprint cego): prova final é gerar uma análise no ar.
 
 **NO AR (26/08):** Análise de Presença deployado — main em `55fe6b9`, smoke test verde (POST /api/analises/gerar = 403; página /analises redireciona pro login). DDL de prod aplicada antes do push. Renderizador DELEGA pro renderizarPdf compartilhado da 79 (fila única de Chromium). Página fica no grupo `(equipe)` — o grupo `(app)` tem gate da área do cliente que barra o papel comercial (fix espelhado do 0d2d4e7 do gerador). Chamada ao Claude em **streaming** (stream()+finalMessage()) — SDK recusa create() não-streaming com max_tokens alto (fix espelhado do f5ed9e4). Runner de DDL: scripts/aplicar-ddl.mts (bloqueia -pooler). Falta validar geração real com usuário logado (ANTHROPIC_API_KEY só no Render).
 
