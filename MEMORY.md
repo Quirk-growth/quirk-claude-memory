@@ -1,5 +1,5 @@
 - [User: Renan Real](user_role.md) — Fundador Quirk Growth (marketing imobiliário); técnico-comercial, valoriza honestidade direta e entregas consolidadas
-- [Projeto: Quirk Auto Ads](project_quirk_auto_ads.md) — Automação Make + Claude + Meta Ads pra criar campanhas imobiliárias CTWA via WhatsApp; multi-cliente em aplicação (mai/2026)
+- [Projeto: Quirk Auto Ads](project_quirk_auto_ads.md) — Automação n8n + Claude + Meta Ads pra campanhas CTWA via WhatsApp; NO AR como produto: 3 clientes a R$497/mês (ago/2026), gargalo é marketing
 - [Referências: docs e conectores Quirk](reference_quirk_docs.md) — Local /Users/renanreal/quirk_auto_ads/, cenário Make 4750002, BM 1612905538806887, conectores Make/Meta com limites conhecidos
 - [Asaas webhook → n8n gateway](reference_asaas_webhook_gateway.md) — Payload Asaas só traz ID do cliente (buscar telefone via API); header auth asaas-access-token; IDs dos workflows; filtro Auto Ads; pendências segurança + UAZAPI
 - [WhatsApp Cloud API (oficial)](reference_whatsapp_cloud_api.md) — Migração uazapi→oficial (jul/2026); phone id 1320571937797802, WABA 2088588845203405, credencial n8n, arquitetura inbound→principal e gotchas do n8n
