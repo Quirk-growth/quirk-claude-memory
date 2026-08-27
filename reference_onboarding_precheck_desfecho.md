@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
-  modified: 2026-08-24T19:37:51.173Z
+  modified: 2026-08-27T20:48:24.515Z
 ---
 
 Dois ajustes de robustez no [[project_quirk_auto_ads]] (workflow `fBUin1UPt5xJEp6g`), deploy 24/ago/2026, norte do Renan: "tudo precisa ser avisado e revisado pra ferramenta ser o mais autônoma possível". Specs/plano em `quirk_auto_ads/docs/`.
@@ -18,4 +18,8 @@ Dois ajustes de robustez no [[project_quirk_auto_ads]] (workflow `fBUin1UPt5xJEp
 
 **⚠️ GOTCHA n8n (custou um bug crítico quase-em-prod):** nó **Postgres executeQuery SUBSTITUI o item** de saída (não passa o input adiante). Se você põe um `load_token_*` (Postgres) ANTES de um code node, o `$input.first().json` do code vira `{o_resultado_do_postgres}`, perdendo os campos do item original. Um code node depois de Postgres deve ler os campos originais por `$('no_de_origem')`, não por `$input`. (Aqui: `precheck_prontidao` lê `inp` de `$('if_revisao_ok')`, não de `$input` — senão gravaria `ad_account_id=undefined` no cadastro na ativação.)
 
-Ordem executada: #2 → #1 → (retomar aquecimento, plano `2026-08-24-aquecimento-conta-plan.md` Tasks 3–7). Ver [[reference_onboarding_confirmacao_flow]] e [[reference_saldo_whatsapp]].
+Ordem executada: #2 → #1 → (retomar aquecimento, plano `2026-08-24-aquecimento-conta-plan.md` Tasks 3–7). Ver [[reference_onboarding_confirmacao_flow]], [[reference_saldo_whatsapp]] e [[reference_aquecimento_conta]].
+
+**⚠️ Review "TUDO responde, nada trava" (24/ago, `e_24`+`e_25`):** o Renan exige que NENHUMA ação termine sem resposta. Dois achados/fixes:
+- **CONFIRMAR caindo na rota de gestão (`e_24`):** `switch_a_ou_b` roteava por `estado.gestao != null` — mas gestão ATIVA chega lá por `process_gestao_step` (que pula `classify_intent`), enquanto criação chega por `classify_intent` CONFIRMAR. Resíduo de `estado.gestao` (ex: STATUS anterior) fazia o CONFIRMAR de criação ir pro `execute_gestao_action` (sem ação válida) e **morrer calado**. Fix: nó `decide_a_ou_b` (try/catch) — se `classify_intent.intent` é CONFIRMAR/SUBIR_DENOVO → rota CRIACAO sempre; senão respeita `estado.gestao`. `switch_a_ou_b` roteia por `$json.rota`.
+- **Switches sem fallback = silêncio (`e_25`):** auditoria de grafo (todo ramo alcança um nó de envio?) achou 3 switches sem `fallbackOutput`: `switch_type` (áudio/figurinha/localização → mudo!), `execute_gestao_action`, `switch_acao_gestao`. Cada um ganhou `fallbackOutput:'extra'` → nó de mensagem. Método de auditoria: nós terminais que não são envio + ramos de switch/if vazios ou que não alcançam `/messages`. `normalize_phone` retorna `[]` só no dedup de wamid (intencional). `if_cadastrado` é órfão inalcançável.
