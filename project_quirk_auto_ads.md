@@ -1,8 +1,9 @@
 ---
 name: project_quirk_auto_ads
-description: Projeto Quirk Auto Ads — automação Make.com que recebe briefing imobiliário no WhatsApp (UAZAPI), interpreta com Claude, cria campanhas CTWA via Meta Marketing API. Status: arquitetura multi-cliente em aplicação (mai/2026).
+description: Projeto Quirk Auto Ads — automação n8n + Claude + Meta Marketing API que cria campanhas CTWA via WhatsApp. Status: NO AR como produto pago — 3 clientes a R$497/mês (ago/2026).
 type: project
 originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
+modified: 2026-08-27T05:18:17.491Z
 ---
 **Quirk Auto Ads** — sistema que recebe briefing de cliente imobiliário pelo WhatsApp, usa Claude pra interpretar e estruturar a campanha, e cria via Meta Marketing API (Click-to-WhatsApp). Multi-cliente: cada cliente tem ad_account/page/token próprios no Data Store.
 
