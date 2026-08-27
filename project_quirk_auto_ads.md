@@ -3,7 +3,7 @@ name: project_quirk_auto_ads
 description: Projeto Quirk Auto Ads — automação n8n + Claude + Meta Marketing API que cria campanhas CTWA via WhatsApp. Status: NO AR como produto pago — 3 clientes a R$497/mês (ago/2026).
 type: project
 originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
-modified: 2026-08-27T05:18:17.491Z
+modified: 2026-08-27T05:18:38.299Z
 ---
 **Quirk Auto Ads** — sistema que recebe briefing de cliente imobiliário pelo WhatsApp, usa Claude pra interpretar e estruturar a campanha, e cria via Meta Marketing API (Click-to-WhatsApp). Multi-cliente: cada cliente tem ad_account/page/token próprios no Data Store.
 
@@ -27,6 +27,8 @@ modified: 2026-08-27T05:18:17.491Z
 **How to apply:** Antes de qualquer mudança técnica, lembrar que o sistema é multi-cliente — toda hardcode de ad_account/page/token quebra o multi-tenancy. Manter dados por cliente no Data Store via Key = telefone.
 
 **Fase atual (mai/2026):** Multi-cliente em aplicação. Documento de execução: /Users/renanreal/quirk_auto_ads/EXECUCAO_MULTI_CLIENTE.md. Falta: aplicar bodies novos no Make + estender Data Store + cadastrar primeiro cliente de teste + testar end-to-end. Depois disso: Fase E (auditoria/logs) e Fase F (relatórios sob demanda).
+
+**Status comercial (ago/2026, contado na call com Marcelo/Sayne):** NO AR como produto pago — **3 clientes ativos a R$497/mês** (~R$2k MRR), vendidos quase sem esforço: quando o SDR identifica corretor sem estrutura ("cagado" no bench), oferece o Auto Ads numa call de 10 min; página própria com comparativo (gestor amador × Auto Ads × assessoria) e checkout que já abre cobrança no Asaas. API oficial do WhatsApp já embutida. Fluxo n8n com 150+ módulos. Conta do Renan: 100 clientes = R$50k MRR com 1 suporte + 1-2 gestores. Sinal de upsell planejado: quando o painel mostrar cliente investindo R$2-3k/mês em anúncio → oferecer assessoria. Marcelo chamou de "o killer da Quirk" (analogia: Acelera Aí do Allan Barros vs agência Pulse). Gargalo declarado: "tá parado, nem fui atrás" — sem push de marketing próprio ainda; plano de VSL + Instagram dedicado + tráfego pra demanda de corretor que o comercial descarta.
 
 **Pendências conhecidas que valem lembrar:**
 - Ads MCP bloqueado na conta de teste — Meta libera no rollout sem prazo
