@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
-  modified: 2026-08-27T20:48:24.515Z
+  modified: 2026-08-28T02:47:33.841Z
 ---
 
 Dois ajustes de robustez no [[project_quirk_auto_ads]] (workflow `fBUin1UPt5xJEp6g`), deploy 24/ago/2026, norte do Renan: "tudo precisa ser avisado e revisado pra ferramenta ser o mais autônoma possível". Specs/plano em `quirk_auto_ads/docs/`.
@@ -23,3 +23,4 @@ Ordem executada: #2 → #1 → (retomar aquecimento, plano `2026-08-24-aquecimen
 **⚠️ Review "TUDO responde, nada trava" (24/ago, `e_24`+`e_25`):** o Renan exige que NENHUMA ação termine sem resposta. Dois achados/fixes:
 - **CONFIRMAR caindo na rota de gestão (`e_24`):** `switch_a_ou_b` roteava por `estado.gestao != null` — mas gestão ATIVA chega lá por `process_gestao_step` (que pula `classify_intent`), enquanto criação chega por `classify_intent` CONFIRMAR. Resíduo de `estado.gestao` (ex: STATUS anterior) fazia o CONFIRMAR de criação ir pro `execute_gestao_action` (sem ação válida) e **morrer calado**. Fix: nó `decide_a_ou_b` (try/catch) — se `classify_intent.intent` é CONFIRMAR/SUBIR_DENOVO → rota CRIACAO sempre; senão respeita `estado.gestao`. `switch_a_ou_b` roteia por `$json.rota`.
 - **Switches sem fallback = silêncio (`e_25`):** auditoria de grafo (todo ramo alcança um nó de envio?) achou 3 switches sem `fallbackOutput`: `switch_type` (áudio/figurinha/localização → mudo!), `execute_gestao_action`, `switch_acao_gestao`. Cada um ganhou `fallbackOutput:'extra'` → nó de mensagem. Método de auditoria: nós terminais que não são envio + ramos de switch/if vazios ou que não alcançam `/messages`. `normalize_phone` retorna `[]` só no dedup de wamid (intencional). `if_cadastrado` é órfão inalcançável.
+- **BUG achado no review: REATIVAR/ENCERRAR/ALTERAR_GEO não executavam (`e_26`):** `execute_gestao_action` filtrava verbo com `equals` estrito — regra STATUS só `=='PAUSAR'`, regra TARGETING só `=='ALTERAR_PUBLICO'`. MAS `meta_update_status` faz os 3 status (`{PAUSAR:PAUSED,REATIVAR:ACTIVE,ENCERRAR:ARCHIVED}`) e `switch_publico_geo_livre` cobre publico+geo. Então REATIVAR/ENCERRAR/GEO caíam fora (dead-end antes; fallback do e_25 depois) em vez de executar. Fix: regras usam `['PAUSAR','REATIVAR','ENCERRAR'].includes(verbo)?'STATUS':'nope'` (e idem TARGETING). Verificado na Ignite: `reativar → 1 → SIM` executou (`meta_update_status success`, mensagem "reativada"), sem cair no fallback. **Lição: switch por `equals` de UM valor esconde ações válidas irmãs — auditar cobertura de verbo/enum vs o que o nó de execução realmente suporta.** Seleção de campanha na gestão é por NÚMERO (1..N) + confirmação SIM/NÃO nos verbos destrutivos.
