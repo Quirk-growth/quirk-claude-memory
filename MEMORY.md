@@ -69,3 +69,4 @@
 - [Google Ads: versão da API hardcoded quebra sem aviso](reference_google_ads_versao_api.md) — v21 bloqueada pela Google; contas somem da lista de vínculo e sync para, silenciosamente; fix pra v25 (13/08/2026)
 - [Projeto: Programador de posts (Social Media)](project_programador_posts.md) — Frente 1 do plano de Social Media; task=post, publica via Meta; NO AR 18/08, faltam aprovação Meta + Render Cron pra funcionar de verdade
 - [GOTCHA: script local Payload precisa de NODE_ENV=production](reference_payload_script_node_env_producao.md) — senão o push automático mira o DATABASE_URI de prod; quase dropou guia_pastas (25/08), matei a tempo
+- [GOTCHA: "Ignore" do Make engole falha e mata a rota](reference_make_ignore_engole_falha.md) — execução fica VERDE mas só roda parte do fluxo; assinatura é a queda na contagem de operações; ActiveCampaign 402 sumiu com e-mail+WhatsApp de leads
