@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
-  modified: 2026-08-30T11:20:48.527Z
+  modified: 2026-08-30T14:17:14.992Z
 ---
 
 Painel administrativo do [[project_quirk_auto_ads]] incorporado à [[project_area_membros_quirk]] (rota **`/admin/auto-ads`**), pro time Quirk gerir os clientes do Auto Ads de dentro da área de membros. NÃO é a área do cliente. Código em `src/lib/autoads/` + `src/components/admin/AutoAds*.tsx`.
@@ -13,7 +13,8 @@ Painel administrativo do [[project_quirk_auto_ads]] incorporado à [[project_are
 **Arquitetura:** conecta no banco **Supabase `auto_ads`** (SEPARADO do Neon da área de membros) via pool `pg` cru (`src/lib/autoads/pool.ts`, env `AUTO_ADS_DATABASE_URI`), + Meta Graph API pra dado ao vivo (saldo, spend/insights). Sem coleções Payload novas.
 
 **Fase 1 (MERGEADA em prod 29/ago, PR #1 `067c5bb`):** cockpit (lista de clientes) + tela de detalhe + gate matriz∧teto + saldo/precheck ao vivo + mutations (atualizar/trocar conta/resetar estado/forçar aquecimento).
-**Fase 2a (branch `feat/painel-auto-ads-fase2a`, PR aberto 29/ago, aguardando merge):** "Abrir" via `?cliente`, tela de detalhe com campanhas + investimento (Meta insights), colunas de resumo + busca + seletor de período (7/30/90) no cockpit, e **seção "Acesso"** pra atribuir pessoas. 201 testes verdes. Specs/plano em `docs/{specs,plans}/2026-08-29-painel-auto-ads-fase2a*`.
+**Fase 2a (MERGEADA + NO AR 30/ago, PR #2 commit 860becc):** "Abrir" via `?cliente` (rota :telefone não casava), tela de detalhe com campanhas + investimento (Meta insights), colunas de resumo + busca + seletor de período (7/30/90) no cockpit, e **seção "Acesso"** pra atribuir pessoas. **Verificado ao vivo em prod:** detalhe do Aquilino mostra 4 campanhas/R$182/tabela por campanha/conversa; cockpit com colunas reais; "—" pra conta pendente; seção Acesso lista comercial/social. Ressalva do review (formato ad_account_id no join clientes×campanhas) RESOLVIDA na prática (números batem). Specs/plano em `docs/{specs,plans}/2026-08-29-painel-auto-ads-fase2a*`.
+⚠️ **GOTCHA de CI (custou horas — o merge do #2 travou nisso):** a CI da main tem job "Tipos + testes unitários" com 3 passos: `tsc --noEmit`, `npm run typecheck:tests` (tsc na pasta tests/) e `npx vitest run tests/unit`. (1) **`tsc --noEmit` NÃO valida `tests/`** (a pasta fica fora do tsconfig principal) — erro de tipo em arquivo de teste novo passa local e só quebra no `typecheck:tests` do CI. SEMPRE rodar `npm run typecheck:tests` nos testes novos antes de dar por pronto. (2) **`typecheck:tests` estourava heap (OOM ~2GB) no runner** — precisou `--max-old-space-size=6144` no script (commit d955096). (3) branch protection bloqueia merge com CI vermelha; a main tinha 101 erros de fixture pré-existentes (TarefaCard ganhou ordem/agendamento/subtarefas/tarefaPaiId) que travavam TODO merge — corrigidos no PR #3. Pra a CI da branch ficar verde, `git merge origin/main` DEPOIS que o fix está na main (a branch herda os erros senão).
 
 **Gate de acesso:** `podeVerItem(rota) && (temExcecaoAutoAds(user) || podeVerAutoAds(role))` nos 3 pontos (menu/página/ações). Teto por papel = administrativo/comercial/admin; **concessão explícita por pessoa fura o teto**. Seção "Acesso" (só supervisor+) atribui via endpoint `POST /api/users/permissoes-extras` (grava a coluna via pool, NÃO `payload.update` → não desloga — ver [[reference_payload_update_sessions]]); **enviar o array COMPLETO de permissoesExtras** (senão apaga as outras exceções). Lista de pessoas atribuíveis = const `PAPEIS_ACESSO_AUTO_ADS` (admin/supervisor/administrativo/gestor/comercial/social — inclui social/comercial de propósito), NÃO `PAPEIS_EQUIPE`.
 
