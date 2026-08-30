@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
-  modified: 2026-08-30T14:17:14.992Z
+  modified: 2026-08-30T22:12:30.797Z
 ---
 
 Painel administrativo do [[project_quirk_auto_ads]] incorporado à [[project_area_membros_quirk]] (rota **`/admin/auto-ads`**), pro time Quirk gerir os clientes do Auto Ads de dentro da área de membros. NÃO é a área do cliente. Código em `src/lib/autoads/` + `src/components/admin/AutoAds*.tsx`.
@@ -27,5 +27,9 @@ Painel administrativo do [[project_quirk_auto_ads]] incorporado à [[project_are
 **Conexão Supabase auto_ads (operacional — a SENHA não fica aqui):** projeto ref `gnqxetyrurdpjsnkuhli`. Usar o **Session pooler** (`aws-1-sa-east-1.pooler.supabase.com:5432`, user `postgres.gnqxetyrurdpjsnkuhli`, db `postgres`) — o Render é IPv4 e a conexão DIRETA do Supabase é IPv6 (não funciona do Render); o pooler é IPv4. `AUTO_ADS_DATABASE_URI` no Render = a URI com a senha **URL-encoded** (caractere especial quebra a string: `#`→`%23`, senão dá `password authentication failed`). O **n8n usa a MESMA senha** na credencial Postgres **"Quirk Auto Ads Postgres"** (id `NKHJwhesMp2Bo4Xw`, 43 nós) — mas no campo Password **CRU** (não é URL, sem %23). **⚠️ Resetar a senha no Supabase quebra os DOIS ao mesmo tempo → atualizar Render (URI com %23) E a credencial do n8n (crua) juntos**, senão o painel OU o bot cai. `pool.ts` tem `ssl:{rejectUnauthorized:false}` + `pool.on('error')` (evita crash em conexão ociosa).
 
 **Checklist de verificação no DEPLOY da Fase 2a:** (1) "Abrir" → detalhe renderiza (`?cliente`); (2) contagem de campanhas + investimento reais contra a Meta — conferir se o formato de `ad_account_id` bate entre `auto_ads.clientes` e `auto_ads.campanhas` (o join é por igualdade crua de telefone+ad_account_id; n8n grava campanhas.ad_account_id A PARTIR de clientes.ad_account_id, então deve casar, mas confirmar); (3) atribuir uma pessoa social/gestor na seção Acesso → passa a ver + NÃO desloga; (4) visual (chips de período, tabela do detalhe, seção Acesso).
+
+**Fase 2b (MERGEADA + NO AR 30/ago, PR #2/#4):** acesso padrão só administrativo+admin (comercial saiu do teto → só por seleção explícita); **aba "Acessos"** própria (`/admin/auto-ads-acessos`, gate `podeVerItem && podeVerAutoAds` SEM bypass — quem entra por concessão vê o painel mas NÃO gerencia acessos); **dashboard** no topo do cockpit (MRR + clientes + investimento + campanhas ativas + ticket médio + novos no mês); **conversa leve** (12 turnos mais recentes via `slice(0,12)` pq `dividirHistorico` é newest-first + "ver completo" esconde o dump JSON). Verificado em prod.
+⚠️ **MRR — a conta Asaas do Auto Ads é a MESMA da Quirk inteira** (somar todas as ACTIVE dava ~R$185k, a agência toda). Fix (PR #5, `mrrAtivoAutoAds` em asaas.ts): filtra só as assinaturas Auto Ads pelo MESMO marcador do gateway n8n (`d_08_gaps_onboarding`): **valor ∈ {497, 596} OU `externalReference === 'auto-ads-mensal'`**. Verificado em prod: MRR = R$1.491 (3 × R$497), correto. (Se um dia a agência tiver produto 497/596, trocar pra filtro por grupo de cliente "Auto Ads - Imob".)
+DEPLOY-checklist da 2b (fazer): ligar `/admin/auto-ads-acessos` em Permissões pra administrativo+admin (item novo nasce default-deny; admin já vê); desmarcar comercial em `/admin/auto-ads` em Permissões (linha inócua).
 
 Ver [[project_auto_ads_migracao_codigo]] (STAND-BY, motor pra código) e [[reference_payload_select_enum_ddl]].
