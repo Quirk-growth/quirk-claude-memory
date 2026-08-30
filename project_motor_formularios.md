@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-30T21:20:52.500Z
+  modified: 2026-08-30T21:43:13.610Z
 ---
 
 Motor genérico de criação/envio/preenchimento de formulários — sub-projeto 1
@@ -322,3 +322,47 @@ banco-de-teste-compartilhado-sob-carga já documentado antes nesta sessão.
 
 Ver [[reference_git_repo_compartilhado_sessoes]] se outra
 sessão mexer em `FormulariosView.tsx`/`Respostas.ts` em paralelo.
+
+## Primeiro formulário real: Pesquisa de Satisfação/NPS (30/08/2026)
+Renan colou o roteiro completo da pesquisa (15 etapas) e pediu pra subir.
+Criado via script (`scripts/seed-formulario-nps-quirk.mts`, `NODE_ENV=production
+npx tsx ...`) — id 2 em produção, 51 perguntas, `ativo: true`.
+
+**Decisão do Renan**: a Etapa 9 (perguntas condicionadas aos SERVIÇOS
+CONTRATADOS pelo cliente — Mentoria/Branding/Sistema/etc.) ficou de fora
+desta versão. O motor não tem como cruzar uma pergunta com o que o cliente
+realmente contrata (isso mora no cadastro dele, fora do formulário) — e
+`multipla_escolha` só aceita uma opção por vez, não dá pra "marcar todos os
+serviços que tem". Se um dia isso for pedido de novo, precisa de uma
+funcionalidade nova no motor (não é gap de conteúdo, é gap de engine).
+
+**Confirmado como NÃO automatizado ainda** (fica só a captura da resposta,
+sem ação nenhuma disparando sozinha): classificação automática
+Detrator/Neutro/Promotor pela nota do NPS; criação automática de tarefa pra
+CS quando a resposta de retenção for "Ainda avaliando"/"Provavelmente
+não"/"Não"; conversão de indicação em lead comercial. Tudo isso é o
+"sub-projeto 2" do pedido original de NPS, ainda não construído.
+
+**Mapeamento perguntaId → estrutura**: `nps` (escala 0-10) com 3 perguntas
+condicionadas por faixa de nota (`nps_motivo_detrator` 0-6,
+`nps_motivo_neutro` 7-8, `nps_motivo_promotor` 9-10 — o motor só aceita
+lista de valores exatos, não faixa, então cada uma lista os números um a
+um); ~34 perguntas de escala 1-5 organizadas por área (experiência geral,
+atendimento, gestor, CS, criativos, tráfego, calls, prazos, valor
+percebido); `retencao` (múltipla escolha 5 opções) com `retencao_motivo`
+condicionado às 3 opções negativas; `referidos` (bloco_contatos,
+`maxContatos: 3`) condicionado a nps 9-10 — mapeou 1:1 nos campos nativos
+do tipo (empresa/nome/whatsapp/instagram/site/autorizaContato), sem
+precisar de nenhuma mudança no schema.
+
+**Gotcha do dia (evitado a tempo)**: testando como rodar um script `.mts`
+com `getPayload` via `npx tsx -e "..."` inline, esbarrei duas vezes num erro
+de transform do esbuild ("Top-level await not supported com cjs") — antes
+de tentar de novo, rodei um script de checagem separado (`_check-formulario-nps.mts`,
+NODE_ENV=production, contando quantos formulários com aquele título já
+existiam) pra confirmar que nenhuma tentativa anterior tinha criado um
+duplicado por acidente. Deu 0 — nada foi criado até a tentativa que
+realmente funcionou. **Lição**: ao testar variações de invocação de um
+script que ESCREVE em produção (`payload.create`), sempre confirmar via uma
+leitura separada que uma tentativa anterior malsucedida não deixou efeito
+colateral, antes de tentar de novo — não presumir que "deu erro" = "não fez nada".
