@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-30T14:04:17.796Z
+  modified: 2026-08-30T14:04:35.028Z
 ---
 
 Motor genérico de criação/envio/preenchimento de formulários — sub-projeto 1
@@ -220,3 +220,39 @@ nem sabia que tinha) — ver [[reference_git_repo_compartilhado_sessoes]].
   executados nesta sessão (local dev = produção, ver
   [[reference_modeloscontrato_corpo_orfa]] — verificação real só via HTTPS
   de produção).
+
+## Segunda rodada de bugs reais + polish (30/08/2026, commit `f4af4cd`)
+Renan testou de verdade depois do deploy anterior e achou 2 problemas novos:
+
+- **"+ Adicionar opção" dava o mesmo erro de salvar** — mesma causa raiz do
+  bug de digitação (texto vazio bate em `required: true` no servidor), só
+  que num call site diferente: `adicionarOpcao()` criava a opção nova como
+  `{ valor: '' }` e salvava IMEDIATO (fora do debounce, porque é uma ação
+  estrutural tipo mover/remover). Corrigido dando um valor padrão não-vazio
+  ("Nova opção"), mesmo padrão que `novaPergunta()` já usava pro texto.
+  Teste de integração novo prova que o servidor rejeita `opcoes[].valor`
+  vazio de verdade, não só o mock — mesma disciplina do fix anterior.
+- **Campo de resposta e botões do wizard "feios"** — `PerguntaCampo.tsx`
+  (compartilhado entre o wizard público E a aba Pré-visualizar do admin) e
+  os botões Voltar/Próxima/Concluir do `FormWizard.tsx` NUNCA entraram no
+  redesign de ontem (que só cobriu telas administrativas) — eram inputs e
+  botões completamente crus, sem borda nem preenchimento. Redesenhados com
+  os mesmos tokens `--pt-*` já usados no admin — que existem tanto em
+  `custom.scss` (admin) quanto em `globals-quirk.css` (formulário público),
+  então funciona nos dois lados sem precisar de classes `hub-*` (que só
+  existem no CSS do admin).
+
+Deploy confirmado (`/admin/login` 200, `/api/notificacoes/painel` 403) —
+smoke test só de liveness geral, sem endpoint novo pra fingerprint
+específico neste deploy.
+
+## Frente B (dashboard de respostas) — brainstorming iniciado (30/08/2026)
+Renan pediu explicitamente: na lista de formulários, um botão levando pra
+(1) lista de respostas, (2) resposta individual, (3) respostas agrupadas
+por pergunta pra análise. Decisões já confirmadas com ele: 5ª aba
+"Respostas" no formulário (não página separada); lista só mostra respostas
+CONCLUÍDAS; escala mostra média + distribuição por nota; toggle "Por
+resposta / Por pergunta" dentro da aba (não as duas juntas na mesma tela).
+Design completo apresentado, aguardando aprovação do Renan pra escrever a
+spec formal — ver [[reference_git_repo_compartilhado_sessoes]] se outra
+sessão mexer em `FormulariosView.tsx`/`Respostas.ts` em paralelo.
