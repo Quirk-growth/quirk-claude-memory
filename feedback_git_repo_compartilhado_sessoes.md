@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-29T17:15:45.878Z
+  modified: 2026-08-30T13:07:01.176Z
 ---
 
 Quando várias sessões/chats do Claude Code rodam apontando pro mesmo diretório de projeto no disco (ex.: `/Users/renanreal/area-membros-quirk-crm`), elas compartilham literalmente o mesmo `.git` local — não é só "várias sessões editando o mesmo repo remoto", é o mesmo checkout físico. Isso significa: se a Sessão A faz commits locais (mesmo sem dar `git push`) e a Sessão B, trabalhando numa feature diferente, roda `git fetch`/`git merge origin/main` seguido de `git push`, o push da Sessão B leva junto TODOS os commits da Sessão A que estavam alcançáveis pelo HEAD compartilhado — mesmo que a Sessão A nunca tenha pedido push nem tenha terminado sua checklist de deploy.
