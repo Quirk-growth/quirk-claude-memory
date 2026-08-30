@@ -1,11 +1,11 @@
 ---
 name: project-motor-formularios
-description: "Motor genérico de formulários (sub-projeto 1 do pedido de NPS) — NO AR, engine (29/08) + redesign Frente A (30/08)"
+description: "Motor genérico de formulários (sub-projeto 1 do pedido de NPS) — NO AR, engine (29/08) + redesign Frente A (30/08) + dashboard de respostas Frente B (30/08)"
 metadata: 
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-30T14:04:35.028Z
+  modified: 2026-08-30T21:20:24.629Z
 ---
 
 Motor genérico de criação/envio/preenchimento de formulários — sub-projeto 1
