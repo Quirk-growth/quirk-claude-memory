@@ -1,0 +1,30 @@
+---
+name: project_painel_auto_ads
+description: "Painel admin do Auto Ads DENTRO da área de membros (/admin/auto-ads) — gestão dos clientes Auto Ads pelo time Quirk; conexão Supabase + gotchas"
+metadata:
+  node_type: memory
+  type: project
+  originSessionId: 29ede2ee-f613-4b1b-b415-bf274185df44
+  modified: 2026-08-30T11:20:48.527Z
+---
+
+Painel administrativo do [[project_quirk_auto_ads]] incorporado à [[project_area_membros_quirk]] (rota **`/admin/auto-ads`**), pro time Quirk gerir os clientes do Auto Ads de dentro da área de membros. NÃO é a área do cliente. Código em `src/lib/autoads/` + `src/components/admin/AutoAds*.tsx`.
+
+**Arquitetura:** conecta no banco **Supabase `auto_ads`** (SEPARADO do Neon da área de membros) via pool `pg` cru (`src/lib/autoads/pool.ts`, env `AUTO_ADS_DATABASE_URI`), + Meta Graph API pra dado ao vivo (saldo, spend/insights). Sem coleções Payload novas.
+
+**Fase 1 (MERGEADA em prod 29/ago, PR #1 `067c5bb`):** cockpit (lista de clientes) + tela de detalhe + gate matriz∧teto + saldo/precheck ao vivo + mutations (atualizar/trocar conta/resetar estado/forçar aquecimento).
+**Fase 2a (branch `feat/painel-auto-ads-fase2a`, PR aberto 29/ago, aguardando merge):** "Abrir" via `?cliente`, tela de detalhe com campanhas + investimento (Meta insights), colunas de resumo + busca + seletor de período (7/30/90) no cockpit, e **seção "Acesso"** pra atribuir pessoas. 201 testes verdes. Specs/plano em `docs/{specs,plans}/2026-08-29-painel-auto-ads-fase2a*`.
+
+**Gate de acesso:** `podeVerItem(rota) && (temExcecaoAutoAds(user) || podeVerAutoAds(role))` nos 3 pontos (menu/página/ações). Teto por papel = administrativo/comercial/admin; **concessão explícita por pessoa fura o teto**. Seção "Acesso" (só supervisor+) atribui via endpoint `POST /api/users/permissoes-extras` (grava a coluna via pool, NÃO `payload.update` → não desloga — ver [[reference_payload_update_sessions]]); **enviar o array COMPLETO de permissoesExtras** (senão apaga as outras exceções). Lista de pessoas atribuíveis = const `PAPEIS_ACESSO_AUTO_ADS` (admin/supervisor/administrativo/gestor/comercial/social — inclui social/comercial de propósito), NÃO `PAPEIS_EQUIPE`.
+
+**⚠️ GOTCHAS reusáveis:**
+- **Item de menu novo no admin nasce SEM permissão pra ninguém.** O default por papel vive no global do banco `permissoes-padrao`; item sem linha lá = invisível pra todos. Re-rodar `scripts/seed-permissoes-padrao.mts` é DESTRUTIVO (apaga customizações da tela de Permissões, por isso ele se recusa sem `--force`). Pra LIGAR um item novo depois do deploy: **marcar na tela de Permissões** (a matriz lista todos os itens do menu via `TODAS_AS_SECOES`). Só deployar não faz aparecer.
+- **Rota com param dinâmico (`/x/:id`) NÃO casa** em `admin.components.views` do Payload — cai na view pai. Usar **query param** (`?cliente=`). Comprovado (a rota `/auto-ads/:telefone` sempre caía no cockpit).
+- **`buscarTokenMeta` (e qualquer helper) não pode ser importado de arquivo `'use server'`** (só exporta server actions async) — mover pra módulo `server-only` (`src/lib/autoads/config.ts`).
+- **Degradação:** chamada Meta/DB que falha retorna `null` (não `0`/vazio) → UI mostra "—"; `null` = "não mediu" ≠ `0` real. `spendPorCampanha` e a contagem de campanhas seguem isso.
+
+**Conexão Supabase auto_ads (operacional — a SENHA não fica aqui):** projeto ref `gnqxetyrurdpjsnkuhli`. Usar o **Session pooler** (`aws-1-sa-east-1.pooler.supabase.com:5432`, user `postgres.gnqxetyrurdpjsnkuhli`, db `postgres`) — o Render é IPv4 e a conexão DIRETA do Supabase é IPv6 (não funciona do Render); o pooler é IPv4. `AUTO_ADS_DATABASE_URI` no Render = a URI com a senha **URL-encoded** (caractere especial quebra a string: `#`→`%23`, senão dá `password authentication failed`). O **n8n usa a MESMA senha** na credencial Postgres **"Quirk Auto Ads Postgres"** (id `NKHJwhesMp2Bo4Xw`, 43 nós) — mas no campo Password **CRU** (não é URL, sem %23). **⚠️ Resetar a senha no Supabase quebra os DOIS ao mesmo tempo → atualizar Render (URI com %23) E a credencial do n8n (crua) juntos**, senão o painel OU o bot cai. `pool.ts` tem `ssl:{rejectUnauthorized:false}` + `pool.on('error')` (evita crash em conexão ociosa).
+
+**Checklist de verificação no DEPLOY da Fase 2a:** (1) "Abrir" → detalhe renderiza (`?cliente`); (2) contagem de campanhas + investimento reais contra a Meta — conferir se o formato de `ad_account_id` bate entre `auto_ads.clientes` e `auto_ads.campanhas` (o join é por igualdade crua de telefone+ad_account_id; n8n grava campanhas.ad_account_id A PARTIR de clientes.ad_account_id, então deve casar, mas confirmar); (3) atribuir uma pessoa social/gestor na seção Acesso → passa a ver + NÃO desloga; (4) visual (chips de período, tabela do detalhe, seção Acesso).
+
+Ver [[project_auto_ads_migracao_codigo]] (STAND-BY, motor pra código) e [[reference_payload_select_enum_ddl]].
