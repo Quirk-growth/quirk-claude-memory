@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-30T13:06:43.722Z
+  modified: 2026-08-30T13:35:36.076Z
 ---
 
 Motor genérico de criação/envio/preenchimento de formulários — sub-projeto 1
@@ -16,6 +16,54 @@ construído; dashboard de NPS é sub-projeto 3, também pendente).
 **Engine no ar desde 29/08/2026** (commit `c52cdc5`, smoke test original).
 **Redesign visual + link avulso (Frente A) no ar desde 30/08/2026** (commit
 `d5f8e16`, smoke test: `POST /api/disparos/avulso` sem auth → 403).
+**Fix do editor + apagar formulário no ar desde 30/08/2026** (commit
+`1c07a5d` — ver seção própria abaixo).
+
+## Bug real em produção + apagar formulário (30/08/2026, commit `1c07a5d`)
+Renan reportou (com screenshot) que digitar o texto de uma pergunta no
+editor apagava o que tinha sido escrito e mostrava "Não foi possível
+salvar. Tente de novo." — regressão do ENGINE original (29/08), não do
+redesign visual do dia anterior, só ficou visível quando ele usou de
+verdade a tela nova.
+
+**Causa raiz**: `EditorFormulario.tsx` disparava um PATCH a CADA TECLA
+digitada (sem debounce), reaproveitando o mesmo `salvar()` usado pelas
+ações estruturais (mover/remover/adicionar). O campo `texto` da pergunta é
+`required: true` no schema (`Formularios.ts`) — selecionar o texto padrão
+"Nova pergunta" pra digitar por cima passa por um instante com o campo
+vazio, que o servidor rejeita; o handler `!r.ok` reverte a lista inteira
+com um erro no meio da digitação. A suíte de testes nunca pegou isso
+porque sempre mockava o fetch como sucesso, nunca simulou o campo ficando
+transitoriamente vazio contra a validação real do servidor.
+
+**Fix**: campos de texto livre (texto da pergunta, opções de múltipla
+escolha, condicional, min/máx de escala, máx de contatos) agora salvam com
+debounce de 600ms — a UI atualiza na hora, o PATCH só sai depois de uma
+pausa na digitação. Ações estruturais continuam salvando na hora. Um
+`salvar()` imediato (mover/remover/adicionar) sempre cancela um debounce
+pendente antes de rodar — evita que um timer antigo "ressuscite" dados já
+superados (mesmo padrão de race já resolvido antes em `TarefasFiltros`,
+achado 3 da revisão de reordenar-mover-subtarefas).
+
+**Apagar formulário**: pedido junto pelo Renan na mesma mensagem. Botão
+"Apagar" na lista e no cabeçalho do detalhe (`ExcluirFormularioButton.tsx`,
+mesmo padrão de `window.confirm()` + DELETE que `ExcluirClienteButton.tsx`
+já usa pra clientes). Decisão de design (perguntada e confirmada pelo
+Renan): **bloquear** a exclusão se o formulário já tiver algum Disparo
+vinculado (não cascatear) — `protegerExclusaoFormulario.ts`, um
+`beforeDelete` na coleção, mesmo padrão de `protegerExclusaoCliente.ts`.
+Formulário nunca disparado apaga normal.
+
+**Gotcha novo**: `FormulariosView.tsx` é Server Component — passar uma
+função como prop (`aoExcluir={() => ...}`) pro `ExcluirFormularioButton`
+(Client Component) não é serializável através da fronteira RSC. Corrigido
+trocando por uma prop booleana (`redirecionarParaListaAoExcluir`) que o
+botão interpreta internamente, em vez de receber um callback.
+
+Smoke test deste deploy foi só de liveness geral (`/admin/login` → 200,
+`/api/notificacoes/painel` → 403) — sem schema novo e sem endpoint
+genuinamente novo nesta mudança pra fingerprint específico (o `beforeDelete`
+só é observável de fato tentando apagar um formulário de verdade).
 
 ## Redesign Frente A (30/08/2026)
 Pedido do Renan: "está feio, difícil de compreender" + precisa de link pra
