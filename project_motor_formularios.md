@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-30T21:20:24.629Z
+  modified: 2026-08-30T21:20:52.500Z
 ---
 
 Motor genérico de criação/envio/preenchimento de formulários — sub-projeto 1
@@ -253,6 +253,72 @@ por pergunta pra análise. Decisões já confirmadas com ele: 5ª aba
 "Respostas" no formulário (não página separada); lista só mostra respostas
 CONCLUÍDAS; escala mostra média + distribuição por nota; toggle "Por
 resposta / Por pergunta" dentro da aba (não as duas juntas na mesma tela).
-Design completo apresentado, aguardando aprovação do Renan pra escrever a
-spec formal — ver [[reference_git_repo_compartilhado_sessoes]] se outra
+
+## Frente B (dashboard de respostas) — NO AR desde 30/08/2026 (commit `9029bc9`)
+Spec: `docs/superpowers/specs/2026-08-30-motor-formularios-dashboard-respostas.md`.
+Plano: `docs/superpowers/plans/2026-08-30-motor-formularios-dashboard-respostas.md`
+(6 tasks, subagent-driven-development, 2 rodadas de revisão de branch inteira).
+
+**O que ficou no ar:**
+- 5ª aba "Respostas" em `FormulariosView.tsx` — lista de respostas
+  concluídas (`RespostasLista.tsx`), detalhe de uma resposta
+  (`RespostaDetalhe.tsx`), e agregado por pergunta (`RespostasPorPergunta.tsx`
+  — média+distribuição pra escala, contagem+% pra múltipla escolha, lista
+  atribuída pra texto livre, lista de contatos pra bloco_contatos). Toggle
+  "Por resposta / Por pergunta" e navegação tudo por query param
+  (`?aba=respostas&modo=...&respostaId=...`), mesmo padrão das outras 4
+  abas. Só respostas `concluida` entram, ordenadas por `concluidoEm` desc,
+  sem paginação (limit 200). Função pura de agregação em
+  `src/lib/formularios/agregarRespostas.ts`.
+- Botão "Ver respostas" na lista de formulários, indo direto pra aba.
+
+**Bug Critical achado e corrigido na revisão final (antes de ir pro ar)**:
+uma pergunta de escala OPCIONAL pulada pelo respondente grava
+`valor: ''` (confirmado: `validarResposta.ts` aceita vazio se
+`obrigatoria: false`, `FormWizard.tsx` sempre manda `valor` mesmo vazio) —
+`Number('')` dá `0`, que passava no filtro `!Number.isNaN(0)` e entrava na
+média como se fosse a PIOR nota possível. Medido: 1 resposta nota 10 + 1
+pulo = média exibida 5.0 (deveria ser 10.0). Mesma causa inflava o
+denominador do percentual de múltipla escolha (1 real + 1 pulo = 50%
+exibido, deveria ser 100%). Corrigido filtrando por `valor` não-vazio
+ANTES de computar `notas`/`total`, só nos branches de escala e múltipla
+escolha (bloco_contatos/texto já tinham sua própria definição correta de
+"respondeu" e ficaram intocados — verificado por diff de saída
+pré/pós-fix byte-idêntico nesses dois). Rodada 2 da revisão reproduziu o
+fix rodando o módulo antes/depois lado a lado (não só lendo código) e
+confirmou ponta a ponta banco real → tela.
+
+**Achado Important junto**: o bloco de contatos agregado — que a spec
+chama explicitamente de "lista de prospecção" — não mostrava o campo
+`autorizaContato` (o wizard pergunta "Autoriza a Quirk a entrar em
+contato", default `false`). Risco real de um operador abordar quem
+recusou. Corrigido com um selo "Autorizou contato"/"Não autorizou contato"
+nos dois componentes que mostram contatos (`RespostasPorPergunta.tsx` e
+`RespostaDetalhe.tsx`), fail-closed pra `null`/ausente.
+
+**Gotcha de deploy novo**: entre o merge da Frente A e o desta Frente B,
+`origin/main` avançou com uma feature TOTALMENTE não-relacionada de outra
+sessão paralela (Painel Auto Ads, via PR) — não deu mais pra fazer
+fast-forward simples como nas vezes anteriores. Zero sobreposição de
+arquivos entre as duas features (confirmado por `git diff --name-only`),
+então o merge de verdade saiu limpo sem nenhum conflito. Pra evitar tocar
+no worktree "principal" do repo (que outra sessão estava usando ao vivo,
+mesmo gotcha de antes), criei um worktree DESCARTÁVEL em `/tmp` a partir de
+`origin/main`, fiz o merge lá (`git merge --no-ff`), simlinkei
+`node_modules` pra rodar `tsc --noEmit` sem precisar de `npm install`
+completo, movi a ref de `main` local pro commit de merge resultante, e
+removi o worktree temporário depois — tudo sem checkout em nenhum worktree
+que outra sessão pudesse estar usando. Ver [[reference_git_repo_compartilhado_sessoes]].
+
+**Suíte completa nesta rodada teve falha em massa** (28 de 499 arquivos,
+duração anormal ~5h) por contenção de infraestrutura sob carga concorrente
+— confirmado pelo padrão idêntico "Hook/Test timed out in 30000ms" em
+dezenas de arquivos totalmente não-relacionados (`crm-*`, `tarefas-*`,
+`trilha-*`, etc.) e por uma queda de conexão real no fim do log. Os 2
+arquivos que tocavam esta feature (`formulariosCriarDisparo`,
+`formulariosView`) foram reconfirmados passando 21/21 quando rodados
+isolados logo depois — não era regressão, era o mesmo padrão de
+banco-de-teste-compartilhado-sob-carga já documentado antes nesta sessão.
+
+Ver [[reference_git_repo_compartilhado_sessoes]] se outra
 sessão mexer em `FormulariosView.tsx`/`Respostas.ts` em paralelo.
