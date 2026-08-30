@@ -1,11 +1,11 @@
 ---
 name: project-motor-formularios
-description: "Motor genérico de formulários (sub-projeto 1 do pedido de NPS) — NO AR 29/08, 12 tasks, coleções Formularios/Disparos/Respostas"
+description: "Motor genérico de formulários (sub-projeto 1 do pedido de NPS) — NO AR, engine (29/08) + redesign Frente A (30/08)"
 metadata: 
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-29T17:15:20.653Z
+  modified: 2026-08-30T13:06:43.722Z
 ---
 
 Motor genérico de criação/envio/preenchimento de formulários — sub-projeto 1
@@ -13,9 +13,95 @@ de um pedido maior do Renan sobre NPS pros clientes (o NPS em si, com regras
 de classificação/tarefa automática/indicação, é sub-projeto 2, ainda não
 construído; dashboard de NPS é sub-projeto 3, também pendente).
 
-**No ar em produção desde 29/08/2026** (commit `c52cdc5`, deploy confirmado
-por smoke test: `GET /api/formularios` → 403 sem auth, `/formularios/<token
-inválido>` → 404, `/admin/formularios` → 200).
+**Engine no ar desde 29/08/2026** (commit `c52cdc5`, smoke test original).
+**Redesign visual + link avulso (Frente A) no ar desde 30/08/2026** (commit
+`d5f8e16`, smoke test: `POST /api/disparos/avulso` sem auth → 403).
+
+## Redesign Frente A (30/08/2026)
+Pedido do Renan: "está feio, difícil de compreender" + precisa de link pra
+quem não tem área de membros + queria visão de dashboard de respostas (essa
+parte virou **Frente B**, explicitamente adiada — dashboard de conteúdo de
+resposta ainda não existe, só a coleção nativa `Respostas` no admin cru).
+
+Spec: `docs/superpowers/specs/2026-08-29-motor-formularios-redesign.md`.
+Plano: `docs/superpowers/plans/2026-08-29-motor-formularios-redesign.md` (9
+tasks, executadas via subagent-driven-development em branch própria
+`feat/motor-formularios-redesign`, 3 rodadas de revisão de branch inteira).
+
+O que mudou:
+- Visual: `EditorFormulario`/`PainelDisparos` trocaram `style={{}}` solto
+  (com hex hardcoded que não batia com nenhum tema) pelas classes `hub-*`/
+  `var(--pt-*)` já usadas no resto do painel — zero mudança de lógica,
+  todos os `data-*` de teste preservados byte-a-byte.
+- Reorganização: tela de detalhe virou 4 abas por query param (`?id=X&aba=`)
+  — Perguntas (editor + mensagem de introdução), Configurações (só o toggle
+  Ativo), Pré-visualizar (nova — wizard local sem rede, ver abaixo), Disparos
+  (bloco "Links avulsos" + o fluxo de disparo que já existia). O antigo
+  `MetadadosFormulario.tsx` (título+mensagemIntro+ativo num bloco só) foi
+  aposentado — os 3 campos viraram 3 componentes pequenos em 3 lugares.
+- **Pré-visualizar**: desviei da spec original (que pedia um modo dual
+  dentro do próprio `FormWizard`) — extraí o renderizador de pergunta-por-
+  tipo pra um componente `PerguntaCampo` reaproveitado por um componente
+  novo e separado (`FormWizardPreview`, sem rede, condicional reagindo ao
+  vivo). Decisão de arquitetura consciente (evitar bifurcar a máquina de
+  estado do wizard real), registrada e aceita nas revisões.
+- **Link avulso**: mecanismo "balde" — um `Disparo` especial por formulário
+  (`rotulo` reservado `__links_avulsos__`, `alvo: sem_cliente`), criado sob
+  demanda, que acumula uma `Resposta` por clique em vez de criar um disparo
+  novo a cada vez. Zero mudança de schema. `src/lib/formularios/linkAvulso.ts`.
+
+## Achados sérios da revisão de branch (3 rodadas, todos corrigidos antes do merge)
+- **Balde vazando pra lista de Disparos** (rodada 1): a query da aba
+  Disparos não excluía o rótulo reservado — o supervisor via
+  `__links_avulsos__` cru na lista, com um botão "Encerrar" funcional que
+  matava TODOS os links avulsos (passados e futuros) enquanto a UI
+  continuava mostrando "Copiado!" pra links mortos. Corrigido filtrando o
+  rótulo na query + reabrindo o balde automaticamente se reaproveitado num
+  estado não-`aberto`.
+- **`LinksAvulsos` escondia links já gerados** (rodada 1): carregava a lista
+  só no primeiro "Ver links", e gerar um link novo ANTES de expandir marcava
+  "já carreguei" sem nunca ter buscado — links pré-existentes ficavam
+  invisíveis até reload de página inteira. Corrigido: carrega no mount.
+- **Cores hex hardcoded ilegíveis no tema claro** (rodada 1, plan-mandated —
+  contradição do meu próprio plano com sua própria regra de "nunca hex
+  hardcoded"): `PerguntaCampo` foi extraído do wizard público (fundo escuro)
+  mas passou a rodar também dentro de `.hub-cartao` (fundo branco no tema
+  claro) — bordas `rgba(255,255,255,0.15)` sobre branco = invisíveis.
+  Trocado por `var(--pt-borda)`/`var(--pt-destaque)`/`var(--pt-destaque-suave)`.
+- **`typecheck:tests` regrediu** (rodada 1, plan-mandated): 6 erros novos em
+  3 arquivos de teste do próprio plano (`vi.fn()` sem tipar parâmetros
+  quebra `.mock.calls[n][1]`) — mesma classe de bug já documentada abaixo
+  em "Achados sérios" do engine original. Corrigido tipando os mocks.
+- **O próprio fix da rodada 1 quebrou 2 testes existentes** (rodada 2): o
+  fetch-no-mount do `LinksAvulsos` deslocou `fetchMock.mock.calls[0]` em 2
+  testes de `painelDisparos.spec.tsx` que indexavam por posição — e o
+  relatório do implementador declarou "verde" rodando só 6 arquivos
+  escolhidos a dedo, sem o único consumidor do componente alterado. Achado
+  pelo revisor rodando a suíte de verdade, não confiando no relatório.
+  Lição reforçada: **rodar a suíte do componente CONSUMIDOR, não só a do
+  componente alterado**, antes de declarar "sem regressão".
+- Todos os 3 achados de bug real (balde vazando, links escondidos, hex
+  hardcoded) foram reproduzidos por execução direta pelo revisor (não só
+  leitura de código) antes de qualquer fix ser aceito.
+
+## Deploy do redesign (30/08/2026)
+Sem DDL (zero mudança de schema). Merge local fast-forward (branch criada
+de cima do commit do engine original, sem divergência de `origin/main`
+durante o desenvolvimento). Push direto — sem conflito, ao contrário do
+deploy do engine original.
+
+**Gotcha novo neste deploy**: o worktree "principal" deste repo
+(`/Users/renanreal/area-membros-quirk`, dono do `.git` compartilhado) estava
+em uso por OUTRA sessão paralela (branch diferente, arquivos não
+commitados) no momento do merge — não dava pra fazer `git checkout main`
+ali sem atrapalhar. Resolvido atualizando a ref de `main` local direto
+(`git branch -f main <tip-da-feature>`, sem checkout em nenhum working
+tree) já que era um fast-forward puro. Ver [[reference_git_repo_compartilhado_sessoes]].
+
+Suíte completa rodada momentos antes do push: >1000 arquivos passaram, os
+16 arquivos de teste do motor de formulários (int+unit) 100% verdes, só
+caiu no fim por queda de conexão do Neon (`57P01`, infra, não código) num
+teste não-relacionado — mesmo padrão já documentado.
 
 ## Arquitetura
 - 3 coleções Payload: `Formularios` (definição + perguntas — 5 tipos:
