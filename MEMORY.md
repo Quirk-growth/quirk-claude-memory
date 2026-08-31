@@ -72,3 +72,4 @@
 - [Projeto: Motor de Formulários](project_motor_formularios.md) — sub-projeto 1 do pedido de NPS; NO AR (engine 29/08 + redesign visual/link avulso 30/08); NPS de verdade e dashboard de respostas (Frente B) pendentes
 - [GOTCHA: script local Payload precisa de NODE_ENV=production](reference_payload_script_node_env_producao.md) — senão o push automático mira o DATABASE_URI de prod; quase dropou guia_pastas (25/08), matei a tempo
 - [GOTCHA: "Ignore" do Make engole falha e mata a rota](reference_make_ignore_engole_falha.md) — execução fica VERDE mas só roda parte do fluxo; assinatura é a queda na contagem de operações; ActiveCampaign 402 sumiu com e-mail+WhatsApp de leads
+- [LP geral → webhook Make 4896527](reference_lp_geral_webhook.md) — LP neutra em lp.quirkgrowth.com.br manda JSON chaves LIMPAS; cenário clonado do Tech lia chaves legadas (caía vazio) → remapeado + telefone sanitizado; testado SUCCESS, ATIVO
