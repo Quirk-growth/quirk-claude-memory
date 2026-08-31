@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-25T17:44:59.851Z
+  modified: 2026-08-31T17:04:33.589Z
 ---
 
 Área de membros própria da Quirk pra clientes acessarem as mentorias que hoje ficam soltas no Google Drive. Em `/Users/renanreal/area-membros-quirk/` (repo git novo).
