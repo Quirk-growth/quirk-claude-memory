@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: cebfa691-b2ea-4769-8c2e-c5e72c588d06
-  modified: 2026-08-31T01:00:00.462Z
+  modified: 2026-09-01T13:31:56.469Z
 ---
 
 LP "geral"/neutra publicada em **https://lp.quirkgrowth.com.br/** (arquivo self-contained em `~/lp-quirk-geral/index.html`, imagens em base64) manda **JSON** (`Content-Type: application/json`) pro webhook **18bbmmonyamjnbk9gtp7iaoll3nje1vw** = Make **cenário 4896527** "Leads Quirk [Comercial Time] LP Genérica" (team 385200, hook 2809412).
@@ -17,3 +17,5 @@ Fluxo do cenário: Webhook → HTTP CRM (`membros.../api/crm-leads/entrada/…`)
 **Correções feitas em 30/08/2026** (o cenário fora clonado do Tech 4805666 e lia chaves legadas `No Label …` → caía tudo vazio): remapeei os 7 módulos pras chaves limpas + **sanitizei o telefone** (`{{replace(2.whatsapp; "/[^0-9]/g"; "")}}`) no CRM e no UAZAPI (`55` + sanitizado), porque a LP NÃO sanitiza telefone no submit (bug clássico da skill). Testado: execução SUCCESS, todos os campos corretos na planilha. Cenário ATIVO.
 
 ⚠️ Edge case: se o lead digitar o número já com 55/+55, o UAZAPI dobra (`5555…`). Placeholder guia sem DDI, risco baixo. Se quiser blindar, sanitizar na própria LP.
+
+**Variante "GPT Ads" (01/09/2026):** cópia do 4896527 → cenário **4898698** "…LP Genérica (copy)", hook **2810581** = webhook **f0nht1am71d1r9l1mjnbl97dwa1vxmo0** (LP v2 self-contained em `~/Desktop/index-v2-webhook-novo.html`). Diferenças: `campanha:"GPT Ads"`, assunto "[Novo Lead] GPT Ads", coluna J da planilha marca "GPT Ads" (mesma aba "Leads LP genérica"), ClickUp vai pra lista **"Passo a Passo"** (901705001922, space Pipeline Quirk — nome atípico mas tem status de pipeline de leads). Revisado + testado SUCCESS, ATIVO. Herdou chaves limpas e telefone sanitizado.
