@@ -73,3 +73,4 @@
 - [GOTCHA: script local Payload precisa de NODE_ENV=production](reference_payload_script_node_env_producao.md) — senão o push automático mira o DATABASE_URI de prod; quase dropou guia_pastas (25/08), matei a tempo
 - [GOTCHA: "Ignore" do Make engole falha e mata a rota](reference_make_ignore_engole_falha.md) — execução fica VERDE mas só roda parte do fluxo; assinatura é a queda na contagem de operações; ActiveCampaign 402 sumiu com e-mail+WhatsApp de leads
 - [LP geral → webhook Make 4896527](reference_lp_geral_webhook.md) — LP neutra em lp.quirkgrowth.com.br manda JSON chaves LIMPAS; cenário clonado do Tech lia chaves legadas (caía vazio) → remapeado + telefone sanitizado; testado SUCCESS, ATIVO
+- [Inadimplência automática (Auto Ads)](project_auto_ads_inadimplencia.md) — atraso pausa campanhas + bot cobra com link + reativa ao pagar; Fase 1/2 no ar, 3A em PR #7 (CI travada), 3B construída e pendente de aplicar
