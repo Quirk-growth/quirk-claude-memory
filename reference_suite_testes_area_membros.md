@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 01cb3caa-2faf-418f-851d-4b7662439309
-  modified: 2026-08-14T21:30:59.279Z
+  modified: 2026-09-03T22:06:52.309Z
 ---
 
 Como a suíte da [[project_area_membros_quirk]] se comporta. **Rodar com `npx vitest run` PURO (= `npm test`). NÃO usar `NODE_ENV=production`** — em 07/ago/2026 a suíte fecha **732/732** do jeito certo, e as duas falhas que eu achava serem "da home nova" eram artefato desse env. Antes de culpar sua mudança por qualquer falha, **rode o mesmo arquivo em `git switch --detach origin/main`** — foi assim que separei o que era meu do que já estava quebrado.
@@ -42,3 +42,5 @@ Com `push` ligado (o padrão) o schema sincroniza sozinho a cada rodada e os doi
 - **Conserto:** rodar os testes de integração **SEM** `PAYLOAD_MIGRATING`. É seguro: o `vitest.setup.ts` roda antes de qualquer import, troca `DATABASE_URI` pelo `DATABASE_URI_TEST` e RECUSA se os dois forem iguais — então o push mira o banco descartável, nunca o de produção. Depois disso, 34/34 verdes.
 - ⚠️ **Não confundir os dois usos:** em script `.mts` avulso ou qualquer comando que carregue o `payload.config` fora do vitest, `PAYLOAD_MIGRATING=true` continua OBRIGATÓRIO — lá não existe o setup do vitest para redirecionar o banco, e o push miraria produção. A diferença é o vitest ter a trava; fora dele, não tem.
 - Não adianta tapar coluna por coluna: o atraso é da soma das entregas das outras sessões, não de uma só.
+
+⚠️ **Os dois gotchas acima (linhas 29 e 37, `endpoints` pode ser `false` + `typecheck:tests` só pega o que `tsc --noEmit` não pega) se repetiram de verdade numa feature inteira (02/set/2026, WhatsApp Oficial/Disparos, execução via subagent-driven-development com 13 tasks + 3 fixes Critical + 2 Important).** Rodei `npx tsc --noEmit` (não `typecheck:tests`) em CADA dispatch de implementador/revisor ao longo de toda a feature — só descobri, no `npm run typecheck:tests` final antes do deploy (pós-merge), que 4 arquivos de teste novos tinham `CrmXxx.endpoints?.find(...)` sem guarda (`Array.isArray`), exatamente o padrão já documentado na linha 29. Corrigi com um commit de follow-up já em cima do `main` mergeado. **Regra reforçada, desta vez de verdade**: ao instruir QUALQUER subagent (implementador ou revisor) que crie ou edite um teste que use `CollectionConfig.endpoints`, mandar `npm run typecheck:tests` explicitamente no prompt de dispatch — nunca confiar que "`tsc --noEmit` limpo" nesses casos significa algo sobre `tests/`. Rodar `typecheck:tests` só no fim de um plano inteiro (e não a cada task) é tarde demais pra pegar isso cedo, mas ainda assim funciona como rede de segurança final — não pular esse passo antes de mergear/dar push.
