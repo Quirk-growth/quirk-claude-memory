@@ -74,5 +74,6 @@
 - [GOTCHA: "Ignore" do Make engole falha e mata a rota](reference_make_ignore_engole_falha.md) — execução fica VERDE mas só roda parte do fluxo; assinatura é a queda na contagem de operações; ActiveCampaign 402 sumiu com e-mail+WhatsApp de leads
 - [LP geral → webhook Make 4896527](reference_lp_geral_webhook.md) — LP neutra em lp.quirkgrowth.com.br manda JSON chaves LIMPAS; cenário clonado do Tech lia chaves legadas (caía vazio) → remapeado + telefone sanitizado; testado SUCCESS, ATIVO
 - [Inadimplência automática (Auto Ads)](project_auto_ads_inadimplencia.md) — atraso pausa campanhas + bot cobra com link + reativa ao pagar; Fase 1/2 no ar, 3A em PR #7 (CI travada), 3B construída e pendente de aplicar
+- [Projeto: VSL Quirk imobiliário (CRESCE)](project_vsl_quirk_imobiliario.md) — roteiro v1 em ~/vsl-quirk-imobiliario/, avatar AMPLO (decisão 03/09), molde maquinadereunioes/lp4, placeholders de autoridade pendentes
 - [Projeto: WhatsApp Oficial — Disparos e Templates](project_whatsapp_oficial_disparos.md) — templates via Graph API + disparo em massa + rastreio de entrega; NO AR 02/09 (main a156071+582ecde); Render Cron ainda não configurado
 - [GOTCHA: payload.update({where}) não é atômico](reference_payload_update_where_nao_atomico.md) — faz SELECT-then-UPDATE, não compare-and-swap; claim/lock condicional exige SQL cru via payload.db.drizzle.execute()
