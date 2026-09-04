@@ -77,5 +77,5 @@
 - [Projeto: VSL Quirk imobiliário (CRESCE)](project_vsl_quirk_imobiliario.md) — roteiro v1 em ~/vsl-quirk-imobiliario/, avatar AMPLO (decisão 03/09), molde maquinadereunioes/lp4, placeholders de autoridade pendentes
 - [Projeto: WhatsApp Oficial — Disparos e Templates](project_whatsapp_oficial_disparos.md) — templates via Graph API + disparo em massa + rastreio de entrega; NO AR 02/09 (main a156071+582ecde); Render Cron ainda não configurado
 - [GOTCHA: payload.update({where}) não é atômico](reference_payload_update_where_nao_atomico.md) — faz SELECT-then-UPDATE, não compare-and-swap; claim/lock condicional exige SQL cru via payload.db.drizzle.execute()
-- [Projeto: Kit de marca Cedeira Select](project_cedeira_select_brand.md) — cliente imobiliário; vetores de logo AI recriados via fontTools, Bodoni Moda+Montserrat, slogan CURADORIA DE IMÓVEIS; kit em ~/cedeira-select-brand/
+- [Projeto: Kit de marca Cedeira Select](project_cedeira_select_brand.md) — cliente imobiliário; vetores de logo AI recriados via fontTools, Cormorant+Montserrat, símbolo 100% bege, slogan CURADORIA DE IMÓVEIS; kit em ~/cedeira-select-brand/
 - [GOTCHA: HTML→PDF headless — prévia mente](gotcha_html_print_pdf_preview.md) — screenshot headless ignora @page (conferir o PDF rasterizado via PyMuPDF) e SVG inline height:auto colapsa

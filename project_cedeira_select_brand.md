@@ -11,7 +11,7 @@ metadata:
 Kit de marca completo do cliente **Cedeira Select** (imobiliária de curadoria/seleção), entregue em 04/09/2026 em `/Users/renanreal/cedeira-select-brand/` (ZIP `cedeira-select-kit-marca-v1.zip`).
 
 - Logo original era imagem AI-gerada; recriado 100% em vetor: símbolo redesenhado em grid + texto convertido em curvas via fontTools (script `_build/make_logos.py` — regenera tudo).
-- **Fontes (iterado com o Renan até fechar)**: CEDEIRA = Bodoni Moda Regular no corte **opsz 32** instanciado da variável (opsz 11 = "grosseiro", opsz 96 = "fino demais"; 32 casa com a referência). Arquivo: `BodoniModa-Display-Regular.ttf`. SELECT e descritor = Montserrat Light/Regular.
+- **Fontes (DECISÃO FINAL 04/09, após 3 rodadas)**: CEDEIRA = **Cormorant Regular** (escolhida pelo Renan num comparativo de 5 opções; Bodoni Moda foi descartada — opsz 11 "grosseiro", 96 "fino demais", 32 ainda não agradou). SELECT e descritor = Montserrat Light/Regular. Pasta 03-fontes/cormorant/ (bodoni-moda removida do kit).
 - **Símbolo — spec final (feedback 04/09, 2 rodadas)**: desenho **100% bege/dourado #B08D5B, monocromático** — inclusive a vertical direita (NUNCA duas cores no desenho); só a escrita CEDEIRA fica escura (#1B1B19; SELECT dourado, descritor escuro). Linhas NÃO se tocam: horizontal termina com respiro de ~10 unidades antes da vertical.
 - **Slogan trocado em produção**: "Imóveis Selecionados" → **"CURADORIA DE IMÓVEIS"** (pedido mid-task; é o descritor oficial).
 - **Paleta**: Marfim #F4EFE7, Preto Grafite #1B1B19, Dourado Select #B08D5B (Pantone 4515 C / 871 C metálico premium), apoios Areia #E5DCCB e Bronze #8C6F45. `.ase` incluso.
