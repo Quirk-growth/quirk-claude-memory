@@ -79,3 +79,4 @@
 - [GOTCHA: payload.update({where}) não é atômico](reference_payload_update_where_nao_atomico.md) — faz SELECT-then-UPDATE, não compare-and-swap; claim/lock condicional exige SQL cru via payload.db.drizzle.execute()
 - [Projeto: Kit de marca Cedeira Select](project_cedeira_select_brand.md) — cliente imobiliário; vetores de logo AI recriados via fontTools, Cormorant+Montserrat, símbolo 100% bege, slogan CURADORIA DE IMÓVEIS; kit em ~/cedeira-select-brand/
 - [GOTCHA: HTML→PDF headless — prévia mente](gotcha_html_print_pdf_preview.md) — screenshot headless ignora @page (conferir o PDF rasterizado via PyMuPDF) e SVG inline height:auto colapsa
+- [Projeto: Aula venda avulsa "A Venda Invisível"](project_aula_venda_avulsa.md) — Low-ticket R$19,90; LP + checkout Asaas + entrega token-gated (/assistir/{token}) na área de membros + gatilho n8n gEOf9yco2VPvMNe0; no ar 04/09 commit 2b4cf68
