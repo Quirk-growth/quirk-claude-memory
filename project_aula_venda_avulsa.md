@@ -5,10 +5,12 @@ metadata:
   node_type: memory
   type: project
   originSessionId: d5b50112-4f32-4a16-b3c6-7f83ec1e8de2
-  modified: 2026-09-05T01:21:59.386Z
+  modified: 2026-09-06T14:00:20.411Z
 ---
 
-Venda de uma aula de Marketing avulsa (low-ticket, R$19,90), **fora** da área do cliente/time — porta paralela sem login. No ar desde 04/09/2026 (commit `2b4cf68` em `area-membros-quirk`, branch de trabalho `feat/aula-venda-invisivel`).
+Venda de uma aula de Marketing avulsa (low-ticket, R$19,90), **fora** da área do cliente/time — porta paralela sem login. No ar desde 04/09/2026 (`area-membros-quirk`, branch `feat/aula-venda-invisivel`): commit `2b4cf68` (feature) + `526b4fd` (fix do host). **Validado ponta a ponta em prod 05/09** (token→página com Vimeo→e-mail com link certo→Renan clicou e abriu; registros de teste apagados).
+
+**GOTCHA do host no Render:** `new URL(req.url).origin` num route handler resolve pra `https://localhost:10000` (app roda atrás de proxy) — o link do e-mail saía quebrado. Fix: derivar de `NEXT_PUBLIC_SITE_URL` → `x-forwarded-host` → `host` → req.url. Vale pra qualquer rota que monte URL absoluta pra e-mail/redirect.
 
 **Aula:** Vimeo `1221207981` (aula "Persuasão digital…" já publicada na coleção `aulas`, módulo Marketing id 10). Renan precisa por **privacidade de domínio** no Vimeo (só embeddar em membros.quirkgrowth.com.br) pra ninguém compartilhar o player.
 
