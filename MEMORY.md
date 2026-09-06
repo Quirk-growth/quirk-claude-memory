@@ -82,3 +82,4 @@
 - [Projeto: Aula venda avulsa "A Venda Invisível"](project_aula_venda_avulsa.md) — Low-ticket R$19,90; LP + checkout Asaas + entrega token-gated (/assistir/{token}) na área de membros + gatilho n8n gEOf9yco2VPvMNe0; no ar 04/09 commit 2b4cf68
 - [Importação do histórico ClickUp→CRM](reference_migracao_historico_clickup_crm.md) — CONCLUÍDA 04/09: 3.384 cards, 0 perdidos; CRM do 104 foi de 130 pra 3.177 leads; script retomável + como obter o CLICKUP_TOKEN
 - [GOTCHA: pool do pg mata script longo](gotcha_pool_pg_error_mata_script_longo.md) — EADDRNOTAVAIL derruba job de horas porque o pool do Payload tem 0 listeners de 'error'; ouvir já conserta
+- [GOTCHA: push do Payload trava os testes de integração](gotcha_push_payload_trava_testes_int.md) — todos os tests/int com 'Hook timed out 30000ms' = banco de teste tem coluna que o config da branch não declara; dropar a órfã
