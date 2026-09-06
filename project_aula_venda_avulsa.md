@@ -1,11 +1,11 @@
 ---
 name: project_aula_venda_avulsa
-description: "Funil de venda avulsa low-ticket da aula \"A Venda Invisível\" (R$19,90) — LP + checkout Asaas + entrega token-gated na área de membros + gatilho n8n"
+description: "Funil de venda avulsa low-ticket da aula \"A Venda Invisível\" (R$19,90) — LP + checkout/entrega na Greenn (nativo). Infra Asaas+token na área de membros existe mas virou plano B"
 metadata: 
   node_type: memory
   type: project
   originSessionId: d5b50112-4f32-4a16-b3c6-7f83ec1e8de2
-  modified: 2026-09-06T14:00:20.411Z
+  modified: 2026-09-06T23:23:41.771Z
 ---
 
 Venda de uma aula de Marketing avulsa (low-ticket, R$19,90), **fora** da área do cliente/time — porta paralela sem login. No ar desde 04/09/2026 (`area-membros-quirk`, branch `feat/aula-venda-invisivel`): commit `2b4cf68` (feature) + `526b4fd` (fix do host). **Validado ponta a ponta em prod 05/09** (token→página com Vimeo→e-mail com link certo→Renan clicou e abriu; registros de teste apagados).
