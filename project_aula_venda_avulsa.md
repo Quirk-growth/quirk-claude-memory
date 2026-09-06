@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: d5b50112-4f32-4a16-b3c6-7f83ec1e8de2
-  modified: 2026-09-06T23:24:01.374Z
+  modified: 2026-09-06T23:24:20.774Z
 ---
 
 Venda de uma aula de Marketing avulsa (low-ticket, R$19,90), **fora** da área do cliente/time — porta paralela sem login. No ar desde 04/09/2026 (`area-membros-quirk`, branch `feat/aula-venda-invisivel`): commit `2b4cf68` (feature) + `526b4fd` (fix do host). **Validado ponta a ponta em prod 05/09** (token→página com Vimeo→e-mail com link certo→Renan clicou e abriu; registros de teste apagados).
@@ -29,6 +29,9 @@ Asaas hosted checkout `https://www.asaas.com/c/mu34ah67kk94l6d3` (produto "Aula 
 - Página pública `/assistir/[token]` (route group `(frontend)`, sem auth): valida token e libera o VideoVimeo.
 - `POST /api/aula/liberar` (auth header `x-liberar-secret` == env `AULA_LIBERAR_SECRET`): idempotente por `asaasPaymentId`; resolve email/nome pelo id do cliente Asaas (`buscarClienteAsaas` em `src/lib/asaas/api.ts`) quando só vem `asaasCustomerId`; gera token e **dispara o e-mail** via `payload.sendEmail` (pipeline `MAIL_WEBHOOK_URL` que já existe). Defaults: vimeoId `1221207981`, título "A Venda Invisível".
 
-**Gatilho (n8n):** workflow **`gEOf9yco2VPvMNe0`** "Aula A Venda Invisível — libera acesso pós-pagamento" (ativo). Webhook `https://n8n.quirkgrowth.online/webhook/aula-venda-invisivel-pago` → code identifica `PAYMENT_CONFIRMED`/`PAYMENT_RECEIVED` + valor 19,90 → IF → httpRequest POST no `/api/aula/liberar` (header com o secret) → responde 200. É um webhook Asaas SEPARADO do gateway do Auto Ads (`2ZnZqb4wFous4uEs`, não tocar) — ver [[reference_asaas_webhook_gateway]].
+`AULA_LIBERAR_SECRET` no Render = `86193e639fae0e8b74ce6051bf1cf544f9275c5c60b034a2` (setado 05/09, validado). ASAAS_API_KEY já existia no app.
 
-**Pendências manuais do Renan (04/09):** (1) setar `AULA_LIBERAR_SECRET` no Render — cuidado que a tela substitui a lista inteira ([[reference_render_memoria_oom]]/deploy-quirk); (2) adicionar o webhook no Asaas (URL acima, eventos confirmado/recebido) SEM mexer no do Auto Ads; (3) privacidade de domínio no Vimeo. Sem o secret, o endpoint responde 401 (Asaas re-tenta o webhook até passar). Falta ainda um teste de compra ponta a ponta.
+**Gatilhos n8n (2, ambos ativos mas OCIOSOS no fluxo Greenn):**
+- `gEOf9yco2VPvMNe0` (Asaas): webhook `.../webhook/aula-venda-invisivel-pago`, filtra PAYMENT_CONFIRMED/RECEIVED + R$19,90 → POST /api/aula/liberar. Webhook Asaas nunca foi configurado no painel (paramos antes, ao migrar pra Greenn).
+- `hJGkE0CN63JhSU3B` (Greenn): webhook `.../webhook/aula-venda-invisivel-green`, parse tolerante do postback da Greenn (email/nome direto) → POST /api/aula/liberar. Criado caso um dia se queira entrega sem-login pela Greenn; hoje NÃO usado (entrega é nativa na Greenn Club). Se for usar, travar o parse contra o 1º postback real.
+- Ambos separados do gateway Auto Ads (`2ZnZqb4wFous4uEs`, não tocar) — ver [[reference_asaas_webhook_gateway]].
