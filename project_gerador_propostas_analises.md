@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: abd490d3-d546-47fd-9269-c2122b669bb6
-  modified: 2026-08-27T14:29:15.410Z
+  modified: 2026-09-10T19:24:49.991Z
 ---
 
 Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[proposta-quirk]] (~/.claude/skills/proposta-quirk/ — processo, regras de copy do Renan, 3 exemplos reais, spec do agente de análise em references/agente-analise-presenca.md).
@@ -30,5 +30,10 @@ Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[pro
 **GOTCHA novo do banco de teste:** virou terra disputada — sessões paralelas rodando suíte/push com código da main DROPAM tabelas que não estão no schema delas (minha analises sumiu 2x). Validação atômica = aplicar DDL + introspectar NA MESMA CONEXÃO. E o drizzle push interativo trava em prompt "create or rename" por causa da tabela órfã permissoes_padrao no teste (não existe em nenhuma collection do código).
 
 **Pré-existente na main (não meu, verificado no checkout principal em 0d2d4e7):** typecheck:tests com 98 erros (tipos gerados dessincronizados por outra sessão) e 4 testes vermelhos (tarefa-templates-aplicar, tarefas-recorrencia, agenda-conectar-form, menuAdmin "Pessoas…role" — esse último era da feature de permissões, que na época ainda não tinha dado push).
+
+**v3 da Análise (10/09, commit `d6ef918` na main, deployado com site estável):** três correções vindas da análise real da Tonielque (e-commerce de móveis):
+1. **Contexto de jornada no prompt** — a análise recomendava contra a jornada do cliente (história institucional antes das ofertas num e-commerce; WhatsApp como 1º botão da bio com checkout próprio). `coletarSite` agora detecta o modelo de conversão (plataformas Shopify/VTEX/Nuvemshop/Tray/etc + sinais de carrinho/checkout) e informa no briefing; o system prompt ganhou bloco CONTEXTO DE JORNADA que proíbe esses dois erros. Capa recebe a data real via Intl (alucinava "abril de 2025").
+2. **PDF nunca corta nem sobrepõe (2ª rodada do fix)** — o ajuste anterior (5a1a456) tinha gate por `scrollHeight` (conteúdo invadindo o rodapé absoluto sem estourar a caixa passava batido = sobreposição da Tonielque) e piso de escala 80% que ainda cortava. Agora: mede a borda real do conteúdo vs limite útil; estouro leve encolhe até 90%; acima disso **divide a página em continuação** (cabeçalho repetido, fila reprocessa, rodapés renumerados); último recurso escala sem piso. 7 testes int verdes incl. regressão da sobreposição. Vale pra Propostas também (renderizarPdf compartilhado).
+3. **`__PRINT_METATAGS__`** — erro textual em metatag (ex.: "cómodas" sem acento) agora tem evidência visual: cartão estilo resultado do Google renderizado com o texto REAL coletado (gerarPrintMetatags em capturarEvidencias); prompt pede página dedicada quando há erro objetivo.
 
 **ATUALIZAÇÃO (27/08): a feature de permissões (`-crm`) deu push (`451cc56`) e absorveu tanto o Gerador de Propostas quanto o Agente de Análise no processo.** `menuAdmin.ts` virou ponto de conflito real entre as duas frentes — `secoesDoAdmin`/`itensDoColaborador` da feature de permissões (assíncronas, matriz configurável) trocaram de lugar com a versão síncrona que Propostas/Análises tinham estendido (`podeVerGuia`). Quem resolveu o merge (a sessão -crm) teve que: extrair `podeVerPropostas`/`podeVerAnalises` como helpers puros (pra não duplicar `role==='comercial'||'admin'` em 4 lugares cada), e adicionar `/propostas`/`/analises` como force-add em `secoesDoAdmin` (fora da matriz de permissões — `ITENS_FORA_DA_MATRIZ`), já que essas 2 ferramentas moram fora do namespace `/admin/*` e têm gate próprio na página. Ver [[project_permissoes_configuraveis]] pro detalhe da arquitetura resultante — QUALQUER ferramenta nova fora de `/admin/*` com gate de página própria deve seguir esse mesmo padrão (helper puro + force-add), não reimplementar a checagem de papel em cada lugar.
