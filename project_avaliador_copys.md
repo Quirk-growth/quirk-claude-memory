@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 41c440f6-f4b9-429b-8c1a-cb5ce0bf0e47
-  modified: 2026-09-11T13:17:02.361Z
+  modified: 2026-09-11T13:28:21.615Z
 ---
 
 Renan está construindo um **agente avaliador de copys da Quirk Growth** (jun/2026). Primeira etapa pedida: avaliar os docs de copy no Drive e mapear pontos de similaridade entre as copys imobiliárias. Vai passar mais infos (critérios, formato de nota, exemplos bom vs ruim) depois.
@@ -36,3 +36,5 @@ Renan está construindo um **agente avaliador de copys da Quirk Growth** (jun/20
 - Arquivos: /Users/renanreal/avaliador-copys-quirk/ → `prompt-avaliador-copys.md` (mestre) e `gpt-avaliador-copys.md` (Custom GPT, Instructions ~5.9k chars, cabe no limite 8k). Próximo passo combinado: rodar uma copy real pra calibrar.
 
 **GERADOR de copy — evolução (11/set/2026):** além do avaliador, Renan mantém o GPT GERADOR de copy. Nova frente: a partir do briefing, gerar **elementos criativos de reforço ao gancho** (objeto/ação/prova no 1º segundo do vídeo que dá destaque e retenção) — ex. real: água de coco=João Pessoa, print de diária Airbnb, trena que fecha, bloco de concreto (trocadilho c/ "Bloco Construções"), chave "só existe em 2029". Precisam ser MUITO criativos, "que ninguém no mercado faz". Prompt gerador v2 em /Users/renanreal/gerador-copys-quirk/`prompt-gerador-copys.md` (~5.8k chars): motor de 8 lentes de criatividade + padrão de produção de vídeo (gancho 1 take câmera em movimento; body 3-4 takes; CTA 1 take plano médio parado; nunca 2 planos iguais seguidos) + 3-5 variações por briefing, cada uma com ângulo e elemento criativo distintos. REGRA: emoji NUNCA dentro da copy; só como ícone-rótulo do elemento criativo (direção interna pro time). Relacionado: [[project_quirk_auto_creative]].
+
+**MESCLAGEM gerador+avaliador (11/set/2026) — gerador v3:** Renan pediu pra fundir os 2 prompts pra saída mais assertiva. Solução: gerador AUTOCORRETIVO — escreve, se autoavalia internamente contra a rubrica Quirk (gancho 35% etc.), reescreve o que ficar <8,5 e só entrega copy que passaria no Avaliador. Decisões dele: (1) CTA ampliado pra incluir os falados de vídeo ("Clique no botão e fale com a nossa equipe", "Me chama") além do repertório estático do avaliador — porque o exemplo real do Nakhon usava CTA de vídeo fora do repertório; (2) SELO DE QUALIDADE compacto no fim (nota do gancho por variação, ≥8,5), autoavaliação interna não é mostrada. Arquivo prompt-gerador-copys.md atualizado pra v3 (~7,2k chars). Alternativa registrada p/ futuro: pipeline 2 etapas (gerador→avaliador→volta) via n8n quando quiser relatório de nota registrado/escala.
