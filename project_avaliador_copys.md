@@ -5,6 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 41c440f6-f4b9-429b-8c1a-cb5ce0bf0e47
+  modified: 2026-09-11T13:17:02.361Z
 ---
 
 Renan está construindo um **agente avaliador de copys da Quirk Growth** (jun/2026). Primeira etapa pedida: avaliar os docs de copy no Drive e mapear pontos de similaridade entre as copys imobiliárias. Vai passar mais infos (critérios, formato de nota, exemplos bom vs ruim) depois.
@@ -33,3 +34,5 @@ Renan está construindo um **agente avaliador de copys da Quirk Growth** (jun/20
 - **Body é DIRETO e factual, NÃO floreado.** Quirk NÃO busca encantamento. "Encantamento" (emocional/aspiracional floreado, storytelling longo, adjetivação excessiva) é exceção a QUESTIONAR; demais é ruim pro topo de funil. O avaliador sinaliza, explica a ressalva e entrega versão direta como padrão.
 - Existe prompt GERADOR de copy num GPT da Quirk (Renan colou) — é a fonte do padrão; o formulário de briefing oficial (Cidade, Bairro, Proximidades, Valor, Ficha técnica, Quartos, Banheiros, Metragem, Vaga, Lazer, Renda, Lançamento, Target, Rentabilidade, Destaque do produto) está embutido no avaliador.
 - Arquivos: /Users/renanreal/avaliador-copys-quirk/ → `prompt-avaliador-copys.md` (mestre) e `gpt-avaliador-copys.md` (Custom GPT, Instructions ~5.9k chars, cabe no limite 8k). Próximo passo combinado: rodar uma copy real pra calibrar.
+
+**GERADOR de copy — evolução (11/set/2026):** além do avaliador, Renan mantém o GPT GERADOR de copy. Nova frente: a partir do briefing, gerar **elementos criativos de reforço ao gancho** (objeto/ação/prova no 1º segundo do vídeo que dá destaque e retenção) — ex. real: água de coco=João Pessoa, print de diária Airbnb, trena que fecha, bloco de concreto (trocadilho c/ "Bloco Construções"), chave "só existe em 2029". Precisam ser MUITO criativos, "que ninguém no mercado faz". Prompt gerador v2 em /Users/renanreal/gerador-copys-quirk/`prompt-gerador-copys.md` (~5.8k chars): motor de 8 lentes de criatividade + padrão de produção de vídeo (gancho 1 take câmera em movimento; body 3-4 takes; CTA 1 take plano médio parado; nunca 2 planos iguais seguidos) + 3-5 variações por briefing, cada uma com ângulo e elemento criativo distintos. REGRA: emoji NUNCA dentro da copy; só como ícone-rótulo do elemento criativo (direção interna pro time). Relacionado: [[project_quirk_auto_creative]].
