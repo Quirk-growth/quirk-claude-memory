@@ -51,3 +51,11 @@ CRM próprio da Quirk dentro da [[project_area_membros_quirk]], pros CLIENTES us
 **Ficha do lead maleável (no ar 11/09/2026, main fbc8e05).** Divisória arrastável entre ficha e atividade (antes a atividade era fixa em 300px) + três modos estilo ClickUp (só ficha / ambos / só atividade), lembrados em `localStorage` (`quirk.crm.fichaLead.layout`) — NUNCA no cadastro do usuário, ver [[reference_payload_update_sessions]]. Lógica em `src/lib/crm/layoutFichaLead.ts`.
 
 **GOTCHA que causou "meu comentário não enviou" (10/09):** o `erroTopo` do `CrmBoard` era renderizado no corpo do quadro, **atrás do overlay do modal** — qualquer ação que falhasse dentro da ficha do lead falhava em silêncio absoluto para quem estava olhando. A ação `anotar` em si estava OK (testado ponta a ponta: 200 ok:true). Agora o erro é renderizado dentro do modal. **Se alguém disser que uma ação do CRM "não faz nada", a primeira pergunta é se a mensagem tem onde aparecer.**
+
+**Rodada de correções do card do lead (no ar 11/09/2026, main 85a5a7b).**
+
+- **Renomear em qualquer etapa** (ação `nome` em `/crm-leads/acao`, evento `nome` no histórico com o nome antigo).
+- **Campos gravam ao SAIR do campo**, sem botões "Salvar" (nome, valor, email, descrição), com selo "Salvo" de 2s. A escolha contra "um botão que salva tudo" foi por dado: etapa, pessoas e etiquetas já gravavam no `onChange` — um botão único criaria duas classes de controle no mesmo card.
+- **GOTCHA: nome digitado era descartado.** Prospect manda mensagem antes → lead nasce com o TELEFONE como nome (sem pushName) → SDR "cria o card" → `criarOuAtualizarLead` cai no ramo de atualização, que ignorava `nome`. Agora adota o nome quando o atual é placeholder (vazio ou == telefone), e NUNCA sobrescreve nome de verdade.
+- **GOTCHA: excluir lead dava "Erro interno"** só em quem tinha conversa. FK `crm_mensagens.lead_id` é ON DELETE SET NULL numa coluna NOT NULL → erro 23502. O endpoint apaga mensagens e itens de disparo ANTES do lead. **Se aparecer "Erro interno" em delete, procurar FK SET NULL em coluna NOT NULL** — `crm_disparos_itens` tem a mesma forma.
+- **"Novo contato via whatsapp" não vira mais anotação** (vinha uma por mensagem, empurrando o histórico real pra fora do teto de 49). Outras origens continuam.
