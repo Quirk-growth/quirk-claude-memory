@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 798c9556-748c-4496-87e4-6ab001869e18
-  modified: 2026-09-16T18:49:03.662Z
+  modified: 2026-09-16T19:14:19.637Z
 ---
 
 **Programa de Parceiros Quirk** — canal de aquisição por indicação, reforçado pra ser muito vantajoso pro indicador sem comer a margem. Pra parceiros com carteira (ex: amigo com dezenas de arquitetas) que indicam mas NÃO trabalham pra Quirk.
@@ -19,4 +19,4 @@ metadata:
 
 **Material:** 2 slides 16:9 HTML→PNG em `/Users/renanreal/programa-parceiros-quirk/` — `cenario.html` (comissões + 3 cenários de ganho + bola de neve) e `02-como-participar.html` (passo a passo + regras). shared.css copiado da pasta. Ver [[gotcha_sharedcss_classe_rule]]. Faz parte da estratégia de 7 canais (indicação é 1 deles).
 
-**Variante CLIENTE (programa de DESCONTO, não bônus)** — `/Users/renanreal/programa-indicacao-cliente-quirk/` (mesmas 2 telas). Para o cliente que já paga: cada indicação ativa = **5% de desconto** na própria mensalidade, cumulativo até **20 indicações = 100% grátis**. Vale sobre indicações ativas, aplicado na mensalidade seguinte. Mais seguro que o bônus (custo teto = a própria mensalidade do cliente).
+**Variante CLIENTE (programa de DESCONTO, não bônus)** — `/Users/renanreal/programa-indicacao-cliente-quirk/` (mesmas 2 telas). Para o cliente que já paga. Estrutura FINAL (set/2026): **25% de desconto no 1º mês** (quando a indicação fecha) + **R$ 100 fixo recorrente** por indicação ativa, todo mês, **cumulativo e SEM teto** — mensalidade zera na quantidade certa de indicações (varia por contrato). Renan escolheu valor fixo (R$100) em vez de % pra ser mais tangível e removeu o "20 = 100%" (só deixa claro que dá pra zerar). Vale sobre indicações ativas, aplicado na fatura seguinte. Custo teto = a própria mensalidade do cliente.
