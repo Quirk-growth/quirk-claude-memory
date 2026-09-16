@@ -84,3 +84,5 @@
 - [GOTCHA: pool do pg mata script longo](gotcha_pool_pg_error_mata_script_longo.md) — EADDRNOTAVAIL derruba job de horas porque o pool do Payload tem 0 listeners de 'error'; ouvir já conserta
 - [GOTCHA: push do Payload trava os testes de integração](gotcha_push_payload_trava_testes_int.md) — todos os tests/int com 'Hook timed out 30000ms' = banco de teste tem coluna que o config da branch não declara; dropar a órfã
 - [GOTCHA: IA do CRM tem três chaves](gotcha_ia_crm_tres_chaves.md) — iaHabilitada (geral) × iaModoAusente × followUp + iaAtiva por lead; 'desativada' só é real com iaHabilitada=false. Incidente 14/09
+- [GOTCHA: classe .rule reservada no shared.css dos decks](gotcha_sharedcss_classe_rule.md) — reusar .rule/.slide/.brand etc. no slide herda width:96px e quebra layout só no headless; preview pane esconde (data: URL sem shared.css). Prefixar classes locais
+- [Projeto: Programa de Parceiros Quirk](project_programa_parceiros.md) — Indicação: 30% da 1ª mens. + 30% da adesão (R$2,5k) + 10% recorrente; 2 telas HTML→PNG em ~/programa-parceiros-quirk/; guardrails (carência 90d, sobre pago, enquanto ativo)
