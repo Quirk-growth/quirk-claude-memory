@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-09-22T16:14:22.630Z
+  modified: 2026-09-22T16:14:30.374Z
 ---
 
 Quando o schema declarado no código (CollectionConfig do Payload) diverge do schema real do banco de TESTE (`DATABASE_URI_TEST`, push:true), o `push` do Drizzle às vezes pede confirmação interativa — "Accept warnings and push schema to database? (y/N)" — antes de aplicar uma mudança que ele classifica como destrutiva (drop de coluna/tabela com dados). Rodando `npm test` em background/não-interativo, esse prompt nunca recebe resposta e o processo fica preso pra sempre (CPU quase zero, não é crash — parece um hang comum, mas na real está esperando stdin). Sintoma: subagentes/monitors ficam "esperando a suíte terminar" indefinidamente sem nunca receber a notificação de conclusão.
@@ -16,4 +16,4 @@ Quando o schema declarado no código (CollectionConfig do Payload) diverge do sc
 
 **Descoberta mais séria:** mesmo restaurando as colunas via SQL direto, elas voltam a sumir na PRÓXIMA execução da suíte — o `push` do Drizzle as derruba de novo sozinho, sem sequer mostrar o prompt (aceita "silenciosamente" ou trata como não-destrutivo dessa vez). Ou seja, o teste-canário `verificarRestauracaoSchema.int.spec.ts` falha hoje pra QUALQUER sessão que rode a suíte completa não-interativamente, independente de branch — é um problema sistêmico pré-existente, não causado por uma feature específica. Ainda não investigado a fundo (por que o push considera essas colunas órfãs se o código/Payload 3.90 as exige) nem reportado como issue formal — vale abrir isso com quem escreveu `verificarRestauracaoSchema.int.spec.ts` (commit `750a52a3`, 18/set).
 
-**Como aplicar:** se a suíte travar em background sem nunca notificar conclusão, suspeitar deste prompt ANTES de qualquer outra teoria (rede, Mac dormindo). Ver as últimas linhas do log primeiro. Nunca `yes |` às cegas — ler a lista de colunas a deletar; se alguma parecer recém-adicionada (não removida de um CollectionConfig), parar e investigar em vez de aceitar. Relacionado: [[gotcha_push_pg_error_mata_script_longo]] descreve um sintoma de drift diferente (timeout de hook, não prompt travado).
+**Como aplicar:** se a suíte travar em background sem nunca notificar conclusão, suspeitar deste prompt ANTES de qualquer outra teoria (rede, Mac dormindo). Ver as últimas linhas do log primeiro. Nunca `yes |` às cegas — ler a lista de colunas a deletar; se alguma parecer recém-adicionada (não removida de um CollectionConfig), parar e investigar em vez de aceitar. Relacionado: [[gotcha_push_payload_trava_testes_int]] descreve um sintoma de drift diferente (Hook timed out 30000ms, coluna que o config declara mas o banco não tem — o oposto deste caso).
