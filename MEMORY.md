@@ -1,95 +1,95 @@
-- [User: Renan Real](user_role.md) — Fundador Quirk Growth (marketing imobiliário); técnico-comercial, valoriza honestidade direta e entregas consolidadas
-- [Projeto: Quirk Auto Ads](project_quirk_auto_ads.md) — Automação n8n + Claude + Meta Ads pra campanhas CTWA via WhatsApp; NO AR como produto: 3 clientes a R$497/mês (ago/2026), gargalo é marketing
-- [Referências: docs e conectores Quirk](reference_quirk_docs.md) — Local /Users/renanreal/quirk_auto_ads/, cenário Make 4750002, BM 1612905538806887, conectores Make/Meta com limites conhecidos
-- [Asaas webhook → n8n gateway](reference_asaas_webhook_gateway.md) — Payload Asaas só traz ID do cliente (buscar telefone via API); header auth asaas-access-token; IDs dos workflows; filtro Auto Ads; pendências segurança + UAZAPI
-- [WhatsApp Cloud API (oficial)](reference_whatsapp_cloud_api.md) — Migração uazapi→oficial (jul/2026); phone id 1320571937797802, WABA 2088588845203405, credencial n8n, arquitetura inbound→principal e gotchas do n8n
-- [Estratégia de públicos Meta](reference_publicos_meta_estrategia.md) — Escada de qualificação mensurável (viajante/internacional/alto valor) + secundários imobiliários + iOS; 12 públicos no extrator, IDs reais validados
-- [Isolamento de dados entre clientes](feedback_isolamento_dados_clientes.md) — Multi-tenant: IA/backend NUNCA vazam dados de outros clientes; vale tbm interno Quirk × CRM do cliente (blindar no endpoint, não só na UI)
-- [Fluxo de confirmação do onboarding](reference_onboarding_confirmacao_flow.md) — State machine em_revisao/aguardando_confirmacao; 2 bugs corrigidos (e_10); Supabase stale → banco só via n8n; reroute barrado pelo classifier
-- [Gestão: lista de campanhas + reconciliação Meta](reference_gestao_lista_reconciliacao.md) — Lista vem do banco (LIMIT 50) + reconcilia com Meta ao vivo no init_gestao (filtra deletadas no Gerenciador); pendências: sync de status, duplicatas, sync periódico
-- [Saldo via WhatsApp (Auto Ads)](reference_saldo_whatsapp.md) — Cliente pede "consultar/incluir saldo" → branch determinística mostra saldo ao vivo (funding_source_details.display_string, não `balance`) + link de adicionar fundos; testado na Ignite
-- [Onboarding: precheck + desfecho determinístico (Auto Ads)](reference_onboarding_precheck_desfecho.md) — #2: falha de criação manda diagnóstico (não IA dizendo "validando e subindo"); #1: precheck trava onboarding até verde (conta/saldo/whatsapp/fanpage/verificação via 1 validate_only). GOTCHA: nó Postgres substitui o item
-- [Aquecimento de conta nova (Auto Ads)](reference_aquecimento_conta.md) — Conta novata roda campanha de tráfego (cidade+fanpage, R$10/dia, 4 dias) antes das mensagens p/ não tomar bloqueio; máquina de estados aquecimento jsonb; libera via workflow HboO7SGWY1iCJVXj; verificado na Ignite
-- [Migração do motor Auto Ads pra código (STAND-BY)](project_auto_ads_migracao_codigo.md) — Proposta de tirar o cérebro de decisão do n8n → serviço Node/TS (testabilidade); parado a pedido do Renan, lembrar no futuro; + 3 buracos de segurança do n8n (webhook sem auth é o crítico)
-- [Painel admin do Auto Ads (na área de membros)](project_painel_auto_ads.md) — /admin/auto-ads pro time gerir clientes Auto Ads; conecta no Supabase auto_ads (pooler+%23); Fase 1 e 2a NO AR (detalhe+campanhas+investimento+busca+período+seção Acesso); gotchas: item de menu novo liga em Permissões, rota :param não casa (usar ?query), resetar senha Supabase quebra Render+n8n juntos, tsc --noEmit não valida tests/ (usar typecheck:tests, que precisa de heap alto)
-- [Instagram Auto Ads (marketing)](project_ig_auto_ads.md) — Pacote de 30 posts+artes pro IG do Auto Ads (~/ig-auto-ads/); REGRA: Auto Ads é "a forma mais fácil de COMEÇAR a anunciar", NUNCA anti-agência; visual híbrido tech+demo, HTML→PNG
-- [Quirk Growth — Identidade visual](reference_quirk_brand.md) — Fontes Sora+Poppins, azul primário #1D80FF, fundo #001D41, verde #39b54a
-- [Projeto: LP Iscas KPI + GPA](project_lp_iscas.md) — LP standalone em /Users/renanreal/lp-iscas-quirk/, cenário Make 4755230, form nativo (não Typeform)
-- [Projeto: LP Calculadora de VGV](project_lp_vgv.md) — LP em /Users/renanreal/lp-vgv-quirk/, cenário Make 4779375 clonado da isca, mesma planilha (aba "Leads VGV")
-- [Projeto: LP Quirk Tech](project_lp_quirk_tech.md) — Rebrand dark premium da LP principal em /Users/renanreal/lp-quirk-tech/; síntese copy validada + posicionamento do site + DNA visual tech
-- [Método CRESCE™](project_metodo_cresce.md) — Novo framework da Quirk pra vender diferenciação vs "só faz tráfego"; sigla, tese e cases reais das calls
-- [Referência: calls Zoom](reference_zoom_calls.md) — Como varrer transcrições Zoom via MCP (double-encoding, busca semântica vazia, mapa de cobertura 6 meses)
-- [Guia de perfil persuasivo (Jornada do Lead)](project_guia_perfil_persuasivo.md) — deck 21 slides pra corretores em ~/guia-perfil-quirk/; 7·11·4, gatilhos, proporções editoriais
-- [Playbooks comerciais (SDR + SS)](project_playbooks_comercial.md) — decks PDF da Quirk em /Users/renanreal/manual-comercial-quirk/; fontes HTML editáveis, render via Chrome headless
-- [Projeto: TDTC](project_tdtc.md) — Teste de Distribuição Temporal da Consciência; app de questionário + teoria em /Users/renanreal/Desktop/TDTC/ (repo git, worktrees pra trabalho paralelo)
-- [Projeto: Quirk Auto Creative](project_quirk_auto_creative.md) — Skill quirk-auto-creative + OpenAI gpt-image-1 pra copy+banner imobiliário (ZERO CTA, Story/Feed); chave em quirk-banner-designer/.env
-- [Projeto: Avaliador de Copys](project_avaliador_copys.md) — Agente que avalia copys da Quirk; DNA estrutural das copys imobiliárias (gancho→body→cta; eixos morador/investidor, padrão, venda/captação) extraído do Drive
-- [Projeto: Curso CPL low ticket](project_curso_cpl.md) — "Custo por Lead Descomplicado"; reframe CPL→custo por venda, 5 aulas + planilha-calculadora em /Users/renanreal/curso-cpl-imobiliario/
-- [Referência: LP Social Media + Make 4493780](reference_lp_social_media.md) — LP que substitui a Elementor antiga; webhook, contrato de campos (nome/telefone/instagram/nicho/faturamento) e mapeamento email/planilha/ClickUp/WhatsApp
-- [Projeto: Apresentação de Negócios Social Media](project_apresentacao_social_media.md) — Deck 23 slides 16:9 (HTML + PDF) em /Users/renanreal/apresentacao-social-quirk/; funde a LP de social com a APN; preços R$3k e R$8k
-- [Projeto: Área de membros Quirk](project_area_membros_quirk.md) — Área própria (Next.js+Payload+Postgres, Vimeo) no ar em membros.quirkgrowth.com.br; Portal da Equipe com tema claro/escuro por conta (tokens --pt-*) + preferências do usuário; área do cliente intacta
-- [Referência: Backup no GitHub](reference_github_backup.md) — Org Quirk-growth, auth SSH, mapa dos repos (quirk-auto-ads, tdtc, Calculadora-vgv-quirk, LPs-quirk, area-membros) e pendências de blindagem (Mac sem backup!)
-- [Projeto: Painel de Relatórios](project_painel_relatorios.md) — Substituto próprio do Reportei; Meta+Google, multi-cliente dentro da área de membros; sync diário→Postgres; funil comercial + atribuição por objetivo (jul/2026)
-- [Referência: Banco de criativos em vídeo](reference_banco_criativos_video.md) — Pasta Drive dos anúncios de captação (mar/25→jul/26), taxonomia dos 7 eixos e como (não) baixar os arquivos
-- [Mídia Kit Renan & Chaiene (podcasts)](project_midia_kit_podcasts.md) — kit 10 págs em ~/midia-kit-quirk/; papéis corrigidos (Renan fundador, Chaiene sócia), regra "só frases afirmativas", métricas IG ago/2026
-- [Proposta comercial p/ incorporadoras](project_proposta_incorporadoras.md) — deck premium 13 págs em ~/proposta-incorporadora-quirk/; R$15k/mês + 0,5% VGV, placeholders na capa
-- [Reposicionamento p/ incorporadoras](project_reposicionamento_incorporadoras.md) — Giro de jul/2026: sai corretor/imobiliária, entra sócio de incorporadora; tese das três portas, reframe do carrego, risco de alcance no Meta
-- [Neon: bancos prod vs teste](reference_neon_bancos.md) — 2 projetos Neon SEPARADOS (cota é por projeto); teste no mesmo projeto da prod derrubou o painel (24/jul); regra: nunca compartilhar. + Blindagem escala (28/jul): runtime prod no endpoint -pooler, push OFF em prod (coleção nova = DDL manual), relatórios cache 5min
-- [GOTCHA: fuso quebra a hidratação do admin (#418)](gotcha_hidratacao_fuso_admin.md) — Render em UTC × navegador em BRT: componente client que formata data sem timeZone quebra hidratação das 21h à meia-noite; helpers em formato.ts; #418 só existe pra TEXTO
-- [Suíte de testes da área de membros](reference_suite_testes_area_membros.md) — banco de teste compartilhado incha e trava o reconcile (receita de TRUNCATE com guardas); tsc NÃO valida tests/; stubs de next/cache e do CSS do Payload no vitest
-- [Overview de Relatórios dos clientes](reference_overview_relatorios_clientes.md) — formato aprovado: totais no topo + tabela densa com sparkline de tendência, CPM/Freq, ações no menu ⋯, filtro 1/7/14/30/90/365
-- [Referência: baixar YouTube em 4K (yt-dlp)](reference_ytdlp_4k.md) — Receita que funciona: binário nightly + --cookies-from-browser chrome + --js-runtimes node (o JS challenge é o que libera >1080p)
-- [Satisfação + aproveitamento dos gestores](reference_satisfacao_gestores.md) — status do cliente (9 níveis, pontos) + % do gestor = soma pontos ÷ (ativos×10); planilha-fonte do Squad de Tráfego
-- [Agendamento de reunião (Make 3704159 ClickUp + 4903930 CRM)](reference_agendamento_reuniao_make.md) — CRM usa 4903930 (rota por responsavelEmail); Yuri tem 2 e-mails (login ≠ agenda) → rota não casava, 1 operação = nenhuma rota; + bug antigo da conexão Google na conta errada
-- [Conta de teste/demo (renandmreal)](reference_conta_teste_demo.md) — Conta member protegida na área de membros: fora do sync, não desativa nem exclui
-- [Contratos (área de membros)](reference_contratos_autentique.md) — Geração via Google Docs (OAuth renan.reeal@gmail, NÃO service account) + assinatura Autentique; Gerar/Revisar/Enviar no hub; envs OAuth no Render, pasta Drive e placeholders Make
-- [Onboarding pós-assinatura](project_onboarding_pos_assinatura.md) — Contrato assinado → grupo WhatsApp (UAZAPI Comercial) + pasta Drive (Clientes Quirk); squad selecionável, mensagens+logo editáveis; envs UAZAPI_COMERCIAL_TOKEN + GOOGLE_CLIENTES_FOLDER_ID
-- [Reconcile de acesso](reference_reconcile_acesso.md) — Sync diário espelha a fonte por email e desativa quem não está nela (causa do "acesso inativo" de cliente convidado); agora protege login de cliente vivo (status ≠ churn)
-- [Gerador de Propostas + Agente de Análise (área de membros)](project_gerador_propostas_analises.md) — ambos NO AR; menuAdmin.ts foi ponto de merge real com a feature de permissões (27/08)
-- [Projeto: Permissões configuráveis](project_permissoes_configuraveis.md) — matriz papel×item + exceções por pessoa, NO AR 27/08 (451cc56); padrão obrigatório pra item de menu fora de /admin/*
-- [Projeto: CRM Quirk](project_crm_quirk.md) — CRM multi-tenant; Conversas do Comercial c/ múltiplos números por SDR NO AR (14/ago); piloto anterior achou 2 bugs corrigidos 08/ago
-- [Projeto: Tarefas (time interno)](project_tarefas.md) — Gerenciador estilo ClickUp; aba Concluídas+histórico sob demanda, recorrência diária, Tráfego=Lista, link cliente→Hub (11/ago, todas no ar)
-- [Verificação de anunciante (Meta 3858634)](reference_verificacao_anunciante_meta.md) — Cliente não sobe campanha: conta precisa completar verificação de anunciante no Meta (não é nosso targeting); Ignite roda pq é BM verificado da Quirk
-- [Memória entre chats paralelos](feedback_memoria_multichat.md) — É UMA memória só (git+backup auto); protocolo: re-ler antes de escrever, edições cirúrgicas, fatos voláteis apontam COMO verificar (origin/main+prod, nunca main local)
-- [RESOLVIDO: escrever em Users não desloga mais](reference_payload_update_sessions.md) — a causa do "trocar tema desloga" NÃO era payload.update: era o hook derrubarSessoesAoRedefinirSenha disparando em todo update (hash/salt chegam em todo data). Corrigido na raiz em 20/set
-- [GOTCHA: QR do WhatsApp (UAZAPI) expira](reference_uazapi_qr_expira.md) — QR de conectar se renova do lado da UAZAPI; UI precisa reler a cada poll, não cachear a imagem do /conectar — senão WhatsApp recusa com erro genérico (fix ce6e4f4)
-- [GOTCHA: preview_start abre worktree errado](reference_preview_start_worktree_errado.md) — com repos irmãos (-crm/-4/-blindagem), `preview_start name:` pode servir o diretório errado; diagnosticar via lsof -a -p PID -d cwd, subir manual + anexar por url:
-- [GOTCHA: select do Payload vira pgEnum no DDL de prod](reference_payload_select_enum_ddl.md) — coleção nova com campo select → push gera enum (NOT NULL se required); DDL manual de prod precisa CREATE TYPE + coluna enum, não varchar. Reconciliar tipos+índices do schema pushado no teste
-- [Relatório de perfil IG — bloco de Conteúdo (Fase 2a)](project_relatorio_perfil_ig.md) — coleção publicacoes-sociais + sync media/stories + top por alcance no relatório; deploy ago/2026, popula do cron pra frente
-- [Render: memória/OOM da área de membros](reference_render_memoria_oom.md) — instância Standard 2GB (era 512MB e dava OOM/502 no deploy); start precisa de --max-old-space-size=1536; render.yaml plan:standard; rollback com --no-verify --force-with-lease
-- [Acompanhar deploy até verde](feedback_acompanhar_deploy_ate_verde.md) — em deploy de prod, esperar o Render ficar live/verde + site 200 estável antes de dizer "no ar"; declarei cedo e a prod caiu (OOM) sem eu ver
-- [Papel Social Media](reference_papel_social_media.md) — role 'social' com carteira socialMedias, Hub restrito (6 abas), Mensagens; fail-closed nas coleções sensíveis; LIÇÃO: liberar tela pra papel restrito pode vazar cross-tenant por listas internas que assumem 'todos'
-- [RESOLVIDO: coluna órfã corpo em modelos_contrato](reference_modeloscontrato_corpo_orfa.md) — dropada 14/08 c/ backup; DATABASE_URI local É produção (não há banco de dev separado)
-- [GOTCHA: dev local não guarda login (cookie Secure)](reference_dev_local_cookie_seguro.md) — npm run dev é HTTP puro, cookie Secure não salva; verificação visual só é viável em produção (HTTPS)
-- [Git auth: origin trocado pra SSH](reference_git_auth_ssh.md) — credencial HTTPS do osxkeychain expirou (11/ago); origin do area-membros-quirk agora usa git@github.com:Quirk-growth/...
-- [Agenda: grid do time + vínculo no perfil](reference_agenda_time_grid.md) — agenda do time virou grid de horário em colunas (livres em comum, agora, filtro, régua de 7 dias); vínculo só pelo perfil via link iCal PÚBLICO (não secreto); lógica testada em agenda/grid.ts
-- [GOTCHA: fingerprint de deploy é cego a CSS/rota](reference_deploy_fingerprint_cego.md) — meu md5 dos chunks JS do /admin/login NÃO muda em deploy que só mexe em CSS ou rota não-compartilhada (Next code-split); confirmar por refresh do Renan ou painel Render, não pelo fingerprint
-- [Projeto: Lançamento Quinta do Arvoredo (Zanardi)](project_lp_quinta_arvoredo.md) — copy da LP pronta c/ preço R$165k; meeting corretores 29/09; plano do Edgar Ueda (corretor primeiro, enxoval grande)
-- [Projeto: Migração leads ClickUp→CRM](project_migracao_leads_clickup_crm.md) — 11 cenários Make.com com módulo CRM aditivo (ClickUp intacto); gotchas: aba Sheets quebrada recorrente, auto-desativação do Make em erro, cuidado com orphans no scenarios_update
-- [GOTCHA: sessões paralelas compartilham o mesmo .git local](feedback_git_repo_compartilhado_sessoes.md) — push de UMA sessão leva os commits locais de TODAS; sempre conferir se origin/main já não contém seu trabalho antes de "dar push"
-- [Asaas: telefone precisa ser DDD+número, sem DDI 55](reference_asaas_telefone_formato.md) — mobilePhone rejeitado com 55 na frente; fix em cobranca.ts + 19 clientes corrigidos retroativamente via PUT /customers (13/08/2026)
-- [Google Ads: versão da API hardcoded quebra sem aviso](reference_google_ads_versao_api.md) — v21 bloqueada pela Google; contas somem da lista de vínculo e sync para, silenciosamente; fix pra v25 (13/08/2026)
-- [Projeto: Programador de posts (Social Media)](project_programador_posts.md) — Frente 1 do plano de Social Media; task=post, publica via Meta; NO AR 18/08, faltam aprovação Meta + Render Cron pra funcionar de verdade
-- [Projeto: Motor de Formulários](project_motor_formularios.md) — sub-projeto 1 do pedido de NPS; NO AR (engine 29/08 + redesign visual/link avulso 30/08); NPS de verdade e dashboard de respostas (Frente B) pendentes
-- [GOTCHA: script local Payload precisa de NODE_ENV=production](reference_payload_script_node_env_producao.md) — senão o push automático mira o DATABASE_URI de prod; quase dropou guia_pastas (25/08), matei a tempo
-- [GOTCHA: "Ignore" do Make engole falha e mata a rota](reference_make_ignore_engole_falha.md) — execução fica VERDE mas só roda parte do fluxo; assinatura é a queda na contagem de operações; ActiveCampaign 402 sumiu com e-mail+WhatsApp de leads
-- [LP geral → webhook Make 4896527](reference_lp_geral_webhook.md) — LP neutra em lp.quirkgrowth.com.br manda JSON chaves LIMPAS; cenário clonado do Tech lia chaves legadas (caía vazio) → remapeado + telefone sanitizado; testado SUCCESS, ATIVO
-- [Inadimplência automática (Auto Ads)](project_auto_ads_inadimplencia.md) — atraso pausa campanhas + bot cobra com link + reativa ao pagar; Fase 1/2 no ar, 3A em PR #7 (CI travada), 3B construída e pendente de aplicar
-- [Projeto: VSL Quirk imobiliário (CRESCE)](project_vsl_quirk_imobiliario.md) — roteiro v1 em ~/vsl-quirk-imobiliario/, avatar AMPLO (decisão 03/09), molde maquinadereunioes/lp4, placeholders de autoridade pendentes
-- [Projeto: WhatsApp Oficial — Disparos e Templates](project_whatsapp_oficial_disparos.md) — templates via Graph API + disparo em massa + rastreio de entrega; NO AR 02/09 (main a156071+582ecde); Render Cron ainda não configurado
-- [GOTCHA: payload.update({where}) não é atômico](reference_payload_update_where_nao_atomico.md) — faz SELECT-then-UPDATE, não compare-and-swap; claim/lock condicional exige SQL cru via payload.db.drizzle.execute()
-- [Projeto: Kit de marca Cedeira Select](project_cedeira_select_brand.md) — cliente imobiliário; vetores de logo AI recriados via fontTools, Cormorant+Montserrat, símbolo 100% bege, slogan CURADORIA DE IMÓVEIS; kit em ~/cedeira-select-brand/
-- [GOTCHA: HTML→PDF headless — prévia mente](gotcha_html_print_pdf_preview.md) — screenshot headless ignora @page (conferir o PDF rasterizado via PyMuPDF) e SVG inline height:auto colapsa
-- [Projeto: Aula venda avulsa "A Venda Invisível"](project_aula_venda_avulsa.md) — Low-ticket R$19,90; PIVOT 06/09 pra Greenn (checkout payfast .../gq7g6a2/offer/eOGbGJ + entrega nativa Greenn Club c/ Vimeo 1221207981). Infra Asaas+token/assistir+n8n construída mas virou plano B. LP em Desktop/index.html pronta pro cPanel
-- [Importação do histórico ClickUp→CRM](reference_migracao_historico_clickup_crm.md) — CONCLUÍDA 04/09: 3.384 cards, 0 perdidos; CRM do 104 foi de 130 pra 3.177 leads; script retomável + como obter o CLICKUP_TOKEN
-- [GOTCHA: pool do pg mata script longo](gotcha_pool_pg_error_mata_script_longo.md) — EADDRNOTAVAIL derruba job de horas porque o pool do Payload tem 0 listeners de 'error'; ouvir já conserta
-- [GOTCHA: push do Payload trava os testes de integração](gotcha_push_payload_trava_testes_int.md) — todos os tests/int com 'Hook timed out 30000ms' = banco de teste tem coluna que o config da branch não declara; dropar a órfã
-- [GOTCHA: prompt interativo do Drizzle trava suíte em background](gotcha_drizzle_push_interativo_trava.md) — push pede y/N pra dropar coluna, nunca recebe resposta em modo não-interativo; `yes` às cegas já derrubou coluna que ainda era necessária (Payload 3.90)
-- [GOTCHA: IA do CRM tem três chaves](gotcha_ia_crm_tres_chaves.md) — iaHabilitada (geral) × iaModoAusente × followUp + iaAtiva por lead; 'desativada' só é real com iaHabilitada=false. Incidente 14/09
-- [GOTCHA: classe .rule reservada no shared.css dos decks](gotcha_sharedcss_classe_rule.md) — reusar .rule/.slide/.brand etc. no slide herda width:96px e quebra layout só no headless; preview pane esconde (data: URL sem shared.css). Prefixar classes locais
-- [Projeto: Programa de Parceiros Quirk](project_programa_parceiros.md) — Indicação: 30% da 1ª mensalidade + 10% recorrente (do 2º mês); SEM adesão (implementação não existe); 2 telas HTML→PNG + PDF em ~/programa-parceiros-quirk/; + comparativo closer×rep em ~/comparativo-closer-rep-quirk/
-- [GOTCHA: cron do Render sem APP_URL falha em silêncio](gotcha_render_cron_sem_app_url.md) — cada Cron Job tem as PRÓPRIAS variáveis; a lista de serviços mostra status de build, não de execução ("No successful runs yet" é o sinal). Aviso de tarefa vencida ficou 5 semanas morto assim
-- [Render fica atrás da Cloudflare (IP confiável)](reference_render_cloudflare_ip.md) — membros E .onrender.com respondem com cf-ray; usar cf-connecting-ip, NUNCA X-Forwarded-For (forjável); sem o header, pular limite por IP e usar o por token
-- [GOTCHA: afterLogin roda dentro da transação do login](gotcha_afterlogin_transacao_pendura.md) — await numa escrita que referencia users(id) PENDURA o login (~30s); usar void+try/catch. Repro em SQL cru NÃO reproduz — só sonda durante login real
-- [Remediação da auditoria (área de membros)](project_remediacao_auditoria_membros.md) — 37 de 41 itens no ar em 9 lotes (set/2026); o que ficou pendente no painel do Renan e por que a retenção foi adiada
-- [Medir antes de corrigir](feedback_medir_antes_de_corrigir.md) — na remediação, medição em produção derrubou achado atrás de achado (834→46 tarefas, 33→22 mídias órfãs, 8 em uso); quando o agente contraria com medição, a medição ganha
+- [User: Renan Real](user_role.md) — Fundador Quirk Growth; técnico-comercial, valoriza honestidade direta e entregas consolidadas
+- [Projeto: Quirk Auto Ads](project_quirk_auto_ads.md) — n8n+Claude+Meta Ads pra CTWA via WhatsApp; NO AR, 3 clientes a R$497/mês (ago/2026)
+- [Referências: docs e conectores Quirk](reference_quirk_docs.md) — Local /quirk_auto_ads/, cenário Make 4750002, BM 1612905538806887
+- [Asaas webhook → n8n gateway](reference_asaas_webhook_gateway.md) — payload só traz ID do cliente; header asaas-access-token; pendências segurança
+- [WhatsApp Cloud API (oficial)](reference_whatsapp_cloud_api.md) — migração uazapi→oficial (jul/2026); phone id/WABA, gotchas do n8n
+- [Estratégia de públicos Meta](reference_publicos_meta_estrategia.md) — escada de qualificação (viajante/internacional/alto valor) + 12 públicos validados
+- [Isolamento de dados entre clientes](feedback_isolamento_dados_clientes.md) — multi-tenant: nunca vaza dado entre clientes, nem interno×CRM; blindar no endpoint
+- [Fluxo de confirmação do onboarding](reference_onboarding_confirmacao_flow.md) — state machine em_revisao/aguardando_confirmacao; Supabase stale→banco só via n8n
+- [Gestão: campanhas + reconciliação Meta](reference_gestao_lista_reconciliacao.md) — lista do banco + reconcilia com Meta ao vivo; pendências de sync
+- [Saldo via WhatsApp (Auto Ads)](reference_saldo_whatsapp.md) — branch determinística mostra saldo ao vivo (display_string, não `balance`)
+- [Onboarding: precheck + desfecho (Auto Ads)](reference_onboarding_precheck_desfecho.md) — falha manda diagnóstico; precheck trava até tudo verde
+- [Aquecimento de conta nova (Auto Ads)](reference_aquecimento_conta.md) — campanha de tráfego 4 dias antes das mensagens pra não tomar bloqueio
+- [Migração Auto Ads pra código (STAND-BY)](project_auto_ads_migracao_codigo.md) — tirar decisão do n8n → serviço Node/TS; parado a pedido do Renan
+- [Painel admin do Auto Ads](project_painel_auto_ads.md) — /admin/auto-ads, Supabase auto_ads; gotchas: menu liga Permissões, typecheck:tests
+- [Instagram Auto Ads (marketing)](project_ig_auto_ads.md) — 30 posts pro IG; regra: "forma mais fácil de COMEÇAR", nunca anti-agência
+- [Quirk Growth — Identidade visual](reference_quirk_brand.md) — Sora+Poppins, azul #1D80FF, fundo #001D41, verde #39b54a
+- [Projeto: LP Iscas KPI + GPA](project_lp_iscas.md) — LP standalone em /lp-iscas-quirk/, Make 4755230, form nativo
+- [Projeto: LP Calculadora de VGV](project_lp_vgv.md) — /lp-vgv-quirk/, Make 4779375 clonado da isca, aba "Leads VGV"
+- [Projeto: LP Quirk Tech](project_lp_quirk_tech.md) — rebrand dark premium em /lp-quirk-tech/, DNA visual tech
+- [Método CRESCE™](project_metodo_cresce.md) — framework pra vender diferenciação vs "só faz tráfego"
+- [Referência: calls Zoom](reference_zoom_calls.md) — como varrer transcrições via MCP (double-encoding, busca semântica vazia)
+- [Guia de perfil persuasivo](project_guia_perfil_persuasivo.md) — deck 21 slides pra corretores em ~/guia-perfil-quirk/
+- [Playbooks comerciais (SDR + SS)](project_playbooks_comercial.md) — decks PDF em ~/manual-comercial-quirk/, render via Chrome headless
+- [Projeto: TDTC](project_tdtc.md) — app de questionário + teoria em ~/Desktop/TDTC/ (worktrees pra trabalho paralelo)
+- [Projeto: Quirk Auto Creative](project_quirk_auto_creative.md) — skill + gpt-image-1 pra copy+banner (ZERO CTA); chave em quirk-banner-designer/.env
+- [Projeto: Avaliador de Copys](project_avaliador_copys.md) — DNA estrutural das copys imobiliárias extraído do Drive
+- [Projeto: Curso CPL low ticket](project_curso_cpl.md) — reframe CPL→custo por venda, 5 aulas em ~/curso-cpl-imobiliario/
+- [Referência: LP Social Media](reference_lp_social_media.md) — webhook Make 4493780, contrato de campos e mapeamento
+- [Projeto: Apresentação Social Media](project_apresentacao_social_media.md) — deck 23 slides em ~/apresentacao-social-quirk/, R$3k/R$8k
+- [Projeto: Área de membros Quirk](project_area_membros_quirk.md) — Next.js+Payload+Postgres em membros.quirkgrowth.com.br
+- [Referência: Backup no GitHub](reference_github_backup.md) — org Quirk-growth, SSH, mapa dos repos; pendência: Mac sem backup!
+- [Projeto: Painel de Relatórios](project_painel_relatorios.md) — substituto do Reportei; Meta+Google, sync diário→Postgres
+- [Referência: Banco de criativos em vídeo](reference_banco_criativos_video.md) — Drive dos anúncios de captação, taxonomia dos 7 eixos
+- [Mídia Kit Renan & Chaiene](project_midia_kit_podcasts.md) — kit 10 págs em ~/midia-kit-quirk/, papéis e métricas ago/2026
+- [Proposta comercial p/ incorporadoras](project_proposta_incorporadoras.md) — deck 13 págs, R$15k/mês + 0,5% VGV
+- [Reposicionamento p/ incorporadoras](project_reposicionamento_incorporadoras.md) — sai corretor, entra sócio de incorporadora; tese das 3 portas
+- [Neon: bancos prod vs teste](reference_neon_bancos.md) — 2 projetos SEPARADOS (cota por projeto); nunca compartilhar; push OFF em prod
+- [GOTCHA: fuso quebra hidratação do admin](gotcha_hidratacao_fuso_admin.md) — Render UTC × navegador BRT; data sem timeZone quebra 21h-meia-noite
+- [Suíte de testes da área de membros](reference_suite_testes_area_membros.md) — banco compartilhado incha (TRUNCATE com guardas); tsc não valida tests/
+- [Overview de Relatórios dos clientes](reference_overview_relatorios_clientes.md) — totais no topo + tabela densa com sparkline, filtro 1-365d
+- [Baixar YouTube em 4K (yt-dlp)](reference_ytdlp_4k.md) — binário nightly + cookies-from-browser + js-runtimes node
+- [Satisfação + aproveitamento dos gestores](reference_satisfacao_gestores.md) — status do cliente (9 níveis) + % do gestor, planilha do Squad
+- [Agendamento de reunião (Make)](reference_agendamento_reuniao_make.md) — CRM usa cenário 4903930 (rota por email); cuidado com 2 e-mails/pessoa
+- [Conta de teste/demo (renandmreal)](reference_conta_teste_demo.md) — member protegida: fora do sync, não desativa nem exclui
+- [Contratos (área de membros)](reference_contratos_autentique.md) — Google Docs (OAuth pessoal) + Autentique; Gerar/Revisar/Enviar no hub
+- [Onboarding pós-assinatura](project_onboarding_pos_assinatura.md) — grupo WhatsApp + pasta Drive automáticos; squad e mensagens editáveis
+- [Reconcile de acesso](reference_reconcile_acesso.md) — sync diário desativa quem não está na fonte; protege login de cliente vivo
+- [Gerador de Propostas + Agente de Análise](project_gerador_propostas_analises.md) — ambos NO AR; menuAdmin.ts é ponto de merge com Permissões
+- [Projeto: Permissões configuráveis](project_permissoes_configuraveis.md) — matriz papel×item + exceções; padrão obrigatório fora de /admin/*
+- [Projeto: CRM Quirk](project_crm_quirk.md) — CRM multi-tenant; Conversas multi-SDR + Instagram DM Social Selling NO AR
+- [Projeto: Tarefas (time interno)](project_tarefas.md) — estilo ClickUp; recorrência diária, link cliente→Hub
+- [Verificação de anunciante (Meta 3858634)](reference_verificacao_anunciante_meta.md) — conta do cliente precisa verificação própria, não é nosso targeting
+- [Memória entre chats paralelos](feedback_memoria_multichat.md) — 1 memória só; re-ler antes de escrever, fatos voláteis apontam COMO verificar
+- [RESOLVIDO: escrever em Users não desloga mais](reference_payload_update_sessions.md) — hook derrubarSessoesAoRedefinirSenha disparava sempre; fix 20/set
+- [GOTCHA: QR do WhatsApp (UAZAPI) expira](reference_uazapi_qr_expira.md) — reler a cada poll, não cachear a imagem do /conectar
+- [GOTCHA: preview_start abre worktree errado](reference_preview_start_worktree_errado.md) — repos irmãos; diagnosticar via lsof, subir manual + anexar url
+- [GOTCHA: select do Payload vira pgEnum](reference_payload_select_enum_ddl.md) — coleção nova com select → DDL de prod precisa CREATE TYPE, não varchar
+- [Relatório de perfil IG (Fase 2a)](project_relatorio_perfil_ig.md) — publicacoes-sociais + sync media/stories + top por alcance
+- [Render: memória/OOM da área de membros](reference_render_memoria_oom.md) — Standard 2GB, --max-old-space-size=1536; rollback --force-with-lease
+- [Acompanhar deploy até verde](feedback_acompanhar_deploy_ate_verde.md) — esperar Render live + site 200 estável antes de dizer "no ar"
+- [Papel Social Media](reference_papel_social_media.md) — role 'social', Hub restrito; liberar tela pode vazar cross-tenant por listas 'todos'
+- [RESOLVIDO: coluna órfã em modelos_contrato](reference_modeloscontrato_corpo_orfa.md) — dropada 14/08; DATABASE_URI local É produção
+- [GOTCHA: dev local não guarda login](reference_dev_local_cookie_seguro.md) — cookie Secure não salva em HTTP; verificação visual só em prod
+- [Git auth: origin trocado pra SSH](reference_git_auth_ssh.md) — credencial HTTPS expirou; origin agora git@github.com:Quirk-growth/...
+- [Agenda: grid do time](reference_agenda_time_grid.md) — grid de horário em colunas; vínculo só via link iCal PÚBLICO
+- [GOTCHA: fingerprint de deploy cego a CSS/rota](reference_deploy_fingerprint_cego.md) — md5 do JS não muda em deploy só-CSS; confirmar por refresh real
+- [Projeto: Quinta do Arvoredo (Zanardi)](project_lp_quinta_arvoredo.md) — LP pronta R$165k; meeting corretores 29/09
+- [Projeto: Migração leads ClickUp→CRM](project_migracao_leads_clickup_crm.md) — 11 cenários Make aditivos; cuidado com orphans no scenarios_update
+- [GOTCHA: sessões paralelas compartilham .git](feedback_git_repo_compartilhado_sessoes.md) — push de UMA leva commits de TODAS; conferir origin/main antes
+- [Asaas: telefone sem DDI 55](reference_asaas_telefone_formato.md) — mobilePhone rejeitado com 55; fix + 19 clientes corrigidos (13/08)
+- [Google Ads: versão da API hardcoded](reference_google_ads_versao_api.md) — v21 bloqueada; contas somem em silêncio; fix pra v25
+- [Projeto: Programador de posts](project_programador_posts.md) — task=post publica via Meta; falta aprovação Meta + Render Cron
+- [Projeto: Motor de Formulários](project_motor_formularios.md) — engine NO AR; NPS de verdade e dashboard (Frente B) pendentes
+- [GOTCHA: script Payload precisa NODE_ENV=production](reference_payload_script_node_env_producao.md) — senão push mira DATABASE_URI de prod
+- [GOTCHA: "Ignore" do Make engole falha](reference_make_ignore_engole_falha.md) — execução fica VERDE mas só roda parte; assinatura é queda nas operações
+- [LP geral → webhook Make 4896527](reference_lp_geral_webhook.md) — chaves LIMPAS; cenário clonado lia chaves legadas, remapeado
+- [Inadimplência automática (Auto Ads)](project_auto_ads_inadimplencia.md) — pausa+cobra+reativa; Fase 1/2 no ar, 3A/3B pendentes
+- [Projeto: VSL Quirk imobiliário](project_vsl_quirk_imobiliario.md) — roteiro v1 em ~/vsl-quirk-imobiliario/, avatar AMPLO
+- [Projeto: WhatsApp Oficial — Disparos](project_whatsapp_oficial_disparos.md) — templates Graph API + disparo em massa; NO AR 02/09
+- [GOTCHA: payload.update({where}) não é atômico](reference_payload_update_where_nao_atomico.md) — SELECT-then-UPDATE; claim exige SQL cru via drizzle.execute()
+- [Projeto: Kit de marca Cedeira Select](project_cedeira_select_brand.md) — logo AI recriado, Cormorant+Montserrat, kit em ~/cedeira-select-brand/
+- [GOTCHA: HTML→PDF headless mente](gotcha_html_print_pdf_preview.md) — screenshot ignora @page; conferir PDF rasterizado via PyMuPDF
+- [Projeto: Aula "A Venda Invisível"](project_aula_venda_avulsa.md) — PIVOT pra Greenn Club; LP em Desktop/index.html pronta pro cPanel
+- [Importação histórico ClickUp→CRM](reference_migracao_historico_clickup_crm.md) — CONCLUÍDA: 3.384 cards, 0 perdidos, script retomável
+- [GOTCHA: pool do pg mata script longo](gotcha_pool_pg_error_mata_script_longo.md) — EADDRNOTAVAIL sem listener de 'error'; ouvir já conserta
+- [GOTCHA: push trava testes de integração](gotcha_push_payload_trava_testes_int.md) — 'Hook timed out' = banco tem coluna que o config não declara
+- [GOTCHA: prompt interativo do Drizzle trava suíte](gotcha_drizzle_push_interativo_trava.md) — push pede y/N em background e nunca recebe; `yes` cego já derrubou coluna necessária
+- [GOTCHA: IA do CRM tem três chaves](gotcha_ia_crm_tres_chaves.md) — iaHabilitada × iaModoAusente × followUp; 'desativada' só com iaHabilitada=false
+- [GOTCHA: classe .rule reservada nos decks](gotcha_sharedcss_classe_rule.md) — .rule/.slide herdam width:96px, quebra só no headless
+- [Projeto: Programa de Parceiros Quirk](project_programa_parceiros.md) — 30%+10% recorrente, sem adesão; telas em ~/programa-parceiros-quirk/
+- [GOTCHA: cron do Render sem APP_URL](gotcha_render_cron_sem_app_url.md) — cada Cron tem envs próprias; "No successful runs" é o sinal
+- [Render atrás da Cloudflare](reference_render_cloudflare_ip.md) — usar cf-connecting-ip, nunca X-Forwarded-For (forjável)
+- [GOTCHA: afterLogin dentro da transação](gotcha_afterlogin_transacao_pendura.md) — await pendura login ~30s; usar void+try/catch
+- [Remediação da auditoria (área de membros)](project_remediacao_auditoria_membros.md) — 37 de 41 itens no ar em 9 lotes (set/2026)
+- [Medir antes de corrigir](feedback_medir_antes_de_corrigir.md) — medição em prod derrubou achado atrás de achado; medição ganha do achado
