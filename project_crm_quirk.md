@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-09-15T16:29:05.506Z
+  modified: 2026-09-22T16:13:47.576Z
 ---
 
 CRM próprio da Quirk dentro da [[project_area_membros_quirk]], pros CLIENTES usarem (multi-tenant). Une Bolten (contato WhatsApp vira lead, kanban editável) + Imobilead (filas por campanha, roleta de vendedores). Spec `docs/superpowers/specs/2026-08-02-crm-quirk-design.md`; 3 planos em docs/superpowers/plans/2026-08-02-crm-*.md. **v1 deployada em 02/ago/2026** (21 commits, 85a1c33..82a32bf) via subagent-driven development (16 tasks, review por task + review final).
