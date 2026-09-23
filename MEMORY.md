@@ -93,3 +93,4 @@
 - [GOTCHA: afterLogin dentro da transação](gotcha_afterlogin_transacao_pendura.md) — await pendura login ~30s; usar void+try/catch
 - [Remediação da auditoria (área de membros)](project_remediacao_auditoria_membros.md) — 37 de 41 itens no ar em 9 lotes (set/2026)
 - [Medir antes de corrigir](feedback_medir_antes_de_corrigir.md) — medição em prod derrubou achado atrás de achado; medição ganha do achado
+- [Teste decorativo: só a mutação revela](feedback_teste_decorativo_mutacao.md) — 7 casos numa sessão de teste com nome certo e caminho errado; reintroduza a falha e confirme que o teste QUEBRA antes de dizer que cobre
