@@ -74,6 +74,7 @@
 - [GOTCHA: script Payload precisa NODE_ENV=production](reference_payload_script_node_env_producao.md) — senão push mira DATABASE_URI de prod
 - [GOTCHA: "Ignore" do Make engole falha](reference_make_ignore_engole_falha.md) — execução fica VERDE mas só roda parte; assinatura é queda nas operações
 - [LP geral → webhook Make 4896527](reference_lp_geral_webhook.md) — chaves LIMPAS; cenário clonado lia chaves legadas, remapeado
+- [Leads Clinics → Make 4727812 (CRM)](reference_lp_clinics_crm.md) — migrado pro CRM 24/09 (AC removido, matava o fluxo via Ignore); vai pro pipeline 104 tag Clinics (91 está vazio)
 - [Inadimplência automática (Auto Ads)](project_auto_ads_inadimplencia.md) — pausa+cobra+reativa; Fase 1/2 no ar, 3A/3B pendentes
 - [Projeto: VSL Quirk imobiliário](project_vsl_quirk_imobiliario.md) — roteiro v1 em ~/vsl-quirk-imobiliario/, avatar AMPLO
 - [Projeto: WhatsApp Oficial — Disparos](project_whatsapp_oficial_disparos.md) — templates Graph API + disparo em massa; NO AR 02/09
