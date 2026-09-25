@@ -18,6 +18,7 @@
 - [Projeto: LP Calculadora de VGV](project_lp_vgv.md) — /lp-vgv-quirk/, Make 4779375 clonado da isca, aba "Leads VGV"
 - [Projeto: LP Quirk Tech](project_lp_quirk_tech.md) — rebrand dark premium em /lp-quirk-tech/, DNA visual tech
 - [Método CRESCE™](project_metodo_cresce.md) — framework pra vender diferenciação vs "só faz tráfego"
+- [APN Institucional (Quirk high ticket)](project_apn_quirk_institucional.md) — deck 24 slides em ~/apn-quirk-growth/, genérico sem nicho, com preços; prints reais da APN
 - [Referência: calls Zoom](reference_zoom_calls.md) — como varrer transcrições via MCP (double-encoding, busca semântica vazia)
 - [Guia de perfil persuasivo](project_guia_perfil_persuasivo.md) — deck 21 slides pra corretores em ~/guia-perfil-quirk/
 - [Playbooks comerciais (SDR + SS)](project_playbooks_comercial.md) — decks PDF em ~/manual-comercial-quirk/, render via Chrome headless
