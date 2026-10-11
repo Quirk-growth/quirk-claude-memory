@@ -1,11 +1,11 @@
 ---
 name: project_tarefas
-description: Módulo de Tarefas do time interno (Portal da Equipe) na área de membros; gerenciador estilo ClickUp. NO AR ago/2026: Parte 1+v2 (lista/filtros/etiquetas/status), Parte 2 (inbox+menções), Parte 3 (perfil da pessoa), Parte 4 (chat de DM 1:1)
+description: Módulo de Tarefas do time interno (Portal da Equipe) na área de membros; gerenciador estilo ClickUp. NO AR ago/2026: Parte 1+v2 (lista/filtros/etiquetas/status), Parte 2 (inbox+menções), Parte 3 (perfil da pessoa), Parte 4 (chat de DM 1:1). Vazamento cross-carteira (?cliente=/deep link) corrigido 10/out/2026
 metadata: 
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-08-20T22:38:01.154Z
+  modified: 2026-10-11T00:50:05.328Z
 ---
 
 Gerenciador de tarefas do **time interno da Quirk** dentro da [[project_area_membros_quirk]] (cockpit/Portal da Equipe — nunca aparece pro cliente `member`). Inspirado na lista "Tarefas Tráfego" do ClickUp deles (list 901702083148, space Gestão de Projetos), mas com **cliente estruturado** em vez de `[CLIENTE]` no título. Spec/plano `docs/superpowers/specs|plans/2026-08-06-tarefas-parte1-*`.
