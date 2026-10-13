@@ -98,3 +98,4 @@
 - [Medir antes de corrigir](feedback_medir_antes_de_corrigir.md) — medição em prod derrubou achado atrás de achado; medição ganha do achado
 - [Teste decorativo: só a mutação revela](feedback_teste_decorativo_mutacao.md) — 7 casos numa sessão de teste com nome certo e caminho errado; reintroduza a falha e confirme que o teste QUEBRA antes de dizer que cobre
 - [Criar Cron Job no Render](reference_render_criar_cron_job.md) — form vem Docker: trocar pra Node + `echo sem-build`; Renan cola SYNC_SECRET; 3 crons do Quirk Intelligence (13/10)
+- [Prospecção LinkedIn automatizada](project_linkedin_prospeccao.md) — estudo 13/10; Unipile dentro do CRM, teto ~100 convites/semana
