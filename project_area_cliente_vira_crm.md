@@ -1,6 +1,6 @@
 ---
 name: area-cliente-vira-crm
-description: Área do cliente virou CRM (Mentorias aposentadas em 13/10/2026) e passou pro domínio crm.quirkgrowth.com.br via APP_URL_CLIENTE; Quirk Hub (/admin) e APIs ficam em membros.
+description: Área do cliente virou CRM (Mentorias aposentadas em 13/10/2026) e passou pro domínio crm.quirkgrowth.com.br via APP_URL_CLIENTE; APIs/webhooks ficam em membros; Hub abre nos dois.
 metadata:
   node_type: memory
   type: project
@@ -10,14 +10,14 @@ metadata:
 
 **Estado (13-14/10/2026, NO AR):** a área de membros do CLIENTE é um CRM. A home `/` só roteia (`lib/destinoInicial.ts`): member com CRM → `/crm`; sem CRM → `/relatorios` (ou `/conta` sem empresa); não-member → `/admin`. Menu sem "Mentorias"; CRM é o 1º item. A escolha de tela inicial foi removida de vez. Commits: `820c5343`, `0fd7dda2` (corte), `228f0f91` (prepara domínio).
 
-**Domínio:** `crm.quirkgrowth.com.br` = área do cliente; `membros.quirkgrowth.com.br` = Quirk Hub (/admin), APIs, webhooks, formulários públicos por token. Mesmo serviço Render (`srv-d9a34jucjfls73969rp0`), dois hosts. O interruptor é a env `APP_URL_CLIENTE` (no Render, ligada). `APP_URL` continua = membros. Apagar `APP_URL_CLIENTE` desfaz tudo.
+**Domínio:** `crm.quirkgrowth.com.br` = área do cliente; `membros.quirkgrowth.com.br` = endereço do Quirk Hub (/admin também abre no `crm.`), APIs, webhooks, formulários públicos por token. Mesmo serviço Render (`srv-d9a34jucjfls73969rp0`), dois hosts. O interruptor é a env `APP_URL_CLIENTE` (no Render, ligada). `APP_URL` continua = membros. Apagar `APP_URL_CLIENTE` desfaz tudo.
 
 **Why:** Renan quer a área do cliente "toda voltada ao CRM", mais profissional e apresentável; o Hub (CRM interno) não muda de endereço, então nenhum webhook/integração precisou migrar.
 
 **How to apply / armadilhas:**
 - Redirects por host (`lib/redirectsDominio.ts` → `next.config.ts`) são calculados no BUILD: mexer em `APP_URL_CLIENTE` no Render dispara deploy (~4-5 min) e é isso que aplica.
 - Link de e-mail segue o papel: member → `crm.`, equipe → `membros.` (`lib/urlCliente.ts`). Webhook, conexão e link de entrada de lead ficam em `APP_URL` (membros).
-- Cookie de sessão é host-only: cliente loga uma vez no `crm.`; equipe que cair no `crm.` vai pro `membros.../admin` e loga de novo.
+- Cookie de sessão é host-only (sem `domain`): cliente loga uma vez no `crm.`. O Hub (/admin) abre nos DOIS endereços (decisão 14/10, commit `e44ddf5d`): antes, /admin no `crm.` redirecionava pro `membros.` e a conta da equipe parecia deslogada (sem sessão no outro host). O login do `membros.` mostra "É cliente? A área mudou pra crm..." (`lib/avisoEnderecoLogin.ts`). Cookie compartilhado `.quirkgrowth.com.br` foi RECUSADO: mandaria o token às LPs na hospedagem compartilhada (lp./vsl./clinics./links./socialmedia./autoads.).
 - DNS (Cloudflare, zona `quirkgrowth.com.br`): `crm` e `membros` são CNAME → `area-membros-quirk.onrender.com`, **Somente DNS** (sem proxy). O `crm` ANTES era CNAME → `whitelabel.bolten.io` (proxied, sem uso, Renan autorizou trocar); para voltar atrás, restaurar esse valor.
 - Render: plano com limite de **2 domínios personalizados** (já usados: membros + crm). Um terceiro exige upgrade.
 - Render avisou manutenção de infra em 14/10 22h (Brasília).

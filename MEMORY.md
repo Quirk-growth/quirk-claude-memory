@@ -100,4 +100,4 @@
 - [Criar Cron Job no Render](reference_render_criar_cron_job.md) — form vem Docker: trocar pra Node + `echo sem-build`; Renan cola SYNC_SECRET; 3 crons do Quirk Intelligence (13/10)
 - [Prospecção LinkedIn automatizada](project_linkedin_prospeccao.md) — robô próprio no PC do Renan, cérebro no CRM; spec em feat/robo-linkedin
 - [Quirk Intelligence: custo da IA](project_quirk_intelligence_custos.md) — rastreio no ar (só admin lê); plano de economia: compactar tool, depois effort; números medidos
-- [Área do cliente vira CRM + domínio crm.](project_area_cliente_vira_crm.md) — Mentorias aposentadas; APP_URL_CLIENTE liga crm.quirkgrowth.com.br; Hub/APIs ficam em membros
+- [Área do cliente vira CRM + domínio crm.](project_area_cliente_vira_crm.md) — Mentorias aposentadas; APP_URL_CLIENTE liga crm.quirkgrowth.com.br; APIs em membros, Hub abre nos dois
