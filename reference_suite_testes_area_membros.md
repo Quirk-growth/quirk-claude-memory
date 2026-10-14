@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: reference
   originSessionId: 01cb3caa-2faf-418f-851d-4b7662439309
-  modified: 2026-09-03T22:06:52.309Z
+  modified: 2026-10-14T09:47:44.470Z
 ---
 
 Como a suíte da [[project_area_membros_quirk]] se comporta. **Rodar com `npx vitest run` PURO (= `npm test`). NÃO usar `NODE_ENV=production`** — em 07/ago/2026 a suíte fecha **732/732** do jeito certo, e as duas falhas que eu achava serem "da home nova" eram artefato desse env. Antes de culpar sua mudança por qualquer falha, **rode o mesmo arquivo em `git switch --detach origin/main`** — foi assim que separei o que era meu do que já estava quebrado.
@@ -33,7 +33,7 @@ Com `push` ligado (o padrão) o schema sincroniza sozinho a cada rodada e os doi
 
 **Views do admin em teste:** renderizar `HubClienteView` & cia exige `initPageResult` COMPLETO (importMap/permissions/i18n). Quando o alvo do teste é a guarda (multi-tenant), **stubar o `TelaAdmin`** com `vi.mock` em vez de montar o chrome — senão quebra em `Cannot read properties of undefined (reading '/components/admin/NavQuirk#default')`.
 
-**Rodar em worktree novo:** copiar o `.env` e apontar `node_modules` por symlink pro worktree principal. `npx tsc` pega o tsc errado — usar `./node_modules/.bin/tsc --noEmit`.
+**Rodar em worktree novo:** copiar o `.env` e apontar `node_modules` por symlink pro worktree principal. `npx tsc` pega o tsc errado — usar `./node_modules/.bin/tsc --noEmit`. (14/out: se o `package-lock.json` do principal difere do worktree, `npm ci` no próprio worktree levou só 11s e evita tipo/dep trocados — melhor que symlink; `npm run typecheck` funciona direto.) **Sem `.env` no worktree, `tests/unit/autoAdsViewGate.spec.tsx` e `tests/unit/trilha/rotaTrilha.spec.ts` falham com `PAYLOAD_SECRET ausente` (import de `payload.config`) — NÃO é regressão; passam com `PAYLOAD_SECRET=<qualquer string>` no comando. Suíte unit inteira medida: 412 arquivos / 3431 testes em ~1 min com o dummy `DATABASE_URI_TEST` de localhost.**
 
 ⚠️ **Ao dispatichar subagent pra editar arquivo de teste, pedir `npm run typecheck:tests` explicitamente — `npx tsc --noEmit` sozinho não pega nada em `tests/`.** Aconteceu de verdade (13/ago): pedi só `tsc --noEmit` em 3 rodadas de fix subagent que editaram `tests/unit/dispararPrimeiraMensagem.spec.ts` (cast `as never` no retorno de um helper de mock impedia acesso a `.create`/`.update` recém-adicionados) — todas reportaram "0 erros" porque a checagem nunca cobriu o arquivo. Só apareceu no checklist final de deploy. Fix: mover o `as never` do retorno da função helper pro call-site que passa o objeto pro código de produção, preservando o tipo do objeto local pra asserções.
 
