@@ -98,7 +98,7 @@
 - [Medir antes de corrigir](feedback_medir_antes_de_corrigir.md) — medição em prod derrubou achado atrás de achado; medição ganha do achado
 - [Teste decorativo: só a mutação revela](feedback_teste_decorativo_mutacao.md) — 7 casos numa sessão de teste com nome certo e caminho errado; reintroduza a falha e confirme que o teste QUEBRA antes de dizer que cobre
 - [Criar Cron Job no Render](reference_render_criar_cron_job.md) — form vem Docker: trocar pra Node + `echo sem-build`; Renan cola SYNC_SECRET; 3 crons do Quirk Intelligence (13/10)
-- [Prospecção LinkedIn automatizada](project_linkedin_prospeccao.md) — robô próprio no PC; cérebro PRONTO em feat/robo-linkedin (não deployado), executor pendente
+- [Prospecção LinkedIn automatizada](project_linkedin_prospeccao.md) — robô próprio no PC; cérebro NO AR 14/10 (/admin/linkedin), executor (Plano B) pendente
 - [Quirk Intelligence: custo da IA](project_quirk_intelligence_custos.md) — rastreio no ar (só admin lê); corte 1 (compactar tool, −59%) NO AR 14/10; falta baseline em tokens reais
 - [Área do cliente vira CRM + domínio crm.](project_area_cliente_vira_crm.md) — Mentorias aposentadas; APP_URL_CLIENTE liga crm.quirkgrowth.com.br; APIs em membros, Hub abre nos dois
 - [Alertas: janela da semana](project_alertas_janela_semana.md) — home/sino/crons só cobram 7 dias; regra única em lib/alertas/janela.ts; backlog some do alerta, não do módulo
