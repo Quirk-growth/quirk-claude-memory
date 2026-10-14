@@ -99,3 +99,4 @@
 - [Teste decorativo: só a mutação revela](feedback_teste_decorativo_mutacao.md) — 7 casos numa sessão de teste com nome certo e caminho errado; reintroduza a falha e confirme que o teste QUEBRA antes de dizer que cobre
 - [Criar Cron Job no Render](reference_render_criar_cron_job.md) — form vem Docker: trocar pra Node + `echo sem-build`; Renan cola SYNC_SECRET; 3 crons do Quirk Intelligence (13/10)
 - [Prospecção LinkedIn automatizada](project_linkedin_prospeccao.md) — estudo 13/10; Unipile dentro do CRM, teto ~100 convites/semana
+- [Quirk Intelligence: custo da IA](project_quirk_intelligence_custos.md) — rastreio no ar (só admin lê); plano de economia: compactar tool, depois effort; números medidos
