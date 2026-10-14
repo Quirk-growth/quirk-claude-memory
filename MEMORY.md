@@ -102,3 +102,4 @@
 - [Quirk Intelligence: custo da IA](project_quirk_intelligence_custos.md) — rastreio no ar (só admin lê); corte 1 (compactar tool, −59%) NO AR 14/10; falta baseline em tokens reais
 - [Área do cliente vira CRM + domínio crm.](project_area_cliente_vira_crm.md) — Mentorias aposentadas; APP_URL_CLIENTE liga crm.quirkgrowth.com.br; APIs em membros, Hub abre nos dois
 - [Alertas: janela da semana](project_alertas_janela_semana.md) — home/sino/crons só cobram 7 dias; regra única em lib/alertas/janela.ts; backlog some do alerta, não do módulo
+- [Quirk Intelligence: tarefas do colaborador](project_quirk_intelligence_tarefas_escopo.md) — incidente Gerson 13/10: tarefas só dele (responsável OU carteira), minhas/prazo no servidor; NO AR 14/10; limpar memória do Gerson pendente
