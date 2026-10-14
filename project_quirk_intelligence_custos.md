@@ -20,6 +20,8 @@ metadata:
 
 **Plano (ordem):** ~~1) compactar retorno da tool~~ (feito); 2) ler a tela de uso em 2-3 dias e decidir `effort`/thinking (troca de qualidade → precisa de ~20 perguntas reais do Renan como mini-eval); descartados por teto pequeno: cache de prefixo (~1-2K tokens, tool result é único por pergunta), memória/resumo em Haiku, trocar modelo, batch.
 
+**Alertas proativos — 1ª execução real conferida (14/10, logs do Render):** `quirk-intelligence-alertas-custo` (07:00 BRT, 17 s) → `{"ok":true,"picosDetectados":3,"alertasEnviados":2}`; `quirk-intelligence-alerta-saldo` (07:00 BRT, 1m28s) → `{"ok":true,"contasDetectadas":9,"alertasEnviados":8}`. `alertasEnviados` conta MENSAGENS (alerta × gestor vinculado), não alertas — não dá pra ler "9→8" como "1 falhou". **Lacuna de adoção:** o alerta só vai pra quem está em `cliente.gestores` E com Telegram `vinculado`, sem plano B, e cliente sem ninguém vinculado some em silêncio (não aparece em nenhum contador). Em 14/10 só Gerson (14 clientes), Phillipe (13) e Anna (9) estavam vinculados; Beatriz (16), Carlos (12), Debora Waller (12), Gustavo (12) — as maiores carteiras de gestor — nunca recebem. `gestores` do cliente inclui supervisores. Decisão pendente do Renan: quem recebe quando ninguém da carteira está vinculado (supervisor? ele?) e se o cron passa a reportar `semDestinatario`. Render avisou manutenção em 14/10 22:00 BRT (15/10 01:00 UTC).
+
 **Pro teto de 100/dia (outra sessão, task_abe6e475):** existe `usoDoDia(payload, usuarioId, dia)`, mas `interacoes` só incrementa DEPOIS da resposta — mensagens concorrentes furam o teto; teto estrito exige reservar a vaga antes.
 
 Ver também [[reference_render_criar_cron_job]] (os 3 crons do bot).

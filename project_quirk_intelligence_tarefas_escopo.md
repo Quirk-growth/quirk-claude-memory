@@ -18,6 +18,8 @@ metadata:
 - `MAX_TOKENS_SAIDA` 1024 → **4096** (contraria a decisão de 12/10 do Renan de 1024; justificativa: o raciocínio come o teto; brevidade segue no prompt "Seja BREVE"; teto por rodada US$0,010→0,041 só se usado). Se ele quiser voltar, o risco é o "sem resposta" voltar.
 - `enviarMensagemTelegram` divide em partes ≤4096 caracteres (`dividirMensagem.ts`) — o Telegram recusa mais que isso (HTTP 400) e o bot não entregava nada; se uma parte falha não manda as seguintes.
 
-**Pendente / não verificado:** (1) a memória do Gerson (e de quem perguntou de tarefas antes do fix) guarda a resposta vazada e os "Não consegui…" — vai pro contexto de toda chamada (até 14 msgs); limpar `quirk_intelligence_memorias_mensagens` dele é dado de produção, só com o OK do Renan. (2) Nunca vi o Sonnet de fato escolher `minhas=true`/`prazo` com o prompt novo — só com mensagem real no Telegram (chave Anthropic só no Render). (3) `totalPodeSerMaior` é calculado antes do filtro `busca` em memória.
+**Memória do Gerson LIMPA (14/10 12:13, com OK do Renan):** só ele tinha pergunta de tarefa/fallback (Renan, Anna, Phillipe estavam limpos). Zerei as 14 `mensagens` brutas da memória id 3 (usuário 526), mantendo `resumo` (310 chars, sobre Primare) e `atualizadoEm`; script com guarda (só rodava se `atualizadoEm` ainda fosse o inspecionado) e backup local no scratchpad.
+
+**Pendente / não verificado:** (1) [resolvido acima] (2) Nunca vi o Sonnet de fato escolher `minhas=true`/`prazo` com o prompt novo — só com mensagem real no Telegram (chave Anthropic só no Render). (3) `totalPodeSerMaior` é calculado antes do filtro `busca` em memória.
 
 Ver [[project_quirk_intelligence_custos]], [[feedback_isolamento_dados_clientes]], [[feedback_teste_decorativo_mutacao]].
