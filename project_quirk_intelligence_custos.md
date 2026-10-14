@@ -16,7 +16,9 @@ metadata:
 
 **Medido em produção (só leitura, 13/10):** retorno da tool `metricas_clientes` = 46.006 caracteres pra admin/supervisor (143 clientes, 66 com veiculação) e 6.043 pra gestor (16 clientes). Compactar (arredondar, sem `slug`/`serieLeads`, sem-veiculação só `{id,nome}`) corta ~71% no caso pesado. Chave Anthropic só existe no Render (não no .env local) — contador oficial de tokens indisponível daqui.
 
-**Plano (ordem):** 1) compactar retorno da tool (free win, 1 diff); 2) ler a tela de uso em 2-3 dias e decidir `effort`/thinking (troca de qualidade → precisa de ~20 perguntas reais do Renan como mini-eval); descartados por teto pequeno: cache de prefixo (~1-2K tokens, tool result é único por pergunta), memória/resumo em Haiku, trocar modelo, batch.
+**Corte 1 NO AR (e9012481, deploy live 14/10):** `compactarMetricasClientes` (`src/lib/quirkIntelligence/compactarMetricas.ts`) — medido de novo em produção: 45.951 → 18.953 caracteres (−59%; 143 clientes, 66 com veiculação). Tira `slug` (6.156 chars) e `serieLeads` (6.194), arredonda, sem-veiculação vira só id/nome/status/gestores (status importa: standby/onboarding/churn não têm veiculação e nenhuma outra tool devolve status; só id+nome daria −65% mas perde isso). Mantém `{linhas,totais}` e os nomes de campo (testes int dependem de `linhas[].clienteId`). **Ainda sem baseline em tokens reais: a tabela `quirk_intelligence_usos` estava VAZIA em 14/10** (ninguém mandou mensagem ao bot) — pra medir o efeito, mandar "métricas de todos os clientes" no Telegram e ler a tela de uso.
+
+**Plano (ordem):** ~~1) compactar retorno da tool~~ (feito); 2) ler a tela de uso em 2-3 dias e decidir `effort`/thinking (troca de qualidade → precisa de ~20 perguntas reais do Renan como mini-eval); descartados por teto pequeno: cache de prefixo (~1-2K tokens, tool result é único por pergunta), memória/resumo em Haiku, trocar modelo, batch.
 
 **Pro teto de 100/dia (outra sessão, task_abe6e475):** existe `usoDoDia(payload, usuarioId, dia)`, mas `interacoes` só incrementa DEPOIS da resposta — mensagens concorrentes furam o teto; teto estrito exige reservar a vaga antes.
 
