@@ -13,10 +13,14 @@ Pedido do Renan (14/out/2026): "o painel inicial de cada função, os alertas de
 **Onde vale:** home (`lib/home/acaoTarefas|acaoComercial|acaoContratual.ts`; `acaoClientes` já era 7d), crons `lib/tarefas/avisoVencidas.ts` e `lib/crm/avisoRetornosPendentes.ts` (piso no `where`), sino `lib/notificacoes/painel.ts` → `consultarSino` (notificações, contador de não lidas e "atribuídas a mim" = só ABERTAS criadas na semana).
 
 **Efeitos pra lembrar ao monitorar:**
-- contrato: janela 30→7 dias; sem `criadoEm` NÃO conta mais;
+- contrato: janela 30→7 dias, data = `criadoEm` (Autentique) senão `createdAt` (fallback). ⚠️ O contrato ENVIADO PELO HUB (`/enviar-contrato`, Clientes.ts) nasce SEM `criadoEm` — só o `/vincular` grava — então "sem criadoEm → fora" (minha 1ª versão) teria escondido todo contrato novo do Hub; achado na revisão independente, medido em prod (14/out: 2 parciais sem criadoEm, 3 pendentes com). Sem nenhuma das duas datas → fora;
 - "parado" no funil = parado há entre 5 e 12 dias (cruzou o limite dentro da semana); pré-fechamento sem `etapaDesde` fora;
 - `notificacoesGeradas: 0` nos crons deixou de ser, sozinho, sinal de cron morto (ver docs/operacao/jobs-agendados.md);
 - nada é apagado: notificação antiga fica no banco e no perfil da pessoa; tarefa/lead/contrato continuam nas telas do módulo.
+
+**Texto da fila vazia:** "Tudo em dia" virou "Nada novo nesta semana" (+ contador `nada novo na semana` em `lib/home/fila.ts`) — com janela de 7 dias a fila vazia NÃO quer dizer que não há pendência antiga; o texto diz onde o resto continua (Tarefas, Funil, Contratos).
+
+**Bug pré-existente achado junto (NÃO corrigido aqui, virou tarefa à parte):** 205 de 207 tarefas abertas têm `prazo` gravado 00:00 UTC (= 21h do dia anterior em BRT), então `classificarPrazo` mostra "atrasada" pra tarefa que vence hoje e "hoje" pra a de amanhã. Técnica de correção já no repo: `proximaOcorrencia.ts` ancora `slice(0,10)` ao meio-dia -03:00.
 
 **Não testado (limite conhecido):** o pré-filtro de banco do `acaoComercial` (`or` de etapaDesde/slaVenceEm/dataAgendamento) existe pra não estourar `limit: 500`; a função pura filtra de qualquer jeito, então apagar um piso de data no banco não derruba teste (só a fronteira exata do corte derruba). Truncamento por limite exigiria 500+ linhas de fixture.
 
