@@ -1,6 +1,6 @@
 ---
 name: project-quirk-intelligence-dados-hub
-description: "Bot do Telegram agora lê Handoff CS, Gestão de Rotina e relatório semanal do Hub (3 ferramentas só-leitura); commit e98f9074 pushed 14/10, deploy preso por incidente do Render; regras de acesso e o que ficou pendente"
+description: "Bot do Telegram agora lê Handoff CS, Gestão de Rotina e relatório semanal do Hub (3 ferramentas só-leitura); commit e98f9074 NO AR em 14/10 (deploy atrasado por incidente do Render); regras de acesso e o que ficou pendente"
 metadata:
   node_type: memory
   type: project
@@ -15,7 +15,7 @@ metadata:
 **Dados reais medidos na produção (14/10):** 578 registros de rotina, só 7 handoffs em 127 clientes vivos (adoção do handoff é baixa: o bot vai achar pouco). Textos: rotina até 1.013 caracteres, handoff até 712. `semana`/`data_referencia` gravadas em 00:00 UTC (o `slice(0,10)` é o dia digitado).
 
 **Pendências:**
-- **Deploy:** no push (17:36 BRT) o Render estava com incidente "Builds are not starting in all regions" (desde 19:32 UTC); build não começou e a produção segue na versão anterior. Conferir "Deploy live for e98f907" nos Events do serviço `srv-d9a34jucjfls73969rp0`; se não entrar sozinho depois do incidente, Manual Deploy. Manutenção do Render prevista 14/10 22:00 BRT.
+- **Deploy: NO AR.** Push 17:36 BRT; o Render teve incidente ("Builds are not starting in all regions", 19:32–21:43 UTC) e o build só rodou ~18:43; "Deploy succeeded" para e98f907 (1h13m, quase tudo fila). Site estável (login 200, rota protegida 403). Não há rota nova pra smoke test: a prova é o primeiro uso real no Telegram.
 - **Primeiro uso real:** pedir ao Gerson "como está o handoff da Primare?" / "quais dos meus clientes estão em risco?".
 - **Bug do Hub (task separada, chip `task_d8b9fcf1`, o Renan pediu para NÃO mexer):** `HubAbaRotina` calcula a janela de 7 dias com `new Date()` em UTC; das 21h às 23h59 BRT inclui o dia corrente. O bot usa `hojeEmBrasilia()` e diverge nesse intervalo.
 - **Teste instável que já existia na main:** `quirkIntelligenceSaldoContas.int` ("média EXATAMENTE 7 dias") falha com `expected 3 to be 0` quando roda junto com `quirkIntelligenceAlertaSupervisor.int` (conta contas de todo o banco compartilhado); reproduzido em `origin/main` puro. Falhas também reproduzidas em `origin/main`: tarefas-recorrencia, clientes-escrita-financeiro-comercial, mensagens-onboarding-destinatarios, tarefa-templates-aplicar, converter-cria-tarefa. A suíte completa não foi rodada de ponta a ponta (714 arquivos, ~1h30); rodei todas as unitárias (430 arquivos, verdes) e as 26 de integração das áreas tocadas.
