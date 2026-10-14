@@ -101,3 +101,4 @@
 - [Prospecção LinkedIn automatizada](project_linkedin_prospeccao.md) — robô próprio no PC do Renan, cérebro no CRM; spec em feat/robo-linkedin
 - [Quirk Intelligence: custo da IA](project_quirk_intelligence_custos.md) — rastreio no ar (só admin lê); plano de economia: compactar tool, depois effort; números medidos
 - [Área do cliente vira CRM + domínio crm.](project_area_cliente_vira_crm.md) — Mentorias aposentadas; APP_URL_CLIENTE liga crm.quirkgrowth.com.br; APIs em membros, Hub abre nos dois
+- [Alertas: janela da semana](project_alertas_janela_semana.md) — home/sino/crons só cobram 7 dias; regra única em lib/alertas/janela.ts; backlog some do alerta, não do módulo
