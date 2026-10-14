@@ -10,5 +10,7 @@ Recomendação: build dentro do [[project-crm-quirk]] sobre Unipile (€49/mês 
 
 DECISÃO 13/10: robô 100% próprio (Playwright, Chrome real) no PC Windows do Renan, SÓ o perfil do Renan, cérebro no CRM (cliente 104), busca do LinkedIn como origem, msg1+2 follow-ups, mão levantada = lead + WhatsApp (time assume pelo WhatsApp). Spec em worktree ~/area-membros-quirk-robo-linkedin branch feat/robo-linkedin, docs/superpowers/specs/2026-10-13-robo-linkedin-design.md + planos A (cérebro, 10 tasks) e B (executor, 9 tasks) em docs/superpowers/plans/2026-10-13-robo-linkedin-{A-cerebro,B-executor}.md (commit 5e844854, não pushado). Sales Navigator fora do MVP. Executor vai em repo novo robo-linkedin-quirk. CRM exige lead sem telefone (índice único cliente+telefone).
 
+STATUS 14/10: Plano A (cérebro) IMPLEMENTADO na branch feat/robo-linkedin (worktree ~/area-membros-quirk-robo-linkedin, ~20 commits até afbc9fde, NÃO mergeado/pushado/deployado). DDL em scripts/ddl/2026-10-13-robo-linkedin.sql (provado só em schema descartável do banco de teste). Pendências antes de desligar o ensaio: R1 erro de escrita do executor libera reserva (reenvio até 3x); R2 form nativo do global pode religar o robô. Ledger: .superpowers/sdd/2026-10-13-robo-linkedin-A-cerebro/progress.md. Plano B (executor) não iniciado. Tela: menu Comercial → Robô LinkedIn (só admin) — só aparece após deploy.
+
 **Why:** novo produto de outbound pra Quirk.
 **How to apply:** status volátil — perguntar ao Renan se o piloto começou antes de assumir.
