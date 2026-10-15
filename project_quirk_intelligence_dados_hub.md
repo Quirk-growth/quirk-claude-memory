@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-10-14T20:47:34.234Z
+  modified: 2026-10-15T13:28:30.040Z
 ---
 
 **Entregue (14/10/2026, commit `e98f9074` na main, branch `feat/qi-dados-hub`):** ferramentas `handoff_cs`, `gestao_rotina` e `relatorio_semanal` no bot (`src/lib/quirkIntelligence/dadosHub.ts`, registro no `orquestrador.ts`). Cada uma tem modo cliente (`clienteId`) e modo carteira (sem id; `handoff_cs` aceita `apenasEmRisco`, `gestao_rotina` aceita `atencaoMinima`/`revisaoPendente`; relatório é sempre de UM cliente e devolve `mensagemPronta`, o texto de sexta). O cálculo do relatório saiu do Hub para `lib/relatorios/dadosRelatorioSemanal.ts` (fonte única com o bot; refactor do `HubAbaRotina`/`HubRelatorioSemanal` equivalente em 5.000 casos).
@@ -19,6 +19,6 @@ metadata:
 - **Primeiro uso real:** pedir ao Gerson "como está o handoff da Primare?" / "quais dos meus clientes estão em risco?".
 - **Bug do Hub (task separada, chip `task_d8b9fcf1`, o Renan pediu para NÃO mexer):** `HubAbaRotina` calcula a janela de 7 dias com `new Date()` em UTC; das 21h às 23h59 BRT inclui o dia corrente. O bot usa `hojeEmBrasilia()` e diverge nesse intervalo.
 - **Teste instável que já existia na main:** `quirkIntelligenceSaldoContas.int` ("média EXATAMENTE 7 dias") falha com `expected 3 to be 0` quando roda junto com `quirkIntelligenceAlertaSupervisor.int` (conta contas de todo o banco compartilhado); reproduzido em `origin/main` puro. Falhas também reproduzidas em `origin/main`: tarefas-recorrencia, clientes-escrita-financeiro-comercial, mensagens-onboarding-destinatarios, tarefa-templates-aplicar, converter-cria-tarefa. A suíte completa não foi rodada de ponta a ponta (714 arquivos, ~1h30); rodei todas as unitárias (430 arquivos, verdes) e as 26 de integração das áreas tocadas.
-- **Espelho no Telegram:** feito e NO AR (93020499) — ver [[project-quirk-intelligence-auditoria-conversas]]. Próximo da fila: criar-tarefa pelo bot (plano em `docs/superpowers/plans/2026-10-14-quirk-intelligence-criar-tarefa.md`, branch `feat/qi-criar-tarefa`, precisa de pequeno ajuste: mexe em `orquestrador.ts`/mocks dos testes de fiação e no webhook, que mudaram).
+- **Espelho no Telegram:** feito e NO AR (93020499) — ver [[project-quirk-intelligence-auditoria-conversas]]. Criar-tarefa pelo bot: implementado e revisado na branch `feat/qi-criar-tarefa`, ainda NÃO no ar — ver [[project-quirk-intelligence-criar-tarefa]].
 
 Ver também [[project-quirk-intelligence-tarefas-escopo]] e [[project-quirk-intelligence-custos]].
