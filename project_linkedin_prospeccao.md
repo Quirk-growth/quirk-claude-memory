@@ -14,5 +14,7 @@ STATUS 14/10: Plano A (cérebro) IMPLEMENTADO na branch feat/robo-linkedin (work
 
 EXECUTOR (Plano B) PRONTO PRO ENSAIO 15/10: repo local ~/robo-linkedin-quirk (sem remoto ainda; commit 1ecd60a, 239 testes), login do LinkedIn salvo em ~/robo-linkedin-quirk/perfil-chrome. Ledger: area-membros-quirk-robo-linkedin/.superpowers/sdd/2026-10-13-robo-linkedin-B-executor/progress.md. Pendente: cérebro bafb4915 (I4: desde=msg1Em??convidadoEm??aceitoEm) não deployado; ensaio real; seletores sintetizados (Pendente, modal Enviar sem nota, bolha, retirar) verificar ao vivo; criar repo GitHub privado. Messaging do LinkedIn só expõe URN (/in/ACoA…) → resolvedor no executor com cache.
 
+ENSAIO REAL rodando desde 15/10 no Mac (npm start + caffeinate): 1º dia achou 2 bugs só visíveis ao vivo — top card real é DIV [componentkey$=Topcard] com nome em h2 (8d010a6); tsx injeta __name em funções passadas ao page.evaluate → usar string via funcaoDaPagina (e550f36). Após fixes: convidar ensaio ok (ação 10). 4 prospects ficaram em revisão (nada enviado). Ainda não visto ao vivo: modal Enviar sem nota, Pendente, bolha de mensagem, retirar.
+
 **Why:** novo produto de outbound pra Quirk.
 **How to apply:** status volátil — perguntar ao Renan se o piloto começou antes de assumir.
