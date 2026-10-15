@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
-  modified: 2026-10-15T11:22:22.352Z
+  modified: 2026-10-15T16:38:27.166Z
 ---
 
 **Pedido do Renan (14/10/2026):** a linha editorial gerada por IA no Hub (`src/lib/linhaEditorial/`) saía rasa; "precisamos de um agente que domine o nosso processo de social media". Plano aprovado: investigar, aprender com o trabalho humano (Hub + ClickUp + Instagram), depois desenhar o agente.
@@ -22,4 +22,6 @@ metadata:
 
 **ATUALIZAÇÃO 15/10/2026 — Fase 1 (laboratório) IMPLEMENTADA, não rodada com a chave:** branch `spec/agente-social-media` no worktree `~/area-membros-quirk-handoff-cs` (27 commits, NÃO enviada ao remoto). Spec em `docs/superpowers/specs/2026-10-14-agente-social-media-design.md`, plano em `docs/superpowers/plans/2026-10-15-agente-social-media-fase1-laboratorio.md`. Código em `src/lib/socialAgente/` (pipeline E1 perfil+estratégia → E2 capas → portão → E3 peça → E4 código antes do juiz) + `scripts/social-agente-lab/` (README ali). 273 testes do módulo, suíte unit inteira verde (3898). Nada de banco/Hub/DDL. Para rodar de verdade faltam: `ANTHROPIC_API_KEY` exportada pelo Renan (nunca no git), briefing + fatos do mês dos 5 clientes (preenchidos por Andréia/Emile), teto de US$ 15, 2 avaliadoras para a avaliação cega (meta: ≥70% das peças com média ≥4, zero erro factual grave, zero "parece de outro nicho", ≥4 clientes). Pendências conhecidas (ordem de importância): RegrasSchema aceita creci/hashtag com travessão ou emoji (gera loop de rejeição — rejeitar no schema); rodar.mts imprime r.custoUsd em vez de conta.gastoUsd() em caminhos de erro; quantidadeMes sem .max; notas.json em formato lista antigo ainda aceito; cache de prompt por peça pouco aproveitado (Fase 2); lista de termos fora-de-nicho não mostrada ao modelo. Achados de método: `messages.parse()` do SDK lança erro cru em saída truncada (usar `create` + safeParse); o plano teve ~6 testes com aritmética errada, revisor independente por tarefa pegou todos.
 
-Relacionado: [[project_area_membros_quirk]], [[reference_clickup_mcp_limite_diario]].
+**Custo e área no Hub (15/10/2026, spec §9.1):** estimativa por cliente/mês US$ 1,10 (12 peças), 1,70 (22), 2,18 (30), faixa enxuto–pesado 0,77–3,54; ~US$ 0,04 por peça + 0,22 estratégia + 0,22–0,30 plano; ainda sem medição real. Pedido do Renan: custos do agente aparecem na MESMA tela "Uso da IA" do bot do Telegram (`quirk-intelligence-usos`, só admin, `podeVerUsoIA`), só números, com origem/cliente/etapa/modelo/tokens e bloco "como o custo é calculado". Decisão de desenho: NÃO mexer na tabela do bot (índice único + enum `tipo`); detalhe mora em `social-geracoes.custos` e a tela vira visão sobre as duas fontes; entra na Fase 2. Pendências da Fase 1 corrigidas (79619ffd): creci/hashtag com travessão ou emoji recusados no schema, `quantidadeMes` ≤ 31, custo impresso vem do contador.
+
+Relacionado: [[project_area_membros_quirk]], [[reference_clickup_mcp_limite_diario]], [[project_quirk_intelligence_custos]].
