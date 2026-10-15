@@ -86,7 +86,7 @@
 - [Projeto: Aula "A Venda Invisível"](project_aula_venda_avulsa.md) — PIVOT pra Greenn Club; LP em Desktop/index.html pronta pro cPanel
 - [Importação histórico ClickUp→CRM](reference_migracao_historico_clickup_crm.md) — CONCLUÍDA: 3.384 cards, 0 perdidos, script retomável
 - [GOTCHA: pool do pg mata script longo](gotcha_pool_pg_error_mata_script_longo.md) — EADDRNOTAVAIL sem listener de 'error'; ouvir já conserta
-- [GOTCHA: push trava testes de integração](gotcha_push_payload_trava_testes_int.md) — 'Hook timed out' = banco tem coluna que o config não declara
+- [GOTCHA: push trava testes de integração](gotcha_push_payload_trava_testes_int.md) — 'Hook timed out' = banco de teste tem coluna OU ENUM que o config não declara (comparar teste×prod)
 - [GOTCHA: prompt interativo do Drizzle trava suíte](gotcha_drizzle_push_interativo_trava.md) — push pede y/N em background e nunca recebe; `yes` cego já derrubou coluna necessária
 - [GOTCHA: IA do CRM tem três chaves](gotcha_ia_crm_tres_chaves.md) — iaHabilitada × iaModoAusente × followUp; 'desativada' só com iaHabilitada=false
 - [GOTCHA: classe .rule reservada nos decks](gotcha_sharedcss_classe_rule.md) — .rule/.slide herdam width:96px, quebra só no headless
@@ -108,5 +108,6 @@
 - [Quirk Intelligence: dados do Hub no bot](project_quirk_intelligence_dados_hub.md) — handoff/rotina/relatório semanal só-leitura; e98f9074 NO AR 14/10 (atraso por incidente do Render); comercial barrado da rotina
 - [Quirk Intelligence: criar tarefa pelo bot](project_quirk_intelligence_criar_tarefa.md) — NO AR 15/10 13:44 BRT (9ea1e53c, DDL em prod antes, ligado); falta 1º uso real com o Gerson e ver o cron diário
 - [Quirk Intelligence: espelho em grupo (tópicos)](project_quirk_intelligence_espelho_grupo.md) — código NO AR 15/10 (e1d60e5a, DDL antes) mas INERTE até o Renan criar o grupo e pôr QI_ESPELHO_GRUPO_ID; só Renan+Chaiene
+- [Quirk Intelligence: copys imobiliárias no bot](project_quirk_intelligence_copy_imobiliario.md) — o "grande cérebro": fase 1 só imobiliário, 5 variações, nota 8,5, trava de completude do briefing no servidor; spec escrita (b7917aef, local) aguardando revisão do Renan; QI_COPY opt-in
 - [Agente de Social Media (base de conhecimento)](project_agente_social_media.md) — causa raiz do conteúdo raso + base em ~/social-media-quirk/; extração ClickUp parou no limite; falta desenhar o agente
 - [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
