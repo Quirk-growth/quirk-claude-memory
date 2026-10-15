@@ -106,3 +106,5 @@
 - [Mapa do sistema (Obsidian + grafo)](project_mapa_sistema_obsidian.md) — vault ~/vault-sistema-quirk, gerar.sh, nomes.json em português editável; 9 descrições inferidas
 - [Quirk Intelligence: ver conversas dos gestores](project_quirk_intelligence_auditoria_conversas.md) — pedido 14/10: hoje NÃO há log de conversa (memória rolante escondida + uso numérico); fila: após dados do Hub, antes do criar-tarefa
 - [Quirk Intelligence: dados do Hub no bot](project_quirk_intelligence_dados_hub.md) — handoff/rotina/relatório semanal só-leitura; e98f9074 NO AR 14/10 (atraso por incidente do Render); comercial barrado da rotina
+- [Agente de Social Media (base de conhecimento)](project_agente_social_media.md) — causa raiz do conteúdo raso + base em ~/social-media-quirk/; extração ClickUp parou no limite; falta desenhar o agente
+- [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
