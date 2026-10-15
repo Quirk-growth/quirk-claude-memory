@@ -106,5 +106,6 @@
 - [Mapa do sistema (Obsidian + grafo)](project_mapa_sistema_obsidian.md) — vault ~/vault-sistema-quirk, gerar.sh, nomes.json em português editável; 9 descrições inferidas
 - [Quirk Intelligence: ver conversas dos gestores](project_quirk_intelligence_auditoria_conversas.md) — espelho no Telegram NO AR 14/10 (93020499, QI_ESPELHO=off desliga); avisar Gerson/Anna/Phillipe; log persistente não pedido
 - [Quirk Intelligence: dados do Hub no bot](project_quirk_intelligence_dados_hub.md) — handoff/rotina/relatório semanal só-leitura; e98f9074 NO AR 14/10 (atraso por incidente do Render); comercial barrado da rotina
+- [Quirk Intelligence: criar tarefa pelo bot](project_quirk_intelligence_criar_tarefa.md) — PRONTO e revisado na branch feat/qi-criar-tarefa (a023416c), NÃO no ar; falta OK do Renan p/ DDL em prod → push → 1º uso com o Gerson
 - [Agente de Social Media (base de conhecimento)](project_agente_social_media.md) — causa raiz do conteúdo raso + base em ~/social-media-quirk/; extração ClickUp parou no limite; falta desenhar o agente
 - [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
