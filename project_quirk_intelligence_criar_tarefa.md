@@ -1,11 +1,11 @@
 ---
 name: project-quirk-intelligence-criar-tarefa
-description: "Criar tarefa pelo bot do Telegram (IA propõe, dono clica ✅): PRONTO e revisado na branch feat/qi-criar-tarefa (HEAD a023416c, 35 commits), NÃO está no ar — falta o OK do Renan pra aplicar o DDL em produção, dar push e fazer o 1º uso real"
+description: "Criar tarefa pelo bot do Telegram (IA propõe, dono clica ✅): NO AR desde 15/10/2026 13:44 BRT (commit 9ea1e53c, DDL aplicado antes, ligado); falta o 1º uso real com o Gerson e acompanhar o cron diário"
 metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-10-15T13:28:18.385Z
+  modified: 2026-10-15T16:46:31.587Z
 ---
 
 **Estado (15/10/2026):** implementado por Subagent-driven (Tasks 1–9, mutações, revisão final em opus, uma onda de correção, re-revisão "Ready"). Branch `feat/qi-criar-tarefa` no worktree `/Users/renanreal/area-membros-quirk-comentarios-editaveis`; `origin/main` estava em `93020499` (o espelho) quando conferi. **Nada foi aplicado em produção nem enviado ao GitHub.** Para saber o estado de hoje: `git ls-remote origin main` e `git log origin/main..feat/qi-criar-tarefa`.
