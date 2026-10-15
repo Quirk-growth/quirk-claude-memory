@@ -1,0 +1,23 @@
+---
+name: agente-social-media-base-conhecimento
+description: "Projeto 14/10/2026: agente que domina o processo de Social Media da Quirk. Base de conhecimento em ~/social-media-quirk/; extração do ClickUp parou no limite diário; próximo passo é desenhar o agente."
+metadata:
+  node_type: memory
+  type: project
+  originSessionId: 635d4787-0e22-45b2-b202-ef558aebae16
+  modified: 2026-10-15T02:35:11.816Z
+---
+
+**Pedido do Renan (14/10/2026):** a linha editorial gerada por IA no Hub (`src/lib/linhaEditorial/`) saía rasa; "precisamos de um agente que domine o nosso processo de social media". Plano aprovado: investigar, aprender com o trabalho humano (Hub + ClickUp + Instagram), depois desenhar o agente.
+
+**Causa raiz do conteúdo raso (medida):** (1) 0 respostas de briefing, 0 posts sincronizados, só nome + bio do Instagram; o prompt manda ser genérico quando falta dado; (2) schema de saída = um campo `copy` sem descrição (~100 a 150 tokens por peça, contra 2.620 caracteres da peça humana); (3) uma única chamada para o mês, sem etapa de estratégia; (4) "linhas anteriores" enviava só os títulos; (5) o prompt proibia emoji e CTA, mas a regra real da equipe usa os dois. Só 3 gerações em produção, todas do Full Expresso.
+
+**Base de conhecimento (local, não vai pro git):** `~/social-media-quirk/`
+- `base-conhecimento/01-cruzamento-hub-clickup.md`, `02-regras-e-padroes-da-equipe.md`, `03-calendarios-clickup-e-o-que-performa.md` (ler primeiro; têm FATO x INFERÊNCIA).
+- `corpus/hub/` (152 tarefas da lista Social Media, 10 clientes), `corpus/clickup/` (docs de processo, MODELO IDEAL, calendários de ~10 clientes), `corpus/instagram/` (perfil + 30 posts de 5 contas).
+
+**Achados que o agente deve usar:** a equipe já trabalha em 2 etapas (30 capas feed + 20 stories com funil 50/40/10, depois cada peça); estratégia por cliente com 11 pilares e linhas editoriais com % (modelo: Sandra Aleixo); briefing real tem 7 blocos (o do Hub tem 9 perguntas fracas); peça = mini-briefing de ~2.600 caracteres (legenda, referência, direção criativa, CTA); regra "legenda OU headline, nunca os dois", "sem material no Drive não executa", gancho = 80% da copy, emoji e CTA obrigatórios. Na Zanardi (260 posts, 120 dias): Reel alcance mediano 936 x feed 541 x story 219; 11 dos 12 de maior alcance são Reels; topo = lançamento/evento/gente real e cenas sensoriais; estático educativo do calendário rende menos. Logo o agente precisa de "fatos do mês" como entrada e de modos separados (marca pessoal, especialista de nicho, imobiliário de lançamento, B2B).
+
+**Pendências:** retomar extração do ClickUp quando a cota voltar (lista priorizada com IDs no arquivo 03; Zanardi/Quinta já lidos, faltam Full Expresso, Marcenaria, Sandra agosto, RegLog, Glove, Jakelyne, Gabriel, Eiffel, Chaiene, Renan outubro, demonstrações de julho, inativos); confirmar com o Renan se "zero emoji/travessão" vale só pra marca pessoal dele; precisa da `ANTHROPIC_API_KEY` no `.env` do projeto pra comparar saída antiga x nova; desenho do agente (estratégia por cliente + geração em 2 etapas + régua de qualidade) ainda NÃO apresentado nem aprovado.
+
+Relacionado: [[project_area_membros_quirk]], [[reference_clickup_mcp_limite_diario]].
