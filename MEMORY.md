@@ -107,5 +107,6 @@
 - [Quirk Intelligence: ver conversas dos gestores](project_quirk_intelligence_auditoria_conversas.md) — espelho no Telegram NO AR 14/10 (93020499, QI_ESPELHO=off desliga); avisar Gerson/Anna/Phillipe; log persistente não pedido
 - [Quirk Intelligence: dados do Hub no bot](project_quirk_intelligence_dados_hub.md) — handoff/rotina/relatório semanal só-leitura; e98f9074 NO AR 14/10 (atraso por incidente do Render); comercial barrado da rotina
 - [Quirk Intelligence: criar tarefa pelo bot](project_quirk_intelligence_criar_tarefa.md) — NO AR 15/10 13:44 BRT (9ea1e53c, DDL em prod antes, ligado); falta 1º uso real com o Gerson e ver o cron diário
+- [Quirk Intelligence: espelho em grupo (tópicos)](project_quirk_intelligence_espelho_grupo.md) — código NO AR 15/10 (e1d60e5a, DDL antes) mas INERTE até o Renan criar o grupo e pôr QI_ESPELHO_GRUPO_ID; só Renan+Chaiene
 - [Agente de Social Media (base de conhecimento)](project_agente_social_media.md) — causa raiz do conteúdo raso + base em ~/social-media-quirk/; extração ClickUp parou no limite; falta desenhar o agente
 - [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
