@@ -104,7 +104,7 @@
 - [Alertas: janela da semana](project_alertas_janela_semana.md) — home/sino/crons só cobram 7 dias; regra única em lib/alertas/janela.ts; backlog some do alerta, não do módulo
 - [Quirk Intelligence: tarefas do colaborador](project_quirk_intelligence_tarefas_escopo.md) — incidente Gerson 13/10: tarefas só dele (responsável OU carteira), minhas/prazo no servidor; NO AR 14/10; limpar memória do Gerson pendente
 - [Mapa do sistema (Obsidian + grafo)](project_mapa_sistema_obsidian.md) — vault ~/vault-sistema-quirk, gerar.sh, nomes.json em português editável; 9 descrições inferidas
-- [Quirk Intelligence: ver conversas dos gestores](project_quirk_intelligence_auditoria_conversas.md) — pedido 14/10: hoje NÃO há log de conversa (memória rolante escondida + uso numérico); fila: após dados do Hub, antes do criar-tarefa
+- [Quirk Intelligence: ver conversas dos gestores](project_quirk_intelligence_auditoria_conversas.md) — espelho no Telegram NO AR 14/10 (93020499, QI_ESPELHO=off desliga); avisar Gerson/Anna/Phillipe; log persistente não pedido
 - [Quirk Intelligence: dados do Hub no bot](project_quirk_intelligence_dados_hub.md) — handoff/rotina/relatório semanal só-leitura; e98f9074 NO AR 14/10 (atraso por incidente do Render); comercial barrado da rotina
 - [Agente de Social Media (base de conhecimento)](project_agente_social_media.md) — causa raiz do conteúdo raso + base em ~/social-media-quirk/; extração ClickUp parou no limite; falta desenhar o agente
 - [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
