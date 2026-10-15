@@ -1,0 +1,21 @@
+---
+name: project-quirk-intelligence-copy-imobiliario
+description: "Copys imobiliárias DENTRO do bot (o 'grande cérebro'): fase 1 só imobiliário, 5 variações, nota mín. 8,5, gancho simples OU elaborado por pedido, trava de completude do briefing no servidor; spec escrita (branch feat/qi-copy-imobiliario, b7917aef) aguardando revisão do Renan antes do plano; nada implementado"
+metadata:
+  node_type: memory
+  type: project
+  originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
+  modified: 2026-10-15T20:18:29.467Z
+---
+
+**Pedido do Renan (15/10/2026):** trazer pro Quirk Intelligence os GPTs soltos do ChatGPT que criam copys (imobiliário; estética; ganchos simples/elaborados; avaliador). Visão: uma inteligência-mãe direciona o pedido ao pacote de agentes do SEGMENTO certo (imobiliário, estética, logística…); a copy só é entregue depois de criada, revisada e aprimorada. "Quero que a Q Intelligence tenha um grande cérebro." Pasta de prompts: Drive `1x6BwGRWjuToGpyqyNJ5huAq9ZQI8pSn7` ("Prompts": Copys e roteiros, Quirk, Comerciais, Clinics, imagens, atendimento…).
+
+**Decisões dele (15/10):** fase 1 = SÓ imobiliário; **5 variações por pedido**; **nota mínima 8,5 ok**; os DOIS tipos de gancho conforme o pedido do gestor (simples = Gerador v5; elaborado = Gerador v4); e **"muitas perguntas antes de o agente começar a criar, ele precisa ter certeza de que tem todas as informações"** → virou trava NO SERVIDOR (graus obrigatório/perguntar/condicional; `completo` calculado pelo servidor; resumo montado pelo servidor + botão ✅ do dono, mesmo padrão do criar-tarefa).
+
+**Mapa dos prompts do Drive → papéis:** gerador_simples = "Gerador de Copys – Ganchos Simples – Quirk v5 Set.26" (fileId 1chB3mlre3_Gc51yrXyxKo7dzdWrJb0WR764EWdhFpTg); gerador_elaborado = "Gerador de Copys Quirk v4 Set.26" (1rYFu3tMImzVi4SdU-BOr2aHzmnijxI2jef0Iu_oIZz0); avaliador = "AVALIADOR DE COPYS IMOB" (1u2HQkb-_TOQQZj1yx-QMbVXsBty_xDJ_etCK1BZpMhg; rubrica 8 critérios, gancho 35%); referência investidor = "Mkt Imob INVESTIDORES POWER" (181bIFLsuC-qs5hh2E8pGS9Oqt2TqcJqw05gNJizJoAo; 5 vias). FORA desta frente: SDR/SS/Lara (clínicas), ISA.AI (avaliador de LEADS, não de copy), ganchos virais orgânicos, storys, banners em imagem. **NÃO achei no Drive:** prompts de copy para estética e os "novos agentes" (devem estar só nos GPTs) — pedir as Instructions ao Renan.
+
+**Spec:** `docs/superpowers/specs/2026-10-15-quirk-intelligence-copy-imobiliario-design.md` (branch local `feat/qi-copy-imobiliario`, commit b7917aef, NÃO enviada). Resumo: coleção `quirk-intelligence-copy-pedidos` (admin lê; DDL manual antes do deploy); esteira criar (5 variações) → revisar (1 chamada por variação; NOTA CALCULADA PELO SERVIDOR com os pesos) → checagens determinísticas (zero emoji, 1 CTA do repertório, estrutura, CONFERÊNCIA DE FATOS: todo número da copy existe no briefing) → aprimorar (nota<8,5 ou gancho<7; máx. 2 rodadas) → entregar (1 msg por variação, idempotente; abaixo da meta vai marcada "revisão humana recomendada", nunca escondida); background: claim atômico, checkpoint por etapa, heartbeat, cron de retomada a cada 5 min, 2 esteiras simultâneas, 1 pedido aberto e 10/dia por pessoa, teto US$ 3/pedido; prompts versionados em arquivos do repo (`pacotes/imobiliario/`; tela de edição no Hub = fase 3); chave **`QI_COPY=on` OPT-IN (desligada por padrão)** até o conjunto-ouro; portão: 5–10 briefings reais com a copy ideal do Renan, comparando com o ChatGPT (script `scripts/copy-eval.mts`). Risco principal: os prompts foram calibrados pro ChatGPT; Claude responde diferente.
+
+**Próximo passo:** o Renan revisar o spec por escrito → eu invoco `writing-plans` → plano → ele escolhe o método (recomendo subagent-driven como nas features anteriores). Pendente dele: 5–10 briefings reais + copy ideal; Instructions dos GPTs de estética/novos agentes. Fases seguintes: 2 = inteligência-mãe + 2º segmento (estética); 3 = tela no Hub (editar prompts/pedidos/custos); 4 = criador de pacotes (logística etc.).
+
+Relacionados: [[project-quirk-intelligence-criar-tarefa]] (mesmo padrão proposta→botão→uso único), [[project-avaliador-copys]] (DNA das copys imobiliárias, prompts locais em ~/avaliador-copys-quirk e ~/gerador-copys-quirk), [[project-quirk-intelligence-custos]] (preço por token do Sonnet 5).
