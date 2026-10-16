@@ -1,11 +1,11 @@
 ---
 name: project-quirk-intelligence-copy-imobiliario
-description: "Copys imobiliárias DENTRO do bot (o 'grande cérebro'): fase 1 só imobiliário, 5 variações, nota mín. 8,5, gancho simples OU elaborado por pedido, trava de completude do briefing no servidor; spec escrita (branch feat/qi-copy-imobiliario, b7917aef) aguardando revisão do Renan antes do plano; nada implementado"
+description: "Copys imobiliárias DENTRO do bot (o 'grande cérebro'): fase 1 só imobiliário, 5 variações, nota mín. 8,5, gancho simples OU elaborado por pedido, trava de completude do briefing no servidor; spec aprovada, plano de 13 tasks escrito, Tasks 1–7 construídas na branch local feat/qi-copy-imobiliario (não enviada, feature OFF); Task 8 em andamento (16/10)"
 metadata:
   node_type: memory
   type: project
   originSessionId: 74e3c39b-64af-48ce-9da1-ebcfb16c3a2b
-  modified: 2026-10-16T14:36:06.515Z
+  modified: 2026-10-16T14:36:07.882Z
 ---
 
 **Pedido do Renan (15/10/2026):** trazer pro Quirk Intelligence os GPTs soltos do ChatGPT que criam copys (imobiliário; estética; ganchos simples/elaborados; avaliador). Visão: uma inteligência-mãe direciona o pedido ao pacote de agentes do SEGMENTO certo (imobiliário, estética, logística…); a copy só é entregue depois de criada, revisada e aprimorada. "Quero que a Q Intelligence tenha um grande cérebro." Pasta de prompts: Drive `1x6BwGRWjuToGpyqyNJ5huAq9ZQI8pSn7` ("Prompts": Copys e roteiros, Quirk, Comerciais, Clinics, imagens, atendimento…).
