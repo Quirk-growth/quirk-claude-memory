@@ -111,3 +111,4 @@
 - [Quirk Intelligence: copys imobiliárias no bot](project_quirk_intelligence_copy_imobiliario.md) — o "grande cérebro": fase 1 só imobiliário, 5 variações, nota 8,5, trava de completude do briefing no servidor; spec aprovada + plano 13 tasks; Tasks 1–7 prontas na branch local (não enviada, feature OFF), Task 8 em andamento (16/10); QI_COPY opt-in
 - [Agente de Social Media (base de conhecimento)](project_agente_social_media.md) — causa raiz do conteúdo raso + base em ~/social-media-quirk/; extração ClickUp parou no limite; falta desenhar o agente
 - [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
+- [Transcrição de calls no Hub](project_transcricao_calls.md) — popup grava 2 canais → AssemblyAI + resumo estruturado; Lotes 1-3 no ar 16/10, falta Lote 4
