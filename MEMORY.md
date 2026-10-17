@@ -112,3 +112,4 @@
 - [Agente de Social Media (base de conhecimento)](project_agente_social_media.md) — causa raiz do conteúdo raso + base em ~/social-media-quirk/; extração ClickUp parou no limite; falta desenhar o agente
 - [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
 - [Transcrição de calls no Hub](project_transcricao_calls.md) — popup grava 2 canais → AssemblyAI + resumo estruturado; Lotes 1-3 no ar 16/10, falta Lote 4
+- [Medição do uso de IA (Etapa 0)](project_ia_medicao_etapa0.md) — ia_chamadas + relatório PRONTO em spec/ia-medicao (local); deploy em 1 passo, DDL antes; follow-up corrigido em branch irmã
