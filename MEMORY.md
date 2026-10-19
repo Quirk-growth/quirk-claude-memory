@@ -112,6 +112,6 @@
 - [Quirk Intelligence: copys imobiliárias no bot](project_quirk_intelligence_copy_imobiliario.md) — o "grande cérebro": fase 1 só imobiliário, 5 variações, nota 8,5, trava de completude do briefing no servidor; LIGADA em prod desde 18/10 (QI_COPY=on; cron de retomada criado; custo cortado: cache+Haiku+teto US$1); validar nos 1ºs usos; ouro pendente
 - [Agente de Social Media (base de conhecimento)](project_agente_social_media.md) — causa raiz do conteúdo raso + base em ~/social-media-quirk/; extração ClickUp parou no limite; falta desenhar o agente
 - [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
-- [Transcrição de calls no Hub](project_transcricao_calls.md) — popup grava 2 canais → AssemblyAI + resumo estruturado; Lotes 1-3 no ar 16/10, falta Lote 4
+- [Transcrição de calls no Hub](project_transcricao_calls.md) — popup grava 2 canais → AssemblyAI + resumo; custo medido e cortado 19/10 (canal mudo + Haiku); falta Lote 4
 - [Medição do uso de IA (Etapa 0)](project_ia_medicao_etapa0.md) — ia_chamadas + relatório PRONTO em spec/ia-medicao (local); deploy em 1 passo, DDL antes; follow-up corrigido em branch irmã
 - [GOTCHA: squash sobre base velha desfaz trabalho alheio](feedback_push_squash_base_velha.md) — commit-tree + pai=main adiantada reverteu o CRM (19/10); rebasear, conferir `diff --stat` e fetch logo antes do push

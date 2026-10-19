@@ -30,12 +30,38 @@ Falta: **renomear locutor**, **descarte do áudio aos 30 dias** (Tarefa 4.4) e a
 sistema inteiro: mora no `NavQuirk`, abre painel rápido, reusa `acao: 'criar'`
 de `Tarefas.ts`. Tela que quiser vincular cliente declara `data-cliente-id`.
 
+**CUSTO — medido em 19/10/2026 e cortado (pedido do Renan).** Onde o dinheiro
+vai: a AssemblyAI cobra **por hora de áudio DE CADA CANAL** (Universal-2 US$
+0,15/h + diarização US$ 0,02/h = US$ 0,17/h por canal; preço conferido na
+tabela deles em 19/10, o do nosso código está certo). Gravamos dois canais →
+**US$ 0,34 por hora de call**. O resumo era ~US$ 0,042/call. Medição real do
+recurso até ali: US$ 0,90 (77% transcrição, 23% resumo) — ou seja, **não eram
+os resumos**, e transcrição nem era a maior linha do Uso da IA (o bot
+`conversa` gastava 3x mais). Dois cortes no ar (commit `4179be8e`):
+1. **canal mudo não é submetido** — o gravador marca `canaisComVoz` (medidor de
+   nível que já rodava pro vigia de silêncio), o cron chama `canaisParaSubmeter`
+   e corta o canal que ficou mudo a call inteira; numa call assim a transcrição
+   cai à metade. A regra é covarde: sem marca confiável, PAGA (perder conteúdo é
+   pior). O que foi cortado fica em `processamento.canaisMudos`.
+2. **resumo em `claude-haiku-5-5`** (era Sonnet): ~US$ 0,042 → ~US$ 0,002/call.
+E uma correção de medição: o painel de Uso da IA recebia o resumo arredondado
+pra cima em centavos (mostraria 5x o gasto real com Haiku) — agora leva o valor
+cru. **Pra conferir o corte depois de uma call real:** `SELECT tipo,
+sum(custo_estimado_usd) FROM quirk_intelligence_usos WHERE tipo IN
+('transcricao','resumo-call') GROUP BY tipo` e `SELECT id, processamento FROM
+transcricoes ORDER BY id DESC LIMIT 3` (ver `canaisMudos`).
+Ainda na mesa, não feitos: não resumir call < 2 min; tirar a diarização do
+microfone (−6%, exige montar a linha do tempo pelos `words[]`); parada por
+silêncio em 5 min em vez de 12; alerta de teto mensal.
+
 **Decisões que não são óbvias no código:**
 - O resumo sai ESTRUTURADO (pontos/decisões/itensDeAcao/riscos), não em prosa —
   é o que a Fase 2 consome.
 - `speaker_labels` nos DOIS canais. Tentei economizar no microfone e a
   transcrição voltou como UM bloco sem horário — na call real isso ordenaria
-  tudo de quem gravou antes de tudo do outro lado.
+  tudo de quem gravou antes de tudo do outro lado. (Dá pra economizar os US$
+  0,02/h se a linha do tempo for montada pelos `words[]` em vez dos
+  `utterances[]` — não feito.)
 - Basta UM canal pronto pra call ficar `pronta`. Numa call pelo app do Zoom o
   canal da aba sai mudo; falhar tudo ali apagaria a única voz que existe.
 - Numa call `pronta`, o campo `erro` carrega um AVISO, não uma falha.
