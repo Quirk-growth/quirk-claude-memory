@@ -114,3 +114,4 @@
 - [ClickUp MCP: limite de 1.000 chamadas/dia](reference_clickup_mcp_limite_diario.md) — orçar chamadas antes de delegar; get_task/search funcionam, filter_tasks e navegador não
 - [Transcrição de calls no Hub](project_transcricao_calls.md) — popup grava 2 canais → AssemblyAI + resumo estruturado; Lotes 1-3 no ar 16/10, falta Lote 4
 - [Medição do uso de IA (Etapa 0)](project_ia_medicao_etapa0.md) — ia_chamadas + relatório PRONTO em spec/ia-medicao (local); deploy em 1 passo, DDL antes; follow-up corrigido em branch irmã
+- [GOTCHA: squash sobre base velha desfaz trabalho alheio](feedback_push_squash_base_velha.md) — commit-tree + pai=main adiantada reverteu o CRM (19/10); rebasear, conferir `diff --stat` e fetch logo antes do push
