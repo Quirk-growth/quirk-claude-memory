@@ -50,6 +50,7 @@
 - [Gerador de Propostas + Agente de Análise](project_gerador_propostas_analises.md) — ambos NO AR; menuAdmin.ts é ponto de merge com Permissões
 - [Projeto: Permissões configuráveis](project_permissoes_configuraveis.md) — matriz papel×item + exceções; padrão obrigatório fora de /admin/*
 - [Projeto: CRM Quirk](project_crm_quirk.md) — CRM multi-tenant; Conversas multi-SDR + Instagram DM Social Selling NO AR
+- [Follow-up do CRM: cadência em dias](project_crm_followup_cadencia.md) — só a cadência personalizada; sem padrão nenhum; followUpAutomaticoHabilitado é flag zumbi
 - [Projeto: Tarefas (time interno)](project_tarefas.md) — estilo ClickUp; recorrência diária, link cliente→Hub
 - [Verificação de anunciante (Meta 3858634)](reference_verificacao_anunciante_meta.md) — conta do cliente precisa verificação própria, não é nosso targeting
 - [Memória entre chats paralelos](feedback_memoria_multichat.md) — 1 memória só; re-ler antes de escrever, fatos voláteis apontam COMO verificar
