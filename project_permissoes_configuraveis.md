@@ -24,18 +24,49 @@ congelada do comportamento pré-feature, usada pro seed inicial E pelo teste
 de invariante de cobertura — **NÃO apagar este arquivo**, vira o "padrão de
 fábrica" versionado).
 
-**Duas categorias de item fora da matriz** (`ITENS_FORA_DA_MATRIZ`, Set em
-`menuAdmin.ts`): itens cujo acesso é fixo por código/regra de negócio mais
-funda, force-added em `secoesDoAdmin` (não passam pela matriz nem aparecem
-editáveis nas telas): `/admin/permissoes` (evita autolockout), `/admin/
-trilha-time` (`ehLiderancaTrilha`, regra "quem vê quem" da trilha, não é
-toggle de papel), `/propostas` e `/analises` (`podeVerPropostas`/
-`podeVerAnalises`, ferramentas fora do namespace `/admin/*`, gate próprio na
-página). Diferente disso, `ITENS_COLECAO_NATIVA` (7 hrefs de coleção nativa
-do Payload — Aulas, Módulos, Vertentes, etc.) SÃO editáveis na matriz, mas só
-controlam o link do MENU — o `access.read` de cada coleção continua sendo a
-fonte real do acesso; `MatrizPermissoes.tsx` mostra um aviso (tooltip) nesses
-itens especificamente.
+**REESCRITO EM 19/10/2026 (commit `bb3f494e`) — leia isto, não o que vinha
+antes.** `ITENS_FORA_DA_MATRIZ` **não existe mais**. Era uma porta de fuga: o
+teste de cobertura aceitava "tem regra no seed OU está naquele Set", então
+bastava acrescentar o href pro guarda ficar quieto — e o item DESAPARECIA das
+telas de permissão. Sete features saíram por ali (Propostas, Análise de
+Presença, WhatsApp Oficial, Robô LinkedIn, Uso da IA, Formulários,
+Transcrições) e outras três (Área de membros, Biblioteca, Saúde do sistema)
+nunca entraram no sistema (eram lista hardcoded no `NavQuirk`). Resultado: 12
+telas invisíveis em `/admin/permissoes`, e a Chaiene (administrativo) sem como
+receber o Gerador de Propostas.
+
+**Modelo de hoje:** `TODOS_OS_ITENS` (derivado de `TODAS_AS_SECOES`) é o que as
+telas de permissão listam — TUDO aparece. Um item pode declarar
+`fixo: '<motivo>'` quando o acesso é do código; aparece travado, com o motivo
+escrito. São quatro: `/admin/permissoes` (anti-autolockout), `/admin/trilha-time`
+(regra "quem acompanha quem"), `ROTA_USO_IA` e `ROTA_ROBO_LINKEDIN` (decisão do
+Renan: focados em administradores). `itensDaMatriz()` é o que vira checkbox.
+Guardas: `tests/unit/menuAdminItens.spec.ts` FIXA a lista de fixos (incluir um
+item novo quebra o teste, de propósito), exige motivo escrito, e prova
+`matriz + fixos = todos`. A regra também está em `CLAUDE.md` na raiz do repo.
+
+**A matriz é o GUARDA, não só o link.** Propostas, Análise de Presença,
+WhatsApp Oficial e Formulários consultam `podeVerItem` nas quatro portas
+(página, rota de API, `access` da coleção, menu); os helpers antigos
+(`podeVerPropostas` etc.) viraram atalhos pra matriz, preservando "uma fonte
+por tela". Transcrições voltou a `TODAS_AS_SECOES` como `foraDoMenu` (saiu do
+menu em 16/10 e isso a tirou da tela de Permissões, apesar de ter regra salva).
+
+**Dado antes do código.** Trocar o gate pela matriz exige que as regras existam
+ANTES do deploy (item sem regra é fail-closed). Feito por
+`scripts/dados/2026-10-19-permissoes-itens-que-entraram.mjs` (aditivo,
+idempotente): produção foi de 98 → 118 regras, reproduzindo o acesso que o
+código dava + `administrativo` em Propostas/Análises.
+
+**Tela reescrita** (`MatrizPermissoes.tsx`): cartão por seção, cabeçalho de
+papéis fixo, busca, contador por papel, célula como botão (cadeado + motivo nos
+fixos), rascunho com "N alterações não salvas" / Salvar / Desfazer. O guard
+`tokensDefinidos.spec.ts` pegou um `--pt-texto-botao` inventado — use a classe
+`hub-btn`.
+
+**`ITENS_COLECAO_NATIVA` segue valendo**: 7 hrefs de coleção nativa do Payload
+cujo checkbox só esconde o LINK do menu — o `access.read` da coleção é a fonte
+real. A tela avisa isso com ⓘ.
 
 **Padrão obrigatório pra QUALQUER item novo fora do namespace `/admin/*`**
 (ferramenta com gate próprio de página, tipo propostas/análises): extrair um
