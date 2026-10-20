@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: abd490d3-d546-47fd-9269-c2122b669bb6
-  modified: 2026-09-14T18:49:58.874Z
+  modified: 2026-10-20T13:15:47.428Z
 ---
 
 Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[proposta-quirk]] (~/.claude/skills/proposta-quirk/ — processo, regras de copy do Renan, 3 exemplos reais, spec do agente de análise em references/agente-analise-presenca.md).
@@ -21,7 +21,7 @@ Ferramentas do comercial na área de membros (ago/2026), nascidas da skill [[pro
 
 **Gotchas técnicos descobertos:** args do @sparticuz/chromium travam launch do Chrome desktop no Mac (teste local = CHROME_EXECUTABLE_PATH + args mínimos) · puppeteer-core 25.9 sem networkidle0 no setContent (usar 'load' + document.fonts.ready) · worktree novo não tem .env (fica no checkout principal) · ANTHROPIC_API_KEY só existe no Render, sem teste de API local.
 
-**DEPLOY TRAVADO (27/08 ~10h BRT):** pushes depois da feature de permissões (451cc56, comprovadamente no ar via 403 em /api/permissoes/salvar-padrao) NÃO estão chegando em produção: 1h40 após o push de 7023f5d (views do portal) o marcador público (/propostas deve 307→/admin/propostas; segue 307→/login) não virou, nem com redeploy por commit vazio (cd77ac8). Build de produção local do mesmo commit passa VERDE. Site estável no build antigo. Diagnóstico precisa do painel do Render (Events/Deploys) — pedido ao Renan. Commits represados: 97847c0 (fotos), 88e42b7+623d8c3 (guia), fec081f (prints evidência), ec580f1 (prompt janelas abertas), 7023f5d (views portal).
+**RESOLVIDO (verificado 20/10): o "deploy travado" de 27/08 era alarme falso de marcador cego.** O marcador escolhido (/propostas 307→/admin/propostas) nunca poderia virar pra visitante deslogado: o layout do grupo `(equipe)` roda ANTES da página e redireciona anônimo pra /login — antes e depois do deploy. Os deploys fluíram (views do portal em /admin/propostas//admin/analises estão na main e no ar; v3-v5 subiram depois). LIÇÃO: marcador de deploy precisa ser observável SEM login e vir de camada que executa de verdade (rota de API nova = 404→403 é o padrão-ouro; redirect atrás de layout autenticado não serve).
 
 **v2 (27/08, commit `fec081f` na main):** prints de evidência reais no PDF — site, perfil público do Instagram (campo novo `instagramUrl`, DDL `instagram_url` aplicada em teste+prod ANTES do push) e Biblioteca de Anúncios por frase exata (`search_type=keyword_exact_phrase`; unordered traz lixo). Captura via `comBrowser` novo exportado do renderizarPdf (mesma fila). Claude recebe placeholders `__LOGO__`/`__PRINT_*__`; substituição no pós-processamento (base64 nunca passa pelo modelo). Logo = ícone oficial 128px base64 (SVG recriado distorcia). Instagram deslogado: derrubar `div[role=dialog]` (modal de cadastro) e detectar "não está disponível". GOTCHA runner de DDL: lê `DATABASE_URI` (não DDL_URI) e a falha por env faltando imprime só "Node.js v24..." — conferir SEMPRE por introspecção. Deploy sem rota nova não tem marcador público (fingerprint cego): prova final é gerar uma análise no ar.
 
