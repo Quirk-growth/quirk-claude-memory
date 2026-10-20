@@ -25,3 +25,5 @@ metadata:
 **Pro teto de 100/dia (outra sessão, task_abe6e475):** existe `usoDoDia(payload, usuarioId, dia)`, mas `interacoes` só incrementa DEPOIS da resposta — mensagens concorrentes furam o teto; teto estrito exige reservar a vaga antes.
 
 Ver também [[reference_render_criar_cron_job]] (os 3 crons do bot).
+
+**Quem lê (20/10/2026):** Dono E `administrativo` (`podeVerUsoIA` = `ehGestaoFinanceira`). Era só `admin`; o Renan esclareceu que "administradores" incluía o administrativo. A MESMA função gate a tela /admin/uso-ia, o item do menu e o `access.read` das três coleções do QI (usos, pedidos de copy, ações pendentes) — mexer nela mexe nos quatro. `supervisor` segue fora.

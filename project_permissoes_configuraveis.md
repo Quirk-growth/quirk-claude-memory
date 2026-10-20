@@ -40,7 +40,9 @@ telas de permissão listam — TUDO aparece. Um item pode declarar
 `fixo: '<motivo>'` quando o acesso é do código; aparece travado, com o motivo
 escrito. São quatro: `/admin/permissoes` (anti-autolockout), `/admin/trilha-time`
 (regra "quem acompanha quem"), `ROTA_USO_IA` e `ROTA_ROBO_LINKEDIN` (decisão do
-Renan: focados em administradores). `itensDaMatriz()` é o que vira checkbox.
+Renan: focados em administradores — e em 20/10 ele esclareceu que isso inclui o
+papel `administrativo`, não só o Dono: os dois usam `ehGestaoFinanceira`, com o
+SUPERVISOR de fora). `itensDaMatriz()` é o que vira checkbox.
 Guardas: `tests/unit/menuAdminItens.spec.ts` FIXA a lista de fixos (incluir um
 item novo quebra o teste, de propósito), exige motivo escrito, e prova
 `matriz + fixos = todos`. A regra também está em `CLAUDE.md` na raiz do repo.
