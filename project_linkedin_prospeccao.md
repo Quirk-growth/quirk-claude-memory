@@ -22,5 +22,7 @@ STATUS 17/10: painel novo NO AR (main aeaef0fa, DDL 2026-10-15 aplicada): status
 
 GOTCHA 21/10: overlay de mensagens do LinkedIn vive em shadow root (#interop-outlet) — page.evaluate/document.querySelector NÃO enxerga, só locators; bolha que fica aberta após enviar msg1 travava os convites seguintes (fix dc0a1d8: fecha logo após enviar, fechar só no cabeçalho).
 
+MIGROU PRO PC 21/10: executor 0.2.2 rodando no PC 'DESKTOP-2P9JE7K' (Windows); Mac DESLIGADO (não religar no Mac — trava 1 computador). Após '2 - Entrar no LinkedIn.bat' a tarefa não iniciou sozinha; 'Ligar o programa.bat' resolveu — conferir se a tarefa AtLogOn liga após reiniciar o PC. Atualizar o PC = novo pacote ZIP (sem GitHub ainda).
+
 **Why:** novo produto de outbound pra Quirk.
 **How to apply:** status volátil — perguntar ao Renan se o piloto começou antes de assumir.
