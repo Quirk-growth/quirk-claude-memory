@@ -116,3 +116,4 @@
 - [Medição do uso de IA (Etapa 0)](project_ia_medicao_etapa0.md) — ia_chamadas + relatório PRONTO em spec/ia-medicao (local); deploy em 1 passo, DDL antes; follow-up corrigido em branch irmã
 - [GOTCHA: squash sobre base velha desfaz trabalho alheio](feedback_push_squash_base_velha.md) — commit-tree + pai=main adiantada reverteu o CRM (19/10); rebasear, conferir `diff --stat` e fetch logo antes do push
 - [Briefing de Landing Page (Hub)](project_briefing_landing_page.md) — 3º briefing da aba Briefing e Recursos; 24 perguntas/8 seções de 10 LPs; NO AR 20/10 (26265e32, DDL antes); fase 2 = módulos por nicho
+- [GOTCHA: duplicar cliente copia tokens](gotcha_duplicate_copia_tokens_clientes.md) — beforeDuplicate nos tokens; fix b7d89f99 local, não enviado; prod sem repetidos
