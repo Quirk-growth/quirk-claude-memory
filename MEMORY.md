@@ -118,3 +118,4 @@
 - [Briefing de Landing Page (Hub)](project_briefing_landing_page.md) — 3º briefing da aba Briefing e Recursos; 24 perguntas/8 seções de 10 LPs; NO AR 20/10 (26265e32, DDL antes); fase 2 = módulos por nicho
 - [GOTCHA: duplicar cliente copia tokens](gotcha_duplicate_copia_tokens_clientes.md) — beforeDuplicate nos tokens; fix b7d89f99 local, não enviado; prod sem repetidos
 - [Relatório de resultados de Social Media](project_relatorio_social_media.md) — PRONTO em branch local; link do cliente, miniaturas, análise por IA; 3 DDLs antes do deploy; BLOQUEIO de envio: dia parcial do sync
+- [Olho de ver/ocultar senha](reference_olho_senha.md) — NO AR 21/10 (97ee7d03); CampoSenha no site + provider OlhoSenhaAdmin no /admin; custom.scss conflita em rebase
