@@ -1,6 +1,6 @@
 ---
 name: project-mecanismo-chaiene
-description: "Mecanismo único da Chaiene Vitória (pessoas/liderança) — \"Destrave em Cascata\", crença CPF→CNPJ, criado 22/10/2026"
+description: "Assinatura da Chaiene Vitória: EFEITO CPF (aprovado 22/10) — lente de duas faces (trava/catalisa) + jornada A→B de 4 movimentos"
 metadata:
   node_type: memory
   type: project
@@ -17,4 +17,7 @@ Mecanismo único da Chaiene (Chay), sócia/parceira do Renan, criado numa sessã
 - Ela NÃO desenvolve clientes da Quirk hoje, só o time interno; produto pro mercado = mentoria/consultoria de gestão.
 - Ponte com o Renan: Chay destrava de dentro, Renan amplifica pra fora (marketing amplifica a comunicação que a pessoa já tem).
 
-Status: proposta entregue em chat, nome ainda não validado por ela. Ver [[project-midia-kit-podcasts]].
+- **EFEITO CPF APROVADO** (22/10) como assinatura dela, igual "Engenharia da Lembrança" é a do Renan. Decisão do Renan: é AMBÍGUO DE PROPÓSITO — vira jargão; o dono é o catalisador, pra cima (prospera onde põe a mão) ou pra baixo (teto). Produtos (mentoria, e-book, agência) ficam embaixo da assinatura.
+- Próximo passo combinado: usar a estrutura de rede social pra explicar o conceito em tudo que falarem (família, filhos etc.). Renan tinha depoimentos num chat pra trazer.
+
+Status: assinatura aprovada; jornada A→B proposta em chat. Ver [[project-midia-kit-podcasts]].
