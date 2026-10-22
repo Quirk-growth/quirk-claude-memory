@@ -11,7 +11,7 @@ metadata:
 Mecanismo único da Chaiene (Chay), sócia/parceira do Renan, criado numa sessão gravada com a Mari em 22/10/2026. Par do "Engenharia da Lembrança" do Renan.
 
 - Crença-mãe (dela, verbatim): "Empresa só cresce se pessoas crescem primeiro." / "Se não destravar o CPF, não vai destravar o CNPJ."
-- Mecanismo proposto: **Destrave em Cascata** — 4 movimentos: Ponto Cego → Teto (crença, quase sempre medo) → Caixa de Ferramentas (o que a pessoa já tem guardado) → Cascata (dono → líderes → time). Gestão/estratégia só depois.
+- Mecanismo: "Destrave em Cascata" REJEITADO pelo Renan (fraco, quer inovador e impactante). Nova recomendação 22/10: **Efeito CPF** (alt.: Arqueologia Humana). Estrutura — 4 movimentos: Ponto Cego → Teto (crença, quase sempre medo) → Caixa de Ferramentas (o que a pessoa já tem guardado) → Cascata (dono → líderes → time). Gestão/estratégia só depois.
 - Diferencial: humanização; "vende o que a pessoa quer (resultado), entrega o que ela precisa (pessoa)".
 - Provas: Família K (Amanda → coordenadoras → empresa despontou), Expresso, time interno da Quirk (depoimento da Mari: organização mental, autocobrança, estratégia).
 - Ela NÃO desenvolve clientes da Quirk hoje, só o time interno; produto pro mercado = mentoria/consultoria de gestão.
