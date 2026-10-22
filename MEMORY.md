@@ -117,7 +117,7 @@
 - [GOTCHA: squash sobre base velha desfaz trabalho alheio](feedback_push_squash_base_velha.md) — commit-tree + pai=main adiantada reverteu o CRM (19/10); rebasear, conferir `diff --stat` e fetch logo antes do push
 - [Briefing de Landing Page (Hub)](project_briefing_landing_page.md) — 3º briefing da aba Briefing e Recursos; 24 perguntas/8 seções de 10 LPs; NO AR 20/10 (26265e32, DDL antes); fase 2 = módulos por nicho
 - [GOTCHA: duplicar cliente copia tokens](gotcha_duplicate_copia_tokens_clientes.md) — beforeDuplicate nos tokens; fix b7d89f99 local, não enviado; prod sem repetidos
-- [Relatório de resultados de Social Media](project_relatorio_social_media.md) — NO AR 21/10 (7733f057); buscar conta do Instagram + polimento PRONTOS em branch feat/ig-buscar-conta (sem DDL), aguardam autorização p/ publicar
+- [Relatório de resultados de Social Media](project_relatorio_social_media.md) — NO AR 21/10 (7733f057); buscar conta do Instagram + polimento NO AR 22/10 (d693967a, sem DDL); falta validação visual e 1º uso real
 - [Olho de ver/ocultar senha](reference_olho_senha.md) — NO AR 21/10 (97ee7d03); CampoSenha no site + provider OlhoSenhaAdmin no /admin; custom.scss conflita em rebase
 - [Conversões Meta do CRM do cliente](project_conversoes_meta_cliente.md) — sinal do CRM pro pixel DO CLIENTE + ranking por campanha; lotes 1 e 5 no ar (out/2026)
 - [GOTCHA: duas famílias de token CSS](gotcha_tokens_css_admin_vs_frontend.md) — --pt-* só no /admin, --accent/--ink só no frontend; a errada renderiza sem cor e sem erro
