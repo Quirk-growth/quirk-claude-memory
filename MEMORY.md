@@ -119,3 +119,5 @@
 - [GOTCHA: duplicar cliente copia tokens](gotcha_duplicate_copia_tokens_clientes.md) — beforeDuplicate nos tokens; fix b7d89f99 local, não enviado; prod sem repetidos
 - [Relatório de resultados de Social Media](project_relatorio_social_media.md) — NO AR 21/10 (7733f057); buscar conta do Instagram + polimento PRONTOS em branch feat/ig-buscar-conta (sem DDL), aguardam autorização p/ publicar
 - [Olho de ver/ocultar senha](reference_olho_senha.md) — NO AR 21/10 (97ee7d03); CampoSenha no site + provider OlhoSenhaAdmin no /admin; custom.scss conflita em rebase
+- [Conversões Meta do CRM do cliente](project_conversoes_meta_cliente.md) — sinal do CRM pro pixel DO CLIENTE + ranking por campanha; lotes 1 e 5 no ar (out/2026)
+- [GOTCHA: duas famílias de token CSS](gotcha_tokens_css_admin_vs_frontend.md) — --pt-* só no /admin, --accent/--ink só no frontend; a errada renderiza sem cor e sem erro
