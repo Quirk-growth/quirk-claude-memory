@@ -121,3 +121,4 @@
 - [Olho de ver/ocultar senha](reference_olho_senha.md) — NO AR 21/10 (97ee7d03); CampoSenha no site + provider OlhoSenhaAdmin no /admin; custom.scss conflita em rebase
 - [Conversões Meta do CRM do cliente](project_conversoes_meta_cliente.md) — sinal do CRM pro pixel DO CLIENTE + ranking por campanha; lotes 1 e 5 no ar (out/2026)
 - [GOTCHA: duas famílias de token CSS](gotcha_tokens_css_admin_vs_frontend.md) — --pt-* só no /admin, --accent/--ink só no frontend; a errada renderiza sem cor e sem erro
+- [Mecanismo único da Chaiene](project_mecanismo_chaiene.md) — "Destrave em Cascata", crença CPF→CNPJ; proposta 22/10, nome não validado
