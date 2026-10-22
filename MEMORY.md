@@ -87,7 +87,7 @@
 - [Projeto: Aula "A Venda Invisível"](project_aula_venda_avulsa.md) — PIVOT pra Greenn Club; LP em Desktop/index.html pronta pro cPanel
 - [Importação histórico ClickUp→CRM](reference_migracao_historico_clickup_crm.md) — CONCLUÍDA: 3.384 cards, 0 perdidos, script retomável
 - [GOTCHA: pool do pg mata script longo](gotcha_pool_pg_error_mata_script_longo.md) — EADDRNOTAVAIL sem listener de 'error'; ouvir já conserta
-- [GOTCHA: push trava testes de integração](gotcha_push_payload_trava_testes_int.md) — 'Hook timed out' = banco de teste tem coluna OU ENUM que o config não declara (comparar teste×prod)
+- [GOTCHA: push trava/falha em testes de integração](gotcha_push_payload_trava_testes_int.md) — 'Hook timed out' = schema órfão; 'constraint does not exist' = corrida entre sessões, sem correção de código
 - [GOTCHA: prompt interativo do Drizzle trava suíte](gotcha_drizzle_push_interativo_trava.md) — push pede y/N em background e nunca recebe; `yes` cego já derrubou coluna necessária
 - [GOTCHA: IA do CRM tem três chaves](gotcha_ia_crm_tres_chaves.md) — iaHabilitada × iaModoAusente × followUp; 'desativada' só com iaHabilitada=false
 - [GOTCHA: classe .rule reservada nos decks](gotcha_sharedcss_classe_rule.md) — .rule/.slide herdam width:96px, quebra só no headless
