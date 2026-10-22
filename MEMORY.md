@@ -117,5 +117,5 @@
 - [GOTCHA: squash sobre base velha desfaz trabalho alheio](feedback_push_squash_base_velha.md) — commit-tree + pai=main adiantada reverteu o CRM (19/10); rebasear, conferir `diff --stat` e fetch logo antes do push
 - [Briefing de Landing Page (Hub)](project_briefing_landing_page.md) — 3º briefing da aba Briefing e Recursos; 24 perguntas/8 seções de 10 LPs; NO AR 20/10 (26265e32, DDL antes); fase 2 = módulos por nicho
 - [GOTCHA: duplicar cliente copia tokens](gotcha_duplicate_copia_tokens_clientes.md) — beforeDuplicate nos tokens; fix b7d89f99 local, não enviado; prod sem repetidos
-- [Relatório de resultados de Social Media](project_relatorio_social_media.md) — PRONTO em branch local; link do cliente, miniaturas, análise por IA; 3 DDLs antes do deploy; BLOQUEIO de envio: dia parcial do sync
+- [Relatório de resultados de Social Media](project_relatorio_social_media.md) — NO AR 21/10 (7733f057); buscar conta do Instagram + polimento PRONTOS em branch feat/ig-buscar-conta (sem DDL), aguardam autorização p/ publicar
 - [Olho de ver/ocultar senha](reference_olho_senha.md) — NO AR 21/10 (97ee7d03); CampoSenha no site + provider OlhoSenhaAdmin no /admin; custom.scss conflita em rebase
