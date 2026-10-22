@@ -22,9 +22,11 @@ Spec: `docs/superpowers/specs/2026-10-20-conversoes-meta-cliente-design.md`.
 |---|---|---|
 | 1 | Atribuição por id no lead | **NO AR 21/10** (`f54ab1be`), DDL antes |
 | 5 | Ranking no Hub, aba `Performance` | **NO AR 22/10** (`64cb7f69`), sem DDL |
-| 2 | Envio por cliente (destino, escada, degraus) | pendente, destravado |
-| 3 | Tela de configuração do envio | pendente |
-| 4 | Vigilância do silêncio + lista global | pendente |
+| 2+3 | Envio por cliente + tela no Hub (aba CRM) | **NO AR 22/10** (`df096408`), DDL antes |
+| 4 | Vigilância: alerta + tela global | **NO AR 22/10** (`769788c0`), DDL + dado de permissão antes |
+
+**PROJETO COMPLETO.** Nenhum cliente ligado ainda — ligar é decisão do Renan,
+cliente a cliente, pelo Hub → aba CRM → Conversões pro Meta.
 
 ## Decisões do Renan
 
@@ -66,6 +68,32 @@ Spec: `docs/superpowers/specs/2026-10-20-conversoes-meta-cliente-design.md`.
 - **O sync fica 1-2 dias atrás do CRM** — o período efetivo para no último dia
   sincronizado, senão o custo por agendamento sai mais barato do que é.
 - Tokens CSS: ver [[gotcha_tokens_css_admin_vs_frontend]].
+
+## Onde mexer
+
+- **Ligar um cliente:** Hub → aba CRM → Conversões pro Meta. Escolhe o
+  conjunto da lista (só os das contas DAQUELE cliente), marca os degraus,
+  salva. O botão "Enviar evento de teste" confirma o acesso na hora — use
+  sempre, porque a escrita nunca foi provada de ponta a ponta.
+- **Ver todos:** `/admin/conversoes-meta` (Tráfego). Três estados: parado,
+  enviando, desligado.
+- **Alerta:** vai no cron diário do QI, por Telegram, roteado pro gestor da
+  carteira. Não usa `ALERTA_ROTINAS_EMAIL` de propósito — ela pode estar vazia.
+
+## Armadilhas que já custaram caro (todas corrigidas, todas com teste)
+
+- **Falso positivo mata o alarme.** A vigilância media silêncio em 3 dias e
+  cards numa janela fixa de 7: os mesmos cards que já geraram envios aceitos
+  reapareciam como "nada saiu". Medido: 16,6% dos cliente-dias, 66,2% nos que
+  só ligam agendamento. O corte tem que ser o ÚLTIMO ENVIO ACEITO, e só nos
+  degraus LIGADOS.
+- **Recusa não é envio.** Contar recusa como envio fazia cliente 100% quebrado
+  exibir "Enviando".
+- **Destino sem degrau** é o estado natural de quem acabou de configurar — não
+  é "parou".
+- **Venda não é vigiada**: o lead não carimba data de ganho.
+- **O teste do gatilho era decorativo** — `payload.update` não passa pelo
+  endpoint `/acao`, onde o gatilho mora. Use `chamarEndpoint`.
 
 ## Pendências
 
