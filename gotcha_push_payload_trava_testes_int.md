@@ -1,11 +1,11 @@
 ---
 name: gotcha_push_payload_trava_testes_int
-description: "Todos os testes de integração estouram 'Hook timed out in 30000ms': o push do Payload trava quando o banco de TESTE tem coluna que o config da branch não declara"
+description: "Testes de integração falham no push do Drizzle contra o banco de TESTE compartilhado — 'Hook timed out' (schema órfão de outra branch) OU 'constraint does not exist' (corrida entre sessões rodando ao mesmo tempo)"
 metadata:
   node_type: memory
   type: reference
   originSessionId: 7b5edbe3-a2f1-4c16-bf89-5ff55a540ed7
-  modified: 2026-10-22T00:06:42.544Z
+  modified: 2026-10-22T00:06:47.844Z
 ---
 
 Sintoma: **todos** os arquivos de `tests/int/` falham com `Error: Hook timed out in 30000ms` no `beforeAll`, em `getTestPayload()`. Aconteceu em 05/09/2026 — 191 de 536 arquivos, e a suíte inteira levou 1h43 só de timeouts.
