@@ -48,11 +48,12 @@ cliente a cliente, pelo Hub → aba CRM → Conversões pro Meta.
 - **Pixels**: de 109 contas Meta ativas, 50 já expõem pixel pro nosso token,
   55 não têm pixel nenhum, 4 sem permissão. **Quase todos são da BM DO
   CLIENTE**, compartilhados — não nossos.
-- **Escrita**: `POST /{pixel}/events` devolveu 200 + `events_received: 1` num
-  pixel de cliente (VLL Construtora, 21/10). MAS o evento **não apareceu** no
-  Gerenciador dele. Renan decidiu seguir considerando que funciona. Por isso o
-  botão "Enviar evento de teste" por cliente é **requisito** do Lote 2, não
-  enfeite — cada cliente confirma o próprio acesso ao ligar.
+- **Escrita: CONFIRMADA de ponta a ponta em 22/10.** O Renan ligou um cliente
+  pela tela, mandou o evento de teste e viu chegar no Gerenciador de Eventos.
+  (Antes disso havia dúvida: o POST de 21/10 na VLL devolveu 200 mas o evento
+  não apareceu no painel — era o pixel errado/sem integração, não o caminho.)
+  O botão "Enviar evento de teste" segue sendo requisito: cada cliente confirma
+  o próprio acesso ao ligar, porque a permissão é por ativo compartilhado.
 - Não existe sandbox: `test_event_code` inventado é processado como produção.
 
 ## Armadilhas do desenho
