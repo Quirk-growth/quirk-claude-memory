@@ -100,7 +100,7 @@
 - [Teste decorativo: só a mutação revela](feedback_teste_decorativo_mutacao.md) — 7 casos numa sessão de teste com nome certo e caminho errado; reintroduza a falha e confirme que o teste QUEBRA antes de dizer que cobre
 - [Criar Cron Job no Render](reference_render_criar_cron_job.md) — form vem Docker: trocar pra Node + `echo sem-build`; Renan cola SYNC_SECRET; 3 crons do Quirk Intelligence (13/10)
 - [Prospecção LinkedIn automatizada](project_linkedin_prospeccao.md) — robô próprio no PC; cérebro NO AR 14/10 (/admin/linkedin), executor (Plano B) pendente
-- [Quirk Intelligence: custo da IA](project_quirk_intelligence_custos.md) — rastreio no ar (só admin lê); corte 1 (compactar tool, −59%) NO AR 14/10; corte 2 (copy sob demanda, −35% do prompt fixo) NO AR 22/10; baseline real US$ 0,042/msg; Haiku na conversa geral NÃO feito
+- [Quirk Intelligence: custo da IA](project_quirk_intelligence_custos.md) — rastreio no ar (só admin lê); corte 1 (compactar tool, −59%) NO AR 14/10; corte 2 (copy sob demanda, −35% do prompt fixo) NO AR 22/10; baseline real US$ 0,042/msg; conversa geral em Haiku NO AR 22/10 (Sonnet só em análise/copy; QI_CONVERSA_MODELO=forte volta tudo)
 - [Área do cliente vira CRM + domínio crm.](project_area_cliente_vira_crm.md) — Mentorias aposentadas; APP_URL_CLIENTE liga crm.quirkgrowth.com.br; APIs em membros, Hub abre nos dois
 - [Alertas: janela da semana](project_alertas_janela_semana.md) — home/sino/crons só cobram 7 dias; regra única em lib/alertas/janela.ts; backlog some do alerta, não do módulo
 - [Quirk Intelligence: tarefas do colaborador](project_quirk_intelligence_tarefas_escopo.md) — incidente Gerson 13/10: tarefas só dele (responsável OU carteira), minhas/prazo no servidor; NO AR 14/10; limpar memória do Gerson pendente
