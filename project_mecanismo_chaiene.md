@@ -22,4 +22,7 @@ Mecanismo único da Chaiene (Chay), sócia/parceira do Renan, criado numa sessã
 
 - Depoimentos (22/10, 7 pessoas: Daiane Leles, Thais, Michelle Kolman, Juliane Garcez, Raquel Safra, Camilli, Amanda Soares) validam os 4 movimentos com palavras delas, mas são quase todos de transformação PESSOAL/emocional. FALTA prova de negócio com número (Família K, Expresso, Baruk/Transformação) pra vender o Efeito CPF pra dono de empresa.
 
+- Case Thiago (cliente): contratou pra desenvolver o TIME; Chay viu que era a liderança e depois o DONO (contratava qualquer um, chegava tarde, gritava, não treinava). Resultado: RH contratado por ela, gestão melhor, ações humanas (Páscoa, sexta). Parou cedo. Cresceu muito via marketing (Quirk) + gestão. "Triplo" é opinião, não publicar como fato. É o case-origem do Efeito CPF; falta número e autorização dele.
+- 4º movimento ainda em aberto (testados ~30 nomes); finalistas: Floresta, Fractal, Juros Compostos.
+
 Status: assinatura aprovada; jornada A→B proposta em chat. Ver [[project-midia-kit-podcasts]].
