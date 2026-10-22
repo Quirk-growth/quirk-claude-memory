@@ -20,4 +20,6 @@ Mecanismo único da Chaiene (Chay), sócia/parceira do Renan, criado numa sessã
 - **EFEITO CPF APROVADO** (22/10) como assinatura dela, igual "Engenharia da Lembrança" é a do Renan. Decisão do Renan: é AMBÍGUO DE PROPÓSITO — vira jargão; o dono é o catalisador, pra cima (prospera onde põe a mão) ou pra baixo (teto). Produtos (mentoria, e-book, agência) ficam embaixo da assinatura.
 - Próximo passo combinado: usar a estrutura de rede social pra explicar o conceito em tudo que falarem (família, filhos etc.). Renan tinha depoimentos num chat pra trazer.
 
+- Depoimentos (22/10, 7 pessoas: Daiane Leles, Thais, Michelle Kolman, Juliane Garcez, Raquel Safra, Camilli, Amanda Soares) validam os 4 movimentos com palavras delas, mas são quase todos de transformação PESSOAL/emocional. FALTA prova de negócio com número (Família K, Expresso, Baruk/Transformação) pra vender o Efeito CPF pra dono de empresa.
+
 Status: assinatura aprovada; jornada A→B proposta em chat. Ver [[project-midia-kit-podcasts]].
