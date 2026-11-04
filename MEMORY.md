@@ -123,3 +123,4 @@
 - [GOTCHA: duas famílias de token CSS](gotcha_tokens_css_admin_vs_frontend.md) — --pt-* só no /admin, --accent/--ink só no frontend; a errada renderiza sem cor e sem erro
 - [Mecanismo único da Chaiene](project_mecanismo_chaiene.md) — EFEITO CPF aprovado como assinatura (ambíguo de propósito: trava ou catalisa)
 - [Briefing de Mecanismo Único](project_briefing_mecanismo_unico.md) — estudo de caso Efeito CPF + questionário híbrido A/B/C + canvas; PDF em ~/briefing-mecanismo-unico/
+- [R2: chave recusada (401) desde 24/10/2026](reference_r2_credenciais.md) — fotos/uploads/transcrições pararam; troca da chave é do Renan; scripts/r2-saude.mts verifica; 82c4ad9e avisa e barra gravação
