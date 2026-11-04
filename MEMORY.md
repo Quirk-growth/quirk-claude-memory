@@ -124,3 +124,4 @@
 - [Mecanismo único da Chaiene](project_mecanismo_chaiene.md) — EFEITO CPF aprovado como assinatura (ambíguo de propósito: trava ou catalisa)
 - [Briefing de Mecanismo Único](project_briefing_mecanismo_unico.md) — estudo de caso Efeito CPF + questionário híbrido A/B/C + canvas; PDF em ~/briefing-mecanismo-unico/
 - [R2: chave recusada (401) desde 24/10/2026](reference_r2_credenciais.md) — fotos/uploads/transcrições pararam; troca da chave é do Renan; scripts/r2-saude.mts verifica; 82c4ad9e avisa e barra gravação
+- [GOTCHA: chave do Lead Ads é o rótulo do gestor](gotcha_lead_ads_chave_do_rotulo.md) — `número_do_whatsapp` descartou 35 leads por 29 dias em silêncio; fix 04/11, buracos da seleção manual seguem abertos
