@@ -127,3 +127,5 @@
 - [GOTCHA: chave do Lead Ads é o rótulo do gestor](gotcha_lead_ads_chave_do_rotulo.md) — `número_do_whatsapp` descartou 35 leads por 29 dias em silêncio; fix 04/11, buracos da seleção manual seguem abertos
 - [Projeto: LP A2 Arquitetura — Usucapião](project_lp_a2_usucapiao.md) — converte por clique no WhatsApp, sem form; branch feat/lp-a2-usucapiao, não publicada
 - [GOTCHA: wa.me pode não disparar o Pixel](gotcha_wa_me_nao_dispara_pixel.md) — gatilho "URL contém whatsapp" ignora wa.me; usar api.whatsapp.com
+- [Projeto: LP Formulário Altto Design](project_lp_altto_form.md) — form multi-step → n8n GK9uTneOYtxioXv0 → CRM cliente 68 + planilha; falta publicar e criar tags no GTM-NK6X46FB
+- [LP não posta direto no webhook do CRM](reference_lp_quirk_webhook_cors.md) — exige JSON e preflight volta sem allow-origin; relay obrigatório por n8n
